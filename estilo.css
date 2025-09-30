@@ -1,7 +1,46 @@
-h1 {
-  color: blue;
+body {
+  font-family: Arial;
+  text-align: center;
 }
 
-.clase {
-  color: red;
+.contenedor {
+  width: 80px;
+  height: 80%;
+  margin: 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.contenedorTexto {
+  width: 400px;
+  height: 250px;
+  margin: auto;
+  line-height: 30px;
+}
+
+.contenedorAutores {
+  width: 400px;
+  height: 400px;
+  margin: auto;
+  line-height: 30px;
+}
+.listaAutores {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+.redesSociales {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.texto {
+  text-align: justify;
+}
+
+img {
+  width: 80px;
+  height: 80px;
 }
