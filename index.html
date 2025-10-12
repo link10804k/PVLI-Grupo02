@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="utf-8">
-  <title>HTML</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="estilo.css"> <!-- Esto cargaria un archivo de estilo, pero no es necesario en Fiddle porque lo hace automáticamente -->
-  <script src="script.js"></script> <!--Aquí podriamos cargar los scripts, también se puede en el <body>, y pasa lo mismo que con el css de antes, en verdad aquí no estamos cargando nada-->
+  <meta charset="utf-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=2.0">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script src="./lib/phaser.js"></script>
+  <link rel="icon" type="image/x-icon" href="assets/webAssets/imagenGrupo.jpg">
+  <title>Far Away From Tea</title>
 </head>
 
 <body>
@@ -21,7 +23,8 @@
       </p>
       <p>Controles:</p>
     </div>
-    <canvas class="canvasJuego" width="1024" height="768" alt="Panel del juego"></canvas>
+    <canvas id="juego" class="canvasJuego" alt="Panel del juego"></canvas>
+    <script src="src/Game.js" type="module"></script>
     <div class="panel">
       <ul>Autores: 
         <li>Javier Zazo Morillo</li>
@@ -34,13 +37,13 @@
       <div class="redesSociales">  
         
         <div class="contenedorImagen">
-          <a href="https://x.com/MatchaGames99" target="_blank">
-            <img src="Assets/XLogo.png" alt="Imagen X">
+          <a href="https://x.com/GamesMatcha" target="_blank">
+            <img src="assets/webAssets/XLogo.png" alt="Imagen X">
           </a>
         </div>
         <div class="contenedorImagen">
           <a href="https://github.com/link10804k/PVLI-Grupo02" target="_blank">
-            <img src="Assets/githubLogo.png" alt="Imagen GitHub">
+            <img src="assets/webAssets/githubLogo.png" alt="Imagen GitHub">
           </a>
         </div>
       </div>
