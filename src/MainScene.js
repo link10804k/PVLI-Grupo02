@@ -10,6 +10,6 @@ export default class MainScene extends Phaser.Scene {
     }
 
     create() { // Crear objetos del juego aquí
-        this.add.image(0, 0, "background").setOrigin(0, 0);
+        this.add.image(400, 300, "background").setOrigin(0.5, 0.5);
     }
 }
