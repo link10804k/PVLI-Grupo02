@@ -1,13 +1,15 @@
+import MainMenu from "./MainMenu.js";
 import MainScene from "./MainScene.js";
 
 let config = {
     type: Phaser.AUTO,
-    width: 800, // 1024
-    height: 600, // 768
+    parent: "canvas",
+    width: 800, 
+    height: 600,
     scale: {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
     },
-    scene: [MainScene]
+    scene: [MainMenu, MainScene]
 }
 
 new Phaser.Game(config);

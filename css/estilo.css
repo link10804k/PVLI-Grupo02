@@ -5,6 +5,11 @@ h1,h2 {
   text-align: center;
 }
 
+/*Imagenes redes sociales y demás*/
+.redesSociales {
+  display: flex;
+  justify-content: center;
+}
 .contenedorImagen { 
   width: 80px;
   height: 80px;
@@ -17,22 +22,15 @@ img {
   height: 80px;
 }
 
+/*Columnas*/
 .contenedorApartados{
   display: grid;
-  grid-template-columns: 448px 1024px 448px;
+  grid-template-columns: 560px 800px 560px;
   justify-content: center;
 }
 .panel {
   text-align: justify;
   line-height: 30px;
-  margin-left: 30px;
-  margin-right: 30px;
-}
-/**.canvasJuego {
-  border: 1px solid black;
-}*/
-
-.redesSociales {
-  display: flex;
-  justify-content: center;
+  margin-left: 50px;
+  margin-right: 50px;
 }
