@@ -4,6 +4,9 @@
 
 export default class Cafeteria extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, texture = "cafeteria", kitchen, cashier, inventory, clients = [], capacity) {
+        
+        super(scene, x , y, texture)
+
         this.kitchen;
         this.cashier;
         this.inventory;

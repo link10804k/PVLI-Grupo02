@@ -18,34 +18,34 @@ export default class MainScene extends Phaser.Scene {
     create() { // Crear objetos del juego aquí
         this.add.image(400, 300, "background2").setOrigin(0.5, 0.5);
         this.createParcelas();
-        new Cafeteria(this, 0, 0, "cafeteria").setOrigin(0, 0);
-        new Building(this, 0, 0, "building").setOrigin(0, 0);
+        new Cafeteria(this, 0, 0, "cafeteria", 0, 0, 0, [], 0).setOrigin(0, 0);
+        new Building(this, 0, 0, "building", 0, 0, [], 0).setOrigin(0, 0);
     }
 
     createParcelas(){ //Crea parcelas
 
          // Crear una cuadrícula de Parcelas (rectángulos ordenados)
-    const cols = 8;         // columnas
-    const rows = 6;         // filas
-    const margin = 10;      // espacio entre parcelas
-    const tileWidth = 80;   // ancho de cada parcela
-    const tileHeight = 60;  // alto de cada parcela
-    const startX = 50;      // posición inicial X
-    const startY = 50;      // posición inicial Y
+            const cols = 8;         // columnas
+            const rows = 6;         // filas
+            const margin = 10;      // espacio entre parcelas
+            const tileWidth = 80;   // ancho de cada parcela
+            const tileHeight = 60;  // alto de cada parcela
+            const startX = 50;      // posición inicial X
+            const startY = 50;      // posición inicial Y
 
-    this.parcels = [];
+            this.parcels = [];
 
-    for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-            const x = startX + col * (tileWidth + margin);
-            const y = startY + row * (tileHeight + margin);
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = startX + col * (tileWidth + margin);
+                    const y = startY + row * (tileHeight + margin);
 
-            const parcel = new Parcel(this, x, y, "parcela").setOrigin(0, 0);
+                    const parcel = new Parcel(this, x, y, "parcela", 0 , false).setOrigin(0, 0);
 
 
-            this.parcels.push(parcel);
+                    this.parcels.push(parcel);
+                }
             }
-        }
-    } 
+        }    
 
 }

@@ -7,6 +7,7 @@ export default class Worker extends Phaser.GameObjects.Sprite{
         this.location = location;
         this.isWorking = isWorking; 
     }
+    
     getLocation() {
         return this.location;
     }
