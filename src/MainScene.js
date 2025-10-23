@@ -18,8 +18,12 @@ export default class MainScene extends Phaser.Scene {
     create() { // Crear objetos del juego aquí
         this.add.image(400, 300, "background2").setOrigin(0.5, 0.5);
         this.createParcelas();
-        new Cafeteria(this, 0, 0, "cafeteria", 0, 0, 0, [], 0).setOrigin(0, 0).setScale(0.1);
-        new Building(this, 0, 0, "building", 0, 0, [], 0).setOrigin(0, 0).setScale(0.1);
+        let cafeteria = new Cafeteria(this, 0, 0, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
+        cafeteria.setPosition(this.parcels[1][1].x, this.parcels[1][1].y);
+        this.parcels[1][1].occupied = true;
+        let building = new Building(this, 0, 0, "building", 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
+        building.setPosition(this.parcels[1][2].x, this.parcels[1][2].y);
+        this.parcels[1][2].occupied = true;
     }
 
     createParcelas(){ //Crea parcelas
@@ -27,23 +31,20 @@ export default class MainScene extends Phaser.Scene {
          // Crear una cuadrícula de Parcelas (rectángulos ordenados)
             const cols = 3;         // columnas
             const rows = 3;         // filas
-            const margin = 10;      // espacio entre parcelas
-            const tileWidth = 80;   // ancho de cada parcela
-            const tileHeight = 60;  // alto de cada parcela
+            const tileWidth = 300;   // ancho de cada parcela
+            const tileHeight = 300;  // alto de cada parcela
             const startX = 50;      // posición inicial X
-            const startY = 50;      // posición inicial Y
+            const startY = 0;      // posición inicial Y
 
-            this.parcels = [];
-
+            this.parcels = [[]];
+            
             for (let row = 0; row < rows; row++) {
+                this.parcels[row] = [];
                 for (let col = 0; col < cols; col++) {
-                    const x = startX + col * (tileWidth + margin);
-                    const y = startY + row * (tileHeight + margin);
+                    const x = startX + col * (tileWidth);
+                    const y = startY + row * (tileHeight);
 
-                    const parcel = new Parcel(this, x, y, "parcela", 0 , false).setOrigin(0.5, 0.5).setScale(0.25, 0.25);
-
-
-                    this.parcels.push(parcel);
+                    this.parcels[row][col] = new Parcel(this, x, y, "parcela", 0 , false).setOrigin(0.5).setScale(0.4);
                 }
             }
         }    

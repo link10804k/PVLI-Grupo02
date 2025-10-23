@@ -14,9 +14,9 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.upgradeTier = 0;       // Nivel de mejora
     }
 
-    produce() {
+    produce(productName) {
         // Lógica de producción de recursos
-        console.log(`${this.name} está produciendo recursos...`);
+        console.log(`${this.name} está produciendo ${productName}...`);
     }
 
     upgrade() {

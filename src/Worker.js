@@ -1,6 +1,7 @@
-import {Building} from "./Building.js";
+import Building from "./Building.js";
+import Person from "./Person.js";
 
-export default class Worker extends Phaser.GameObjects.Sprite{
+export default class Worker extends Person{
     constructor(scene, x, y, texture = "worker", location, isWorking){
         super(scene, x , y, texture);
         

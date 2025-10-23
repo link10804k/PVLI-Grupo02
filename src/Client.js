@@ -1,4 +1,6 @@
-export default class Cliente extends Phaser.Physics.Arcade.Sprite{
+import Person from "./Person.js";
+
+export default class Cliente extends Person{
     constructor(scene, x, y, texture, pedido, tiempoEspera, tiempoConsumo = null){
         super(scene, x ,y, texture);
 
