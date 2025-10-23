@@ -9,24 +9,24 @@ export default class MainScene extends Phaser.Scene {
 
     preload() { // Cargar recursos aquí
         this.load.image("background2", "assets/gameAssets/background2.jpg");
-        this.load.image("cafeteria", "assets/gameAssets/Cafeteria.jpg")
-        this.load.image("building", "assets/gameAssets/Granja.jpg")
-        this.load.image("pedidos", "assets/gameAssets/Pedidos.jpg")
-        this.load.image("parcela", "assets/gameAssets/Parcela.png")
+        this.load.image("cafeteria", "assets/gameAssets/cafeteria.jpg")
+        this.load.image("building", "assets/gameAssets/farm.jpg")
+        this.load.image("pedidos", "assets/gameAssets/order.jpg")
+        this.load.image("parcela", "assets/gameAssets/tile.jpg")
     }
     
     create() { // Crear objetos del juego aquí
         this.add.image(400, 300, "background2").setOrigin(0.5, 0.5);
         this.createParcelas();
-        new Cafeteria(this, 0, 0, "cafeteria", 0, 0, 0, [], 0).setOrigin(0, 0);
-        new Building(this, 0, 0, "building", 0, 0, [], 0).setOrigin(0, 0);
+        new Cafeteria(this, 0, 0, "cafeteria", 0, 0, 0, [], 0).setOrigin(0, 0).setScale(0.1);
+        new Building(this, 0, 0, "building", 0, 0, [], 0).setOrigin(0, 0).setScale(0.1);
     }
 
     createParcelas(){ //Crea parcelas
 
          // Crear una cuadrícula de Parcelas (rectángulos ordenados)
-            const cols = 8;         // columnas
-            const rows = 6;         // filas
+            const cols = 3;         // columnas
+            const rows = 3;         // filas
             const margin = 10;      // espacio entre parcelas
             const tileWidth = 80;   // ancho de cada parcela
             const tileHeight = 60;  // alto de cada parcela
@@ -40,7 +40,7 @@ export default class MainScene extends Phaser.Scene {
                     const x = startX + col * (tileWidth + margin);
                     const y = startY + row * (tileHeight + margin);
 
-                    const parcel = new Parcel(this, x, y, "parcela", 0 , false).setOrigin(0, 0);
+                    const parcel = new Parcel(this, x, y, "parcela", 0 , false).setOrigin(0.5, 0.5).setScale(0.25, 0.25);
 
 
                     this.parcels.push(parcel);

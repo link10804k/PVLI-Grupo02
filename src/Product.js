@@ -1,21 +1,23 @@
 export default class Product extends Phaser.GameObjects.Sprite{
-    constructor(scene, x, y, texture, description, processingTime) {
+    constructor(scene, x, y, texture, nombre, description, time) {
         super(scene, x, y, texture);
-        
-        this.description = description;
-        this.processingTime = processingTime;
-        this.upgradeTier = 1;
-       
-        function getName() {
-            return this.name;
-        }
 
-        function getDescription() {
-            return this.description;
-        }
-
-        function getTime() {
-            return this.processingTime;
-        }
+        this.nombre = tiempo;
+        this.descripcion = descripcion;
+        this.tiempo = tiermpo;
     }
+
+    getNombre() {
+        return this.nombre;
+    }
+
+    getDescription() {
+        return this.description;
+    }
+
+    getTiempo()
+    {
+        return this.time;
+    }
+
 }

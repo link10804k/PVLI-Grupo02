@@ -2,6 +2,8 @@ export default class Parcel extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, texture = "parcela", currentBuilding, occupied) {
     super(scene, x, y, texture)
     
+    scene.add.existing(this);
+
     this.currentBuilding = currentBuilding;
     this.occupied = occupied;
     }

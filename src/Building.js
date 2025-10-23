@@ -1,6 +1,9 @@
 export default class Building extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, texture = "granja", name, description, resources = [], velocityRatio = 1.0, ) {
+  constructor(scene, x, y, texture = "building", name, description, resources = [], velocityRatio = 1.0, ) {
         super(scene, x, y, texture);
+
+        scene.add.existing(this);
+
         this.name = name;
         this.description = description;
         this.resources = resources; // Array de recursos
