@@ -1,9 +1,8 @@
 //import {worker} from "Worker.js";
 //import {productName} from "Product.js";
 //import {client} from "Client.js";
-import Building from "./Building";
 
-export default class Cafeteria extends Building{
+export default class Cafeteria extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, texture = "cafeteria", kitchen, cashier, inventory, clients = [], capacity) {   
       super(scene, x , y, texture)
 
