@@ -1,4 +1,4 @@
-export default class Resource extends Phaser.GameObjects.Sprite{
+export default class Resource{
     constructor(scene, x, y, texture, name, description, time) {
         super(scene, x, y, texture);
 
@@ -15,8 +15,7 @@ export default class Resource extends Phaser.GameObjects.Sprite{
         return this.description;
     }
 
-    getTiempo()
-    {
+    getTiempo() {
         return this.time;
     }
 

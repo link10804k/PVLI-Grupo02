@@ -1,8 +1,11 @@
 import MenuButton from "./MenuButton.js";
+//import { events } from "./EventManager.js";
 
 export default class MainMenu extends Phaser.Scene {
     constructor() {
         super({ key: "MainMenu" });
+
+        //this.events.emit(events.MENU_LOADED);
     }
 
     init() {

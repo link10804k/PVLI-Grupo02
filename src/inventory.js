@@ -1,14 +1,14 @@
 export default class inventory extends Phaser.GameObjects.Sprite{
-constructor(){
+    constructor(){
 
-    this.recursos = {
-        cafe: 0,
-        te: 0
-    };
+        this.recursos = {
+            cafe: 0,
+            te: 0
+        };
 
-    this.productos = {};
+        this.productos = {};
 
-}
+    }
 
     hayRecurso(nombre, cantidad = 1){
         return (this.productos[nombre] || 0) >= cantidad;
@@ -22,6 +22,6 @@ constructor(){
     }
 
     quitaProducto(nombre, cantidad = 1){
-        if(this.hayProducto)
+        if(this.hayProducto);
     }
 }
