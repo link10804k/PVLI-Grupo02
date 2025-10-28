@@ -1,6 +1,8 @@
 export default class Button extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture="button") {
+    constructor(scene, x, y, texture="button", func) {
         super(scene, x, y, texture);
+
+        this.func = func
 
         scene.add.existing(this);
 

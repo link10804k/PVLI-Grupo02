@@ -1,3 +1,5 @@
+import GameButton from "./GameButton.js";
+
 export default class Parcel extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, texture = "parcela", currentBuilding, occupied) {
     super(scene, x, y, texture)
@@ -6,8 +8,13 @@ export default class Parcel extends Phaser.GameObjects.Sprite{
 
     this.currentBuilding = currentBuilding;
     this.occupied = occupied;
+
+    new GameButton(this.scene, this.x, this.y, "button", displayBuildMenu()).setOrigin(0.5);
     }
-  
+    dispayBuildMenu() {
+        // Despliega un menú
+    }
+
     getActualBuilding(){
         return currentBuilding;
     }
