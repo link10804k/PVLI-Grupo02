@@ -13,6 +13,7 @@ export default class Cafeteria extends Phaser.GameObjects.Sprite{
         this.inventory = inventory;
         this.clients = clients;
         this.capacity = capacity;
+        this.workers = 0;
     }
     deliverOrder(client) {
     // Lógica para entregar el pedido al cliente
