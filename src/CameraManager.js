@@ -21,15 +21,35 @@ export default class CameraManager {
         };
 
         // Scroll
-        this.wKey = this.scene.input.keyboard.addKey('W');
-        this.aKey = this.scene.input.keyboard.addKey('A');
-        this.sKey = this.scene.input.keyboard.addKey('S');
-        this.dKey = this.scene.input.keyboard.addKey('D');
-        // Pass functions (don't call the methods immediately)
-        this.wKey.on("down", () => this.cameraScroll(Direction.UP));
-        this.aKey.on("down", () => this.cameraScroll(Direction.LEFT));
-        this.sKey.on("down", () => this.cameraScroll(Direction.DOWN));
-        this.dKey.on("down", () => this.cameraScroll(Direction.RIGHT));
+        ///this.wKey = this.scene.input.keyboard.addKey('W');
+        ///this.aKey = this.scene.input.keyboard.addKey('A');
+        ///this.sKey = this.scene.input.keyboard.addKey('S');
+        ///this.dKey = this.scene.input.keyboard.addKey('D');
+        ///// Pass functions (don't call the methods immediately)
+        ///this.wKey.on("down", () => this.cameraScroll(Direction.UP));
+        ///this.aKey.on("down", () => this.cameraScroll(Direction.LEFT));
+        ///this.sKey.on("down", () => this.cameraScroll(Direction.DOWN));
+        ///this.dKey.on("down", () => this.cameraScroll(Direction.RIGHT));
+
+        this.scene.input.keyboard.on('keydown-W', (event) => {
+            event.repeat === true;
+            this.cameraScroll(Direction.UP);
+        });
+
+        this.scene.input.keyboard.on('keydown-A', (event) => {
+            event.repeat === true;
+            this.cameraScroll(Direction.LEFT);
+        });
+
+        this.scene.input.keyboard.on('keydown-S', (event) => {
+            event.repeat === true;
+            this.cameraScroll(Direction.DOWN);
+        });
+
+        this.scene.input.keyboard.on('keydown-D', (event) => {
+            event.repeat === true;
+            this.cameraScroll(Direction.RIGHT);
+        });
 
         // Zoom
         this.iKey = this.scene.input.keyboard.addKey('I');

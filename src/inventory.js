@@ -1,16 +1,16 @@
 export default class inventory extends Phaser.GameObjects.Sprite{
-    constructor(){
+constructor(){
 
-        this.recursos = {
-            cafe: 0,
-            te: 0
-        };
+    this.recursos = {
+        cafe: 0,
+        te: 0
+    };
 
-        this.productos = {};
+    this.productos = {};
 
-    }
+}
 
-    hayRecurso(nombre, cantidad = 1){
+    hayProducto(nombre, cantidad = 1){
         return (this.productos[nombre] || 0) >= cantidad;
     }
 
@@ -22,6 +22,11 @@ export default class inventory extends Phaser.GameObjects.Sprite{
     }
 
     quitaProducto(nombre, cantidad = 1){
-        if(this.hayProducto);
+        if(this.hayProducto(nombre, cantidad)){
+            this.productos[nombre] -= cantidad;
+        }
+        else{
+            console.warn(`No hay suficiente producto: ${nombre}`);
+        }
     }
 }
