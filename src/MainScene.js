@@ -32,13 +32,11 @@ export default class MainScene extends Phaser.Scene {
 
         this.add.image(400, 300, "background2").setOrigin(0.5, 0.5);
 
-        console.log("pre tiles: " + this.tiles);
         this.createParcelas();
-        console.log("post tiles: " + this.tiles);
         
-        let cafeteria = new Cafeteria(this, this.tiles[1][1].this.tiles[1][1].y, 0, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
+        let cafeteria = new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
         this.tiles[1][1].occupied = true;
-        let building = new Building(this, this.tiles[1][2].this.tiles[1][2].y, 0, "building", 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
+        let building = new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
         this.tiles[1][2].occupied = true;
     }
 
