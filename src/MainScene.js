@@ -7,11 +7,11 @@ export default class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: "MainScene" });
 
-        this.mapWidth = 1200;
-        this.mapHeight = 900;
+        this.mapWidth = 1260;
+        this.mapHeight = 945;
 
-        this.tileWidth = 300;   // ancho de cada parcela
-        this.tileHeight = 300;  // alto de cada parcela
+        this.tileWidth = 315;   // ancho de cada parcela
+        this.tileHeight = 315;  // alto de cada parcela
 
         this.tiles = [[]];
     }

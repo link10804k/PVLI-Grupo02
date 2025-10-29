@@ -6,8 +6,11 @@ export default class CameraManager {
 
         this.scrollSpeed = 300; // Parámetro variable
         this.zoomSpeed = 0.5; // Parámetro variable
-        this.minZoom = 0.75;
-        this.maxZoom = 1.5;
+        this.minZoom = 0.75; // Parámetro variable
+        this.maxZoom = this.scene.mapWidth / this.camera.width;
+        console.log("Map width: " + this.scene.mapWidth);
+        console.log("Camera width: " + this.camera.width);
+        console.log("Max zoom: " + this.maxZoom);
 
         this.camera.setBounds(-this.scene.tileWidth/2, -this.scene.tileHeight/2, this.scene.mapWidth, this.scene.mapHeight);
         //this.camera.setViewport(0, 0, this.scene.mapWidth, this.scene.mapHeight);
