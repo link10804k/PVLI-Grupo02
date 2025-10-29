@@ -15,7 +15,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.assignedWorkers = 0;     // Número de trabajadores
         this.upgradeTier = 0;       // Nivel de mejora
 
-        new GameButton(this.scene, 0, 0, "button", this.showExtraMenu.bind()).setOrigin(0.5);
+        new GameButton(this.scene, 0, 0, "button", this.showExtraMenu.bind(this)).setOrigin(0.5);
     }
 
     produce(productName) {
@@ -60,18 +60,18 @@ export default class Building extends Phaser.GameObjects.Sprite{
         let menuElements = []
 
         //Crea el panel
-        menuElements.push(this.scene.add.image(this.scene, 400, 300, "panel").setScale(0, 8));
-
-        //Crea los dos botones para añadir y quitar trabajadores
-        menuElements.push(new GameButton(this.scene, 350, 370, "button", this.addWorker.bind(text)).setOrigin(0.5));
-        menuElements.push(new GameButton(this.scene, 370, 370, "Menos", this.removeWorker.bind(text)).setOrigin(0.5));
-        menuElements.push(new GameButton(this.scene, 370, 400, "Menos", this.hideExtraMenu.bind(menuElements)).setOrigin(0.5));
+        menuElements.push(this.scene.add.image(this.scene, 400, 300, "panel").setScale(0.8));
 
         let text = this.scene.add.text(400, 420, `Workers: ${this.assignedWorkers}`, {
             fontSize: "20px",
             color: "#fff",
             }).setOrigin(0.5);
         menuElements.push(text);
+
+        //Crea los dos botones para añadir y quitar trabajadores
+        menuElements.push(new GameButton(this.scene, 350, 370, "button", this.addWorker.bind(this, text)).setOrigin(0.5));
+        menuElements.push(new GameButton(this.scene, 370, 370, "menos", this.removeWorker.bind(this, text)).setOrigin(0.5));
+        menuElements.push(new GameButton(this.scene, 370, 400, "menos", this.hideExtraMenu.bind(this, menuElements)).setOrigin(0.5));      
     }
     hideExtraMenu(menuElements) {
         menuElements.forEach(element => {

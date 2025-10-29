@@ -12,6 +12,8 @@ export default class MainScene extends Phaser.Scene {
 
         this.tileWidth = 300;   // ancho de cada parcela
         this.tileHeight = 300;  // alto de cada parcela
+
+        this.tiles = [[]];
     }
 
     preload() { // Cargar recursos aquí
@@ -20,18 +22,23 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("building", "assets/gameAssets/farm.jpg")
         this.load.image("pedidos", "assets/gameAssets/order.jpg")
         this.load.image("tile", "assets/gameAssets/tile.jpg")
+
+        this.load.image("menos", "assets/gameassets/Menos.jpg")
+        this.load.image("panel", "assets/gameassets/panel.jpg")
     }
     
     create() { // Crear objetos del juego aquí
         this.cameraManager = new CameraManager(this, this.cameras.main);
 
         this.add.image(400, 300, "background2").setOrigin(0.5, 0.5);
+
+        console.log("pre tiles: " + this.tiles);
         this.createParcelas();
-        let cafeteria = new Cafeteria(this, 0, 0, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
-        cafeteria.setPosition(this.tiles[1][1].x, this.tiles[1][1].y);
+        console.log("post tiles: " + this.tiles);
+        
+        let cafeteria = new Cafeteria(this, this.tiles[1][1].this.tiles[1][1].y, 0, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
         this.tiles[1][1].occupied = true;
-        let building = new Building(this, 0, 0, "building", 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
-        building.setPosition(this.tiles[1][2].x, this.tiles[1][2].y);
+        let building = new Building(this, this.tiles[1][2].this.tiles[1][2].y, 0, "building", 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
         this.tiles[1][2].occupied = true;
     }
 
@@ -42,9 +49,7 @@ export default class MainScene extends Phaser.Scene {
         const rows = this.mapHeight / this.tileHeight;       // filas
         const startX = 0;      // posición inicial X
         const startY = 0;      // posición inicial Y
-
-        this.tiles = [[]];
-        
+       
         for (let row = 0; row < rows; row++) {
             this.tiles[row] = [];
             for (let col = 0; col < cols; col++) {
