@@ -1,4 +1,4 @@
-import Button from "./Button.js";
+import GameButton from "./GameButton.js";
 import Worker from "./Worker.js";
 
 export default class WorkerButton extends Button {
@@ -76,6 +76,6 @@ export default class WorkerButton extends Button {
             texto.destroy();
             cerrar.destroy();
         });
-    }
+     }
 
 }
