@@ -60,18 +60,45 @@ export default class Building extends Phaser.GameObjects.Sprite{
         let menuElements = []
 
         //Crea el panel
-        menuElements.push(this.scene.add.image(this.scene, this.x + 400, this.y + 300, "panel").setScale(0.8));
+        const panel = this.scene.add.image(this.x, this.y, "panel")
+            .setScale(2)
+            .setOrigin(0.8);
+        menuElements.push(panel);
 
-        let text = this.scene.add.text(this.x + 400, this.y + 420, `Workers: ${this.assignedWorkers}`, {
+        let text = this.scene.add.text(this.x - 300, this.y - 100, `Workers: ${this.assignedWorkers}`, {
             fontSize: "20px",
             color: "#fff",
-            }).setOrigin(0.5);
+            }).setOrigin(0.5).setScale(2);
+            
         menuElements.push(text);
 
         //Crea los dos botones para añadir y quitar trabajadores
-        menuElements.push(new GameButton(this.scene, this.x + 350, this.y + 370, "button", this.addWorker.bind(this, text)).setOrigin(0.5));
-        menuElements.push(new GameButton(this.scene, this.x + 370, this.y + 370, "menos", this.removeWorker.bind(this, text)).setOrigin(0.5));
-        menuElements.push(new GameButton(this.scene, this.x + 370, this.y + 400, "menos", this.hideExtraMenu.bind(this, menuElements)).setOrigin(0.5));
+        const addButton = new GameButton(
+            this.scene,
+            this.x - 50,
+            this.y + 70,
+            "button",
+            this.addWorker.bind(this, text)
+        ).setOrigin(0.5).setScale(0.2);
+        menuElements.push(addButton);
+
+        const removeButton = new GameButton(
+            this.scene,
+            this.x - 400,
+            this.y + 70,
+            "menos",
+            this.removeWorker.bind(this, text)
+        ).setOrigin(0.5).setScale(0.2);
+        menuElements.push(removeButton);
+
+         const closeButton = new GameButton(
+            this.scene,
+            this.x,
+            this.y - 70,
+            "menos",
+            this.hideExtraMenu.bind(this, menuElements)
+        ).setOrigin(0.5).setScale(0.2);
+        menuElements.push(closeButton);
     }
     hideExtraMenu(menuElements) {
         menuElements.forEach(element => {

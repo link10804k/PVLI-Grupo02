@@ -13,10 +13,10 @@ export default class WorkerButton extends Button {
         }   
 
         onMouseOver() {
-            this.setScale(1.1);
+            this.setScale(0.3);
         }
         onMouseOut() {
-            this.setScale(1.0);
+            this.setScale(0.2);
         }
         onMouseDown() {
             this.mostrarMenuExtra();
@@ -49,8 +49,8 @@ export default class WorkerButton extends Button {
             });
 
             botonRemove.on("pointdown", () => {
-                if(this.assignedWorkers > 0){
-                    this.assignedWorkers--;
+            if (this.assignedWorkers > 0) {
+                this.assignedWorkers--;
 
                     //Eliminar al worker si existe
                     if(this.worker){
