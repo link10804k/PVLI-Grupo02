@@ -14,5 +14,7 @@ export default class Button extends Phaser.GameObjects.Sprite {
     }
     onMouseOver() {}
     onMouseOut() {}
-    onMouseDown() {}
+    onMouseDown() {
+        if(this.func) this.func();
+    }
 }
