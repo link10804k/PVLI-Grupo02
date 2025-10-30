@@ -12,7 +12,23 @@ export default class Button extends Phaser.GameObjects.Sprite {
         this.on("pointerdown", () => this.onMouseDown());
         this.on("pointerout", () => this.onMouseOut());
     }
-    onMouseOver() {}
-    onMouseOut() {}
-    onMouseDown() {}
+    onMouseOver() {this.setTint(0xaaaaaa);}
+    onMouseOut() {this.clearTint();}
+    onMouseDown() {
+         console.log("🟢 Botón presionado");
+        if (this.func) this.func();} // Aquí se ejecuta la función pasada como parámetro}
+    
+    //Métodos nuevos para controlar visibilidad y estado
+  disable() {
+    this.isActive = false;
+    this.disableInteractive();
+    this.setAlpha(0); // apariencia desactivada
+  }
+
+  enable() {
+    this.isActive = true;
+    this.setInteractive();
+    this.setAlpha(1);
+  }
+
 }
