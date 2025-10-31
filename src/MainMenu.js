@@ -1,5 +1,5 @@
 import Button from "./Button.js";
-//import { events } from "./EventManager.js";
+import { events } from "./EventManager.js";
 
 export default class MainMenu extends Phaser.Scene {
     constructor() {
@@ -19,5 +19,6 @@ export default class MainMenu extends Phaser.Scene {
     }
     startMainScene() {
         this.scene.start("MainScene");
+        this.events.emit(events.MENU_CLOSED);
     }
 }

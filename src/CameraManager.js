@@ -6,8 +6,9 @@ export default class CameraManager {
 
         this.scrollSpeed = 300; // Parámetro variable
         this.zoomSpeed = 0.5; // Parámetro variable
-        this.minZoom = 0.75; // Parámetro variable
-        this.maxZoom = this.scene.mapWidth / this.camera.width;
+        this.minZoom = this.camera.width / this.scene.mapWidth;
+        this.maxZoom = 1.75; // Parámetro variable
+        this.camera.zoom = this.maxZoom;
         console.log("Map width: " + this.scene.mapWidth);
         console.log("Camera width: " + this.camera.width);
         console.log("Max zoom: " + this.maxZoom);

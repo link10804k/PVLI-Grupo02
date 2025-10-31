@@ -15,7 +15,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.upgradeTier = 0;       // Nivel de mejora
 
         new Button(this.scene, this.x +100, this.y, "button", () => this.showProductionMenu()).setOrigin(0.5, 0.5);
-        new Button(this.scene, this.x -100, this.y, "button", () => this.showExtraMenu()).setOrigin(0.5, 0.5);
+        new Button(this.scene, this.x -100, this.y, "button", () => this.showWorkerMenu()).setOrigin(0.5, 0.5);
     }
 
     produce(resource) {
@@ -40,10 +40,6 @@ export default class Building extends Phaser.GameObjects.Sprite{
             this.assignedWorkers--;
             text.setText(`Workers: ${this.assignedWorkers}`);
         }
-    }
-
-    showExtraMenu() {
-        this.scene.scene.launch("BuildingWorkerScene", { building: this });
     }
 
     getName() {
