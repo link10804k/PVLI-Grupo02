@@ -67,7 +67,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
     }
 
     showWorkerMenu() {
-        this.scene.scene.launch("ProductionMenuScene", { building: this, mainScene: this.scene });
+        this.scene.scene.launch("BuildingWorkerScene", { building: this, mainScene: this.scene });
         this.scene.scene.pause();
     }
 
