@@ -42,26 +42,6 @@ export default class CameraManager {
         this.sKey.on("up", () => this.moveDown = false);
         this.dKey.on("up", () => this.moveRight = false);
 
-        //this.scene.input.keyboard.on('keydown-W', (event) => {
-        //    event.repeat === true;
-        //    this.cameraScroll(Direction.UP);
-        //});
-//
-        //this.scene.input.keyboard.on('keydown-A', (event) => {
-        //    event.repeat === true;
-        //    this.cameraScroll(Direction.LEFT);
-        //});
-//
-        //this.scene.input.keyboard.on('keydown-S', (event) => {
-        //    event.repeat === true;
-        //    this.cameraScroll(Direction.DOWN);
-        //});
-//
-        //this.scene.input.keyboard.on('keydown-D', (event) => {
-        //    event.repeat === true;
-        //    this.cameraScroll(Direction.RIGHT);
-        //});
-
         // Zoom
         this.iKey = this.scene.input.keyboard.addKey('I');
         this.oKey = this.scene.input.keyboard.addKey('O');

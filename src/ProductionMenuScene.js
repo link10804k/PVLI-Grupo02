@@ -1,13 +1,14 @@
 import Button from "./Button.js";
 
-export default class BuildingMenuScene extends Phaser.Scene {
+export default class ProductionMenuScene extends Phaser.Scene {
     constructor(){
-        super({ key: "BuildingWorkerScene" });
+        super({ key: "ProductionMenuScene" });
     }
 
     init(data){
         this.building = data.building;
         this.mainScene = data.mainScene;
+        this.resources = data.resources;
     }
 
     create(){
@@ -24,27 +25,6 @@ export default class BuildingMenuScene extends Phaser.Scene {
         this.addButton = new Button(this, 350, 400, "button", () => this.building.addWorker(text)).setScale(0.25);
         this.removeButton = new Button(this, 450, 400, "menos", () => this.building.removeWorker(text)).setScale(0.25);
         this.closeButton = new Button(this, 400, 500, "button", () => this.closeWindow()).setScale(0.5);
-
-        //const addButton = this.add.image(350, 400, "button").setInteractive().setScale(0.25);
-        //addButton.on("pointerdown", () => {
-        //    this.building.addWorker(text);
-        //});
-//
-        //const removeButton = this.add.image(450, 400, "menos").setInteractive().setScale(0.25);
-        //removeButton.on("pointerdown", () => {
-        //    this.building.removeWorker(text);
-        //});
-//
-        //const closeButton = this.add.text(400, 500, "Close", {
-        //    fontSize: "20px",
-        //    color: "#fff",
-        //    backgroundColor: "#ff0000",
-        //    padding: { x: 10, y: 5 },
-        //}).setOrigin(0.5).setInteractive();
-//
-        //closeButton.on("pointerdown", () => {
-        //    this.scene.stop();
-        //});
     }
     closeWindow() {
         this.scene.stop();

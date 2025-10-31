@@ -1,4 +1,4 @@
-import GameButton from "./GameButton.js";
+import Button from "./Button.js";
 export default class Building extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, texture = "building", name, description, resources = [], productionSpeed = 1.0) {
         super(scene, x, y, texture);
@@ -14,7 +14,8 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.assignedWorkers = 0;     // Número de trabajadores
         this.upgradeTier = 0;       // Nivel de mejora
 
-        new GameButton(this, this.x, this.y, "button", function() { new ProductionMenu(this.scene, this.x, this.y, "order", this); }).setOrigin(0.5, 0.5);
+        new Button(this.scene, this.x +100, this.y, "button", () => this.showProductionMenu()).setOrigin(0.5, 0.5);
+        new Button(this.scene, this.x -100, this.y, "button", () => this.showExtraMenu()).setOrigin(0.5, 0.5);
     }
 
     produce(resource) {
@@ -65,57 +66,13 @@ export default class Building extends Phaser.GameObjects.Sprite{
         }
     }
 
-    showExtraMenu() {
-        if (this.menuAbierto) return;
-        this.menuAbierto = true;
-
-        const menuElements = []
-
-        //Crea el panel
-        const panel = this.scene.add.image(this.x, this.y, "panel")
-            .setScale(2)
-            .setOrigin(0.8);
-        menuElements.push(panel);
-
-        const text = this.scene.add.text(this.x - 300, this.y - 100, `Workers: ${this.assignedWorkers}`, {
-            fontSize: "20px",
-            color: "#fff",
-            }).setOrigin(0.5).setScale(2);
-            
-        menuElements.push(text);
-
-        //Crea los dos botones para añadir y quitar trabajadores
-        const addButton = new WorkerButton(
-            this.scene,
-            this.x - 50,
-            this.y + 70,
-            "button",
-            this.addWorker.bind(this, text)
-        ).setOrigin(0.5).setScale(0.2);
-        menuElements.push(addButton);
-
-        const removeButton = new WorkerButton(
-            this.scene,
-            this.x - 400,
-            this.y + 70,
-            "menos",
-            this.removeWorker.bind(this, text)
-        ).setOrigin(0.5).setScale(0.2);
-        menuElements.push(removeButton);
-
-         const closeButton = new WorkerButton(
-            this.scene,
-            this.x,
-            this.y - 70,
-            "menos",
-            this.hideExtraMenu.bind(this, menuElements)
-        ).setOrigin(0.5).setScale(0.2);
-        menuElements.push(closeButton);
+    showWorkerMenu() {
+        this.scene.scene.launch("ProductionMenuScene", { building: this, mainScene: this.scene });
+        this.scene.scene.pause();
     }
-    hideExtraMenu(menuElements) {
-        menuElements.forEach(element => {
-            element.destroy();
-            this.menuAbierto = false;
-        });
+
+    showProductionMenu() {
+        this.scene.scene.launch("ProductionMenuScene", { building: this, mainScene: this.scene, resources: this.resources });
+        this.scene.scene.pause();
     }
 }

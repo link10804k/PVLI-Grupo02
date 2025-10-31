@@ -1,7 +1,7 @@
 import Tile from "./Tile.js";
 import Cafeteria from "./Cafeteria.js";
 import Building from "./Building.js";
-import Inventory from "./Inventory.js";
+import Inventory from "./inventory.js";
 import CameraManager from "./CameraManager.js";
 
 export default class MainScene extends Phaser.Scene {
@@ -30,15 +30,18 @@ export default class MainScene extends Phaser.Scene {
     
     create() { // Crear objetos del juego aquí
         this.cameraManager = new CameraManager(this, this.cameras.main);
+        this.playerInventory = new Inventory(this);
 
         this.add.image(400, 300, "background2").setOrigin(0.5, 0.5);
 
         this.createParcelas();
         
-        let cafeteria = new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
-        this.tiles[1][1].occupied = true;
-        let building = new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
-        this.tiles[1][2].occupied = true;
+        let cafeteria = new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.4);
+        this.tiles[1][1].destructor();
+        this.tiles[1][1] = null;
+        let building = new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, [], 0).setOrigin(0.5).setScale(0.4);
+        this.tiles[1][2].destructor();
+        this.tiles[1][2] = null; 
     }
 
     createParcelas(){ //Crea parcelas

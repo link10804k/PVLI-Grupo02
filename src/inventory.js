@@ -1,6 +1,5 @@
 export default class Inventory{
     constructor(){
-
         this.resources = {
             cafe: 0,
             te: 0
