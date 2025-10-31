@@ -69,7 +69,7 @@ export default class Parcel extends Phaser.GameObjects.Sprite{
     this.menuContainer.add([bg, title, buildText]); // Agregar elementos al contenedor del menú
     }
 
-    getActualBuilding(){
+    getCurrentBuilding(){
         return currentBuilding;
     }
 

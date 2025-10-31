@@ -1,6 +1,7 @@
 import Parcel from "./Parcel.js";
 import Cafeteria from "./Cafeteria.js";
 import Building from "./Building.js";
+import Inventory from "./Inventory.js";
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -24,6 +25,7 @@ export default class MainScene extends Phaser.Scene {
         let building = new Building(this, 0, 0, "building", 0, 0, [], 0).setOrigin(0.5).setScale(0.35);
         building.setPosition(this.parcels[1][2].x, this.parcels[1][2].y);
         this.parcels[1][2].occupied = true;
+        var playerInventory = new Inventory() 
     }
 
     createParcelas(){ //Crea parcelas
