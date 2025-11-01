@@ -1,6 +1,6 @@
 import Building from "./Building.js";
 import Button from "./Button.js";
-import Resource from "./Resource.js";
+import Resource from "./resource.js";
 
 const ESCALADO_CONSTRUCCION = 0.4;
 
@@ -60,7 +60,7 @@ export default class Parcel extends Phaser.GameObjects.Sprite{
     // Acción al hacer clic en el texto
     buildText.on("pointerdown", () => {
       console.log("🔨 Construyendo Granja...");
-      const newBuilding = new Building(this.scene, this.x, this.y, "building", "Granja", "Produce alimentos", new Resource("coffeeGrain", "Simple grain of coffee. Used for making standard coffee.", 3, 1), 1).setScale(ESCALADO_CONSTRUCCION);
+      const newBuilding = new Building(this.scene, this.x, this.y, "building", "Granja", "Produce alimentos", [new Resource("coffeeGrain", "Simple grain of coffee. Used for making standard coffee.", 3, 1), new Resource("teaHerbs", "Common herbs of tea. Used for making green tea.", 6, 1)]).setScale(ESCALADO_CONSTRUCCION);
       this.build(newBuilding);
       this.menuContainer.destroy();
       this.menuContainer = null;

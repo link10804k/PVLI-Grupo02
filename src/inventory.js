@@ -1,4 +1,4 @@
-import Resource from "./Resource.js"
+import Resource from "./resource.js"
 export default class Inventory{
     constructor(){
         this.resources = {
