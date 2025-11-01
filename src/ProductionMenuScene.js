@@ -1,4 +1,5 @@
 import Button from "./Button.js";
+
 export default class ProductionMenuScene extends Phaser.Scene {
     constructor(){
         super({ key: "ProductionMenuScene" });
@@ -16,14 +17,15 @@ export default class ProductionMenuScene extends Phaser.Scene {
 
         this.add.image(400, 150, "order").setScale(0.8).setOrigin(0.5).setScale(2);
 
-        const text = this.add.text(400, 700, `Production Menu: `, {
-            fontSize: "20px",
+        const text = this.add.text(410, 90, `PRODUCTION MENU `, {
+            fontSize: "40px",
             color: "#fff",
         }).setOrigin(0.5);
 
-        this.addButton = new Button(this, 350, 400, "button", () => this.building.produce(resource)).setScale(0.25);
+        this.addButton = new Button(this, 350, 400, "button", () => this.building.produce(this.resources)).setScale(0.25);
         this.closeButton = new Button(this, 400, 500, "button", () => this.closeWindow()).setScale(0.5);
     }
+
     closeWindow() {
         this.scene.stop();
         this.mainScene.scene.resume();

@@ -3,6 +3,7 @@ import Cafeteria from "./Cafeteria.js";
 import Building from "./Building.js";
 import Inventory from "./inventory.js";
 import CameraManager from "./CameraManager.js";
+import Resource from "./Resource.js"
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -39,7 +40,7 @@ export default class MainScene extends Phaser.Scene {
         let cafeteria = new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.4);
         this.tiles[1][1].destructor();
         this.tiles[1][1] = null;
-        let building = new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, [], 0).setOrigin(0.5).setScale(0.4);
+        let building = new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, new Resource("teaHerbs", "Common herbs of tea. Used for making green tea.", 6, 1), 0).setOrigin(0.5).setScale(0.4);
         this.tiles[1][2].destructor();
         this.tiles[1][2] = null; 
     }
