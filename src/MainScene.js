@@ -33,6 +33,9 @@ export default class MainScene extends Phaser.Scene {
         this.cameraManager = new CameraManager(this, this.cameras.main);
         this.playerInventory = new Inventory(this);
 
+        this.tabKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
+        this.tabKey.on("down", () => this.showInventory());
+
         this.add.image(400, 300, "background2").setOrigin(0.5, 0.5);
 
         this.createParcelas();
@@ -64,4 +67,8 @@ export default class MainScene extends Phaser.Scene {
         }
     }    
 
+    showInventory() {
+        this.scene.launch("InventoryScene", { mainScene: this.scene, inventory: this.playerInventory });
+        this.scene.pause();
+    }
 }

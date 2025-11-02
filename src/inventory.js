@@ -4,7 +4,7 @@ export default class Inventory{
         this.resources = {
             coffeeGrain: new Resource ("coffeeGrain", "Simple grain of coffee. Used for making standard coffee.", 3, 0),
             teaHerbs: new Resource("teaHerbs", "Common herbs of tea. Used for making green tea.", 6, 0)
-    };
+        };
 
         this.products = {};
     }

@@ -97,5 +97,3 @@ export default class CameraManager {
         }
     }
 }
-    
-    
