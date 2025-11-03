@@ -83,34 +83,40 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.scene.scene.pause();
     }
 
-    startTimer(duration, button) {
-    if (this.timerActive) return;
+startTimer(duration, button) {
+  // Si ya hay un temporizador activo, no hacemos nada
+  if (this.timerActive) return;
 
-    this.timerActive = true;
-    let timeLeft = duration;
+  this.timerActive = true;
+  let timeLeft = duration;
 
-    this.timerText = this.scene.add.text(
-      this.x,
-      this.y - 70,
-      `Tiempo: ${timeLeft}`,
-      { fontSize: "20px", color: "#ffffff" }
-    ).setOrigin(0.5);
+  // Crear texto encima del edificio
+  const timerText = this.scene.add.text(
+    this.x,
+    this.y - 70,
+    `Tiempo: ${timeLeft}`,
+    { fontSize: "20px", color: "#ffffff" }
+  ).setOrigin(0.5);
 
-    // Desactivar el botón (si lo pasamos como parámetro)
-    if (button) button.disableInteractive();
+  // Desactivar el botón mientras corre el timer
+  if (button) button.disableInteractive();
 
-    const interval = setInterval(() => {
+  // Crear el evento de tiempo usando el sistema de Phaser
+  this.timerEvent = this.scene.time.addEvent({
+    delay: 1000,          // cada segundo
+    repeat: duration - 1, // repetir (duración - 1) veces
+    callback: () => {
       timeLeft--;
-      this.timerText.setText(`Tiempo: ${timeLeft}`);
+      timerText.setText(`Tiempo: ${timeLeft}`);
 
       if (timeLeft <= 0) {
-        clearInterval(interval);
-        this.timerText.setText("¡Listo!");
+        timerText.setText("¡Listo!");
         this.timerActive = false;
 
-        // Reactivar el botón una vez termina el temporizador
+        // Reactivar el botón
         if (button) button.setInteractive();
       }
-    }, 1000);
-  }
+    }
+  });
+}
 }

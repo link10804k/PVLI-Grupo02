@@ -1,5 +1,4 @@
 import Button from "./Button.js";
-import Building from "./Building.js";
 
 export default class CoffeSelectionMenu extends Phaser.Scene {
     constructor() {
@@ -9,9 +8,17 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
     init(data){
         this.Cafeteria = data.Cafeteria;
         this.mainScene = data.mainScene;
+        console.log("Datos recibidos:", data);
+        if (!this.Cafeteria) console.error("No se recibió la Cafeteria en CoffeSelectionMenu");
     }
 
     create() {
+
+        if (!this.Cafeteria) {
+      console.error("Peor: No se recibió la Cafeteria en CoffeSelectionMenu");
+      this.scene.stop();
+      return;
+    }
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
         this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
 
@@ -19,12 +26,12 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
         this.add.image(550, 300, "Tea_display").setScale(0.1);
 
         this.coffeeButton = new Button(this, 300, 420, "button", () => {
-            this.Building.startTimer(10, this.coffeeButton); 
+            this.Cafeteria.startTimer(10, this.Cafeteria.Cafetera); 
             this.closeWindow();
         }).setScale(0.25);
 
         this.teaButton = new Button (this,450, 400, "button", () => {
-            this.Building.startTimer(15, this.teaButton);
+            this.Cafeteria.startTimer(15, this.Cafeteria.Cafetera);
             this.closeWindow();
         }).setScale(0.25);            
 
