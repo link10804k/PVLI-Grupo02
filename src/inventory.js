@@ -6,7 +6,10 @@ export default class Inventory{
             teaHerbs: new Resource("teaHerbs", "Common herbs of tea. Used for making green tea.", 6, 0)
         };
 
-        this.products = {};
+        this.products = {
+            coffeProcessed: new Resource("coffeProcessed", "Processed coffee ready to be sold.", 5, 0),
+            teaProcessed: new Resource("teaProcessed", "Processed tea ready to be sold.", 8, 0)
+        };
     }
 
     // Devuelve true si hay la cantidad suficiente del recurso especificado
