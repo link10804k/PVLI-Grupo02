@@ -30,6 +30,9 @@ export default class MainScene extends Phaser.Scene {
 
         this.load.image("menos", "assets/gameAssets/Menos.jpg")
         this.load.image("panel", "assets/gameAssets/panel.jpg")
+
+        this.load.image("Coffe_display", "assets/gameAssets/Coffe_display.png")
+        this.load.image("Tea_display", "assets/gameAssets/Tea_display.png")
     }
     
     create() { // Crear objetos del juego aquí
