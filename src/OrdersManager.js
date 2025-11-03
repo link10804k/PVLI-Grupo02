@@ -20,12 +20,11 @@ export default class OrdersManager {
     
     StartOrders() {
         this.AddOrder();
-        this.timerEvent = new Phaser.Time.TimerEvent({
+        this.timerEvent = this.scene.time.addEvent({
             callback: () => this.AddOrder(),
             delay: ORDER_INTERVAL,
             loop: true
         });
-        this.scene.time.addEvent(this.timerEvent);
     }
     StopOrders() {
         this.timerEvent.remove();
@@ -34,6 +33,7 @@ export default class OrdersManager {
         });
     }
     AddOrder() {
+        console.log('OrdersManager: adding new order');
         let order = new Order(this.scene, 0, this.orders.length*ORDER_IMAGE_SIZE, "order", this.orders.length, [], 100, ORDER_TIME);
         this.orders.push(order);
     }

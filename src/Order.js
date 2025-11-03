@@ -10,11 +10,12 @@ export default class Order extends Phaser.GameObjects.Sprite {
         this.price = price;
 
         scene.add.existing(this);
+        this.setInteractive();
 
         this.on('pointerdown', () => this.TryCompleteOrder());
 
-        this.timerEvent = new Phaser.Time.TimerEvent({
-            callback: this.FailOrder(),
+        this.timerEvent = this.scene.time.addEvent({
+            callback: () => this.FailOrder(),
             delay: time,
             loop: false
         });
@@ -41,7 +42,7 @@ export default class Order extends Phaser.GameObjects.Sprite {
             this.scene.playerInventory.removeProduct(resource);
         });
 
-        this.scene.playerInventory.addMoney(this.price);
+        this.scene.playerInventory.AddMoney(this.price);
         this.destroy();
     }
     FailCompleteOrder() {
