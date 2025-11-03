@@ -14,12 +14,19 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.assignedWorkers = 0;     // Número de trabajadores
         this.upgradeTier = 0;       // Nivel de mejora
 
+        // Variables para el temporizador manual
+        this.timerRunning = false;
+        this.timeLeft = 0;
+
         new Button(this.scene, this.x +100, this.y, "button", () => this.showProductionMenu()).setOrigin(0.5, 0.5);
         new Button(this.scene, this.x -100, this.y, "button", () => this.showWorkerMenu()).setOrigin(0.5, 0.5);
     }
 
     produce(resource) {
-        // Lógica de producción de recursos
+        if (!resource || !resource.productionTime) {
+            console.warn("Recurso inválido en produce()");
+            return;
+        }
 
         if(this.assignedWorkers > 0)
         {
@@ -75,4 +82,35 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.scene.scene.launch("ProductionMenuScene", { building: this, mainScene: this.scene, resources: this.resources });
         this.scene.scene.pause();
     }
+
+    startTimer(duration, button) {
+    if (this.timerActive) return;
+
+    this.timerActive = true;
+    let timeLeft = duration;
+
+    this.timerText = this.scene.add.text(
+      this.x,
+      this.y - 70,
+      `Tiempo: ${timeLeft}`,
+      { fontSize: "20px", color: "#ffffff" }
+    ).setOrigin(0.5);
+
+    // Desactivar el botón (si lo pasamos como parámetro)
+    if (button) button.disableInteractive();
+
+    const interval = setInterval(() => {
+      timeLeft--;
+      this.timerText.setText(`Tiempo: ${timeLeft}`);
+
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        this.timerText.setText("¡Listo!");
+        this.timerActive = false;
+
+        // Reactivar el botón una vez termina el temporizador
+        if (button) button.setInteractive();
+      }
+    }, 1000);
+  }
 }
