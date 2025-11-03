@@ -10,6 +10,8 @@ export default class Inventory{
             coffeProcessed: new Resource("coffeProcessed", "Processed coffee ready to be sold.", 5, 0),
             teaProcessed: new Resource("teaProcessed", "Processed tea ready to be sold.", 8, 0)
         };
+
+        this.money = 0;
     }
 
     // Devuelve true si hay la cantidad suficiente del recurso especificado
@@ -46,5 +48,22 @@ export default class Inventory{
         }
 
         else console.log("No se ha podido eliminar: ", name);
+    }
+
+    // Añade dinero
+    AddMoney(amount) {
+        this.money += amount;
+    }
+
+    // Quita dinero si hay suficiente, si no, devuelve false 
+    // (siempre se debería comprobar de antes de hacer nada si este método ha podido quitar dinero)
+    RemoveMoney(amount) {
+        if (amount <= this.money) {
+            this.money -= amount;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

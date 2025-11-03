@@ -4,6 +4,8 @@ import Building from "./Building.js";
 import Inventory from "./inventory.js";
 import CameraManager from "./CameraManager.js";
 import Resource from "./resource.js"
+import PhaseManager from "./PhaseManager.js";
+import OrdersManager from "./OrdersManager.js";
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -24,14 +26,17 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("building", "assets/gameAssets/farm.jpg")
         this.load.image("pedidos", "assets/gameAssets/order.jpg")
         this.load.image("tile", "assets/gameAssets/tile.jpg")
+        this.load.image("order", "assets/gameAssets/order.jpg")
 
-        this.load.image("menos", "assets/gameassets/Menos.jpg")
-        this.load.image("panel", "assets/gameassets/panel.jpg")
+        this.load.image("menos", "assets/gameAssets/Menos.jpg")
+        this.load.image("panel", "assets/gameAssets/panel.jpg")
     }
     
     create() { // Crear objetos del juego aquí
         this.cameraManager = new CameraManager(this, this.cameras.main);
         this.playerInventory = new Inventory(this);
+        this.phaseManager = new PhaseManager(this);
+        this.ordersManager = new OrdersManager(this);
 
         this.tabKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
         this.tabKey.on("down", () => this.showInventory());
@@ -43,7 +48,7 @@ export default class MainScene extends Phaser.Scene {
         let cafeteria = new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.4);
         this.tiles[1][1].destructor();
         this.tiles[1][1] = null;
-        let building = new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, [new Resource("coffeeGrain", "Simple grain of coffee. Used for making standard coffee.", 3, 1), new Resource("teaHerbs", "Common herbs of tea. Used for making green tea.", 6, 1)], 1).setOrigin(0.5).setScale(0.4);
+        new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, [new Resource("coffeeGrain", "Simple grain of coffee. Used for making standard coffee.", 3, 1), new Resource("teaHerbs", "Common herbs of tea. Used for making green tea.", 6, 1)], 1).setOrigin(0.5).setScale(0.4);
         this.tiles[1][2].destructor();
         this.tiles[1][2] = null; 
     }

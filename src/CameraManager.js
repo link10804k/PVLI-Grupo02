@@ -1,3 +1,10 @@
+const Direction = {
+    UP: { x: 0, y: -1 },
+    DOWN: { x: 0, y: 1 },
+    LEFT: { x: -1, y: 0 },
+    RIGHT: { x: 1, y: 0 },
+}
+
 export default class CameraManager {
     constructor(scene, camera) {
         this.scene = scene;
@@ -9,9 +16,9 @@ export default class CameraManager {
         this.minZoom = this.camera.width / this.scene.mapWidth;
         this.maxZoom = 1.75; // Parámetro variable
         this.camera.zoom = this.maxZoom;
-        console.log("Map width: " + this.scene.mapWidth);
-        console.log("Camera width: " + this.camera.width);
-        console.log("Max zoom: " + this.maxZoom);
+        //console.log("Map width: " + this.scene.mapWidth);
+        //console.log("Camera width: " + this.camera.width);
+        //console.log("Max zoom: " + this.maxZoom);
 
         this.camera.setBounds(-this.scene.tileWidth/2, -this.scene.tileHeight/2, this.scene.mapWidth, this.scene.mapHeight);
         //this.camera.setViewport(0, 0, this.scene.mapWidth, this.scene.mapHeight);
@@ -69,13 +76,6 @@ export default class CameraManager {
     }
     preupdate(t, dt) {
         dt /= 1000; // Convertir dt a segundos
-
-        const Direction = {
-            UP: { x: 0, y: -1 },
-            DOWN: { x: 0, y: 1 },
-            LEFT: { x: -1, y: 0 },
-            RIGHT: { x: 1, y: 0 },
-        }
 
         if (this.moveUp) {
             this.cameraScroll(Direction.UP, dt);

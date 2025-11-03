@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "./Button.js";
 
 export default class CoffeeSelectionMenu extends Phaser.Scene {
     constructor() {
@@ -6,11 +6,7 @@ export default class CoffeeSelectionMenu extends Phaser.Scene {
     }
 
     create() {
-        this.menuButton = new Button(this, 400, 300, "button", () => {
-            this.showMenu();
-        });
-
-        this.add.existing(this.menuButton);
+        this.menuButton = new Button(this, 400, 300, "button", () => this.showMenu()); 
 
         this.timerText = this.add
             .text(400, 200, "Timer: 0", { fontSize: "32px", color: "#ffffff" })
@@ -30,9 +26,7 @@ export default class CoffeeSelectionMenu extends Phaser.Scene {
             this.startTimer(10);
         });
 
-         this.closeMenuButton = new Button(this, 550, 400, "button", () => {
-            this.hideMenu();
-        });
+         this.closeMenuButton = new Button(this, 550, 400, "button", () => this.hideMenu());
     }
 
     hideMenu() {
