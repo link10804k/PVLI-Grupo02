@@ -75,6 +75,7 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
                 }
             },
         });
+    } 
     closeWindow() {
         this.scene.stop();
         this.mainScene.scene.resume();
