@@ -46,13 +46,6 @@ export default class Building extends Phaser.GameObjects.Sprite{
         text.setText(`Workers: ${this.assignedWorkers}`);
     }
 
-    removeWorker(text){
-        if (this.assignedWorkers > 0) {
-            this.assignedWorkers--;
-            text.setText(`Workers: ${this.assignedWorkers}`);
-        }
-    }
-
     getName() {
         return this.name;
     }

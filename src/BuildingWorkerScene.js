@@ -21,9 +21,17 @@ export default class BuildingMenuScene extends Phaser.Scene {
             color: "#fff",
         }).setOrigin(0.5);
 
-        this.addButton = new Button(this, 350, 400, "button", () => this.building.addWorker(text)).setScale(0.25);
-        this.removeButton = new Button(this, 450, 400, "menos", () => this.building.removeWorker(text)).setScale(0.25);
-        this.closeButton = new Button(this, 400, 500, "button", () => this.closeWindow()).setScale(0.5);
+        this.addButton = new Button(this, 350, 400, "button", () => 
+            this.building.addWorker(text))
+            .setScale(0.25);
+
+        this.removeButton = new Button(this, 450, 400, "menos", () => 
+            this.building.removeWorker(text))
+            .setScale(0.25);
+
+        this.closeButton = new Button(this, 400, 500, "button", () => 
+            this.closeWindow())
+            .setScale(0.5);
 
         //const addButton = this.add.image(350, 400, "button").setInteractive().setScale(0.25);
         //addButton.on("pointerdown", () => {
