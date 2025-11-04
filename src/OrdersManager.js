@@ -1,6 +1,7 @@
 import Order from "./Order.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
+import OrdersChances from "./Resources/OrdersChances.json" with {type: "json"};
 
 const ORDER_INTERVAL = 20000; // 20 segundos entre pedidos(variable)
 const ORDER_TIME = 30000; // 30 segundos para completar el pedido (variable)
@@ -31,9 +32,10 @@ export default class OrdersManager {
         this.orders.forEach(element => {
             this.FailOrder(element.id);
         });
+        OrdersChances.currentChances = OrdersChances.baseChances;
     }
     AddOrder() {
-        console.log('OrdersManager: adding new order');
+        console.log("Order added");
         let order = new Order(this.scene, 0, this.orders.length*ORDER_IMAGE_SIZE, "order", this.orders.length, [], 100, ORDER_TIME);
         this.orders.push(order);
     }
@@ -46,5 +48,17 @@ export default class OrdersManager {
     FailOrder(orderId) {
         this.RemoveOrder(orderId);
         // Perder popularidad, etc
+    }
+    RandomizeOrder() {
+        let randomNumber = Math.random();
+        let i = 0;
+        while (i < OrdersChances.currentChances.nProducts.length - 1 && randomNumber >= OrdersChances.currentChances.nProducts[i]) {
+            randomNumber -= OrdersChances.currentChances.nProducts[i];
+            i++;
+        }
+        let nProducts = parseInt(OrdersChances.currentChances.nProducts[i]);
+        for (let j = 0; j < nProducts; j++) {
+
+        }
     }
 }
