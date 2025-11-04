@@ -22,18 +22,23 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
         this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
 
-        this.add.image(250, 300, "Coffe_display").setScale(0.1);
-        this.add.image(550, 300, "Tea_display").setScale(0.1);
+        this.add.text(300, 100, `¿Qué quieres hacer?`, {
+            fontSize: "20px",
+            color: "#fff",
+        }).setOrigin(0.25).setScale(1.5);
 
-        this.coffeeButton = new Button(this, 300, 420, "button", () => {
-            this.Cafeteria.startTimer(10, this.Cafeteria.Cafetera); 
-            this.closeWindow();
-        }).setScale(0.25);
+        this.add.image(250, 200, "Coffe_display").setScale(0.1);
+        this.add.image(250, 300, "Tea_display").setScale(0.1);
 
-        this.teaButton = new Button (this,450, 400, "button", () => {
-            this.Cafeteria.startTimer(15, this.Cafeteria.Cafetera);
+        this.coffeeButton = new Button(this, 550, 200, "button", () => {
+            this.Cafeteria.CookingTime(10, this.Cafeteria.Cafetera, "coffeProcessed");
             this.closeWindow();
-        }).setScale(0.25);            
+        }).setScale(1);
+
+        this.teaButton = new Button (this,550, 300, "button", () => {
+            this.Cafeteria.CookingTime(15, this.Cafeteria.Cafetera, "teaProcessed");
+            this.closeWindow();
+        }).setScale(1);            
 
         this.closeButton = new Button(this, 400, 500, "button", () => {
             this.closeWindow();
