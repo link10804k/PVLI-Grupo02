@@ -4,15 +4,15 @@ import Resource from "./resource.js";
 
 const ESCALADO_CONSTRUCCION = 0.4;
 
-export default class Parcel extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, texture = "parcela", currentBuilding, occupied) {
+export default class Tile extends Phaser.GameObjects.Sprite{
+  constructor(scene, x, y, texture = "tile", occupied) {
     super(scene, x, y, texture)
     
     scene.add.existing(this);
 
-    this.currentBuilding = currentBuilding;
+    this.currentBuilding = null;
     this.occupied = occupied;
-    this.menuContainer = null;
+  
 
     // Botón central
     this.buildButton = new Button(this.scene, this.x, this.y, "button", () => this.displayBuildMenu());
@@ -23,51 +23,15 @@ export default class Parcel extends Phaser.GameObjects.Sprite{
         this.buildButton.destroy();
         this.destroy();
     }
-
-    displayBuildMenu() {
-
-    console.log("📋 Mostrando menú de construcción...");
-
-    // Si ya existe un menú, lo eliminamos
-    if (this.menuContainer) {
-      this.menuContainer.destroy();
-      this.menuContainer = null;
-      return;
-    }
-
-    //Coordenadas: justo a la derecha de la parcela
-    const offsetX = this.width / 6; // un poco separado del borde
-    const menuX = this.x + offsetX;
-    const menuY = this.y;
-     //Contenedor del menú
-    this.menuContainer = this.scene.add.container(menuX, menuY);
-    this.menuContainer.setScale(1); // Escala del menú
-
-    // Fondo
-    const bg = this.scene.add.rectangle(0, 0, 120, 100, 0x514F4F, 1).setOrigin(0.5);
-    bg.setStrokeStyle(1, 0xffffff);
-    
-    // Título
-    const title = this.scene.add.text(-30, -15, "Construir", {
-      color: "#fcfcfcff",
-      fontSize: "15px",
-    });
-    
-    const buildText = this.scene.add.text(-50, 0, "Granja", {
-      color: "#00ff00", fontSize: "15px", backgroundColor: "#333", padding: { x: 5, y: 5 },})
-      .setInteractive({ useHandCursor: true });
-
-    // Acción al hacer clic en el texto
-    buildText.on("pointerdown", () => {
-      console.log("🔨 Construyendo Granja...");
-      const newBuilding = new Building(this.scene, this.x, this.y, "building", "Granja", "Produce alimentos", [new Resource("coffeeGrain", "Simple grain of coffee. Used for making standard coffee.", 3, 1), new Resource("teaHerbs", "Common herbs of tea. Used for making green tea.", 6, 1)]).setScale(ESCALADO_CONSTRUCCION);
-      this.build(newBuilding);
-      this.menuContainer.destroy();
-      this.menuContainer = null;
-      this.buildButton.disable(); // Desactivar el botón tras construir
-    });
-
-    this.menuContainer.add([bg, title, buildText]); // Agregar elementos al contenedor del menú
+      displayBuildMenu() {
+        if (this.occupied) {
+            console.log("Parcela ocupada. No se puede construir aquí.");
+            return;
+        }
+        else {
+            this.scene.scene.pause();
+            this.scene.scene.launch("BuildingMenuScene", { tile: this, mainScene: this.scene});
+        }
     }
 
     getCurrentBuilding(){
@@ -78,9 +42,33 @@ export default class Parcel extends Phaser.GameObjects.Sprite{
         return occupied;
     }
 
-   build(building) {
-    this.currentBuilding = building;
-    console.log(`Construido: ${building.getName()} en la parcela.`);
-    this.destructor();
+   build(buildingData) {
+    // Evitar construir si ya hay un edificio en este tile
+    if (this.currentBuilding) {
+        console.warn(`⛔ Este tile ya tiene un edificio construido: ${this.currentBuilding.name}`);
+        return;
+    }
+
+     // Crear una nueva instancia de la clase Building con los datos del tipo seleccionado
+    const newBuilding = new Building(
+        this.scene,                      // Escena actual
+        this.x,                          // Coordenada X del tile
+        this.y,                          // Coordenada Y del tile
+        buildingData.texture,            // Textura principal del edificio
+        buildingData.name,               // Nombre
+        buildingData.description,        // Descripción
+        buildingData.resources || [],    // Recursos que produce
+        buildingData.productionSpeed ?? 1.0 // Velocidad de producción
+    )
+
+  
+ // Guardar referencia
+    this.currentBuilding = newBuilding;
+
+     // Agregarlo a la lista global de edificios de la escena (si existe)
+   // if (!this.scene.buildings) this.scene.buildings = [];
+    //this.scene.buildings.push(newBuilding);
+    this.buildButton.disable(); // Desactivar el botón de construcción
+    this.occupied = true; // Marcar el tile como ocupado
   }
 }

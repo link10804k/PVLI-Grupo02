@@ -13,7 +13,8 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.currentResource = null; // Recurso actual
         this.assignedWorkers = 0;     // Número de trabajadores
         this.upgradeTier = 0;       // Nivel de mejora
-
+        
+        this.setScale(0.4);
         // Variables para el temporizador manual
         this.timerRunning = false;
         this.timeLeft = 0;
