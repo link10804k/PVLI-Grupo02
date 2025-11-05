@@ -1,0 +1,46 @@
+{
+    "unprocessedProducts": {
+        "tier1": {
+            "coffeeGrain": {
+                "name": "Coffee", 
+                "description": "Simple grain of coffee. Used for making standard coffee.",
+                "quantity": 0,
+                "time": 3
+            },
+            "teaGrain": {
+                "name": "Tea",
+                "description": "Common herbs of tea. Used for making green tea.",
+                "quantity": 0,
+                "time": 6
+            }
+        },
+        "tier2": {
+            "meat": {
+                "name": "Meat",
+                "description": "Raw meat from animals.",
+                "quantity": 0,
+                "time": 20
+            }
+        }    
+    },
+    "processedProducts": {
+        "tier1": {
+            "coffee": {
+                "name": "Coffee", 
+                "description": "Processed coffee ready to be sold.",
+                "quantity": 0,
+                "time": 5,
+                "price": 10,
+                "chance": 0.5
+            },
+            "tea": {
+                "name": "Tea",
+                "description": "Processed tea ready to be sold.",
+                "quantity": 0,
+                "time": 8,
+                "price": 12,
+                "chance": 0.5
+            }
+        }
+    }
+}

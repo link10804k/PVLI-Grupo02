@@ -3,7 +3,6 @@ import Cafeteria from "./Cafeteria.js";
 import Building from "./Building.js";
 import Inventory from "./inventory.js";
 import CameraManager from "./CameraManager.js";
-import Resource from "./resource.js"
 import PhaseManager from "./PhaseManager.js";
 import OrdersManager from "./OrdersManager.js";
 

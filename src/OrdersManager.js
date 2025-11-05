@@ -17,6 +17,8 @@ export default class OrdersManager {
 
         EventBus.on(events.ORDER_COMPLETED, (orderId) => this.RemoveOrder(orderId));
         EventBus.on(events.ORDER_FAILED, (orderId) => this.FailOrder(orderId));
+
+        this.ordersChances = OrdersChances;
     }
     
     StartOrders() {
@@ -36,7 +38,7 @@ export default class OrdersManager {
     }
     AddOrder() {
         console.log("Order added");
-        let order = new Order(this.scene, 0, this.orders.length*ORDER_IMAGE_SIZE, "order", this.orders.length, [], 100, ORDER_TIME);
+        let order = new Order(this.scene, 0, this.orders.length*ORDER_IMAGE_SIZE, "order", this.orders.length, this.RandomizeOrder(), 100, ORDER_TIME);
         this.orders.push(order);
     }
     RemoveOrder(orderId) {
@@ -52,13 +54,23 @@ export default class OrdersManager {
     RandomizeOrder() {
         let randomNumber = Math.random();
         let i = 0;
-        while (i < OrdersChances.currentChances.nProducts.length - 1 && randomNumber >= OrdersChances.currentChances.nProducts[i]) {
-            randomNumber -= OrdersChances.currentChances.nProducts[i];
+        while (i < this.ordersChances.nProducts.length - 1 && randomNumber >= this.ordersChances.nProducts[i]) {
+            randomNumber -= this.ordersChances.nProducts[i];
             i++;
         }
-        let nProducts = parseInt(OrdersChances.currentChances.nProducts[i]);
-        for (let j = 0; j < nProducts; j++) {
-
+        let products = [];
+        for (let j = 0; j < parseInt(this.ordersChances.nProducts[i]); j++) {
+            products.push(this.ordersChances.productNames[i]);
         }
+        return products;
+    }
+    SelectRandomOption(options) {
+        let randomNumber = Math.random();
+        let i = 0;
+        while (i < options.length && randomNumber >= options[i]) {
+            randomNumber -= options[i].chance;
+            i++;
+        }
+        return options[i];   
     }
 }
