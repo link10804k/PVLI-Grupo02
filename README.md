@@ -63,8 +63,8 @@ Sigue el proyecto o contacta con nosotros en:
 Este proyecto se distribuye bajo la licencia de Matcha Game.  
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# ☕ FAR AWAY FROM TEA 
+# GDD
+# FAR AWAY FROM TEA 
 
 ### Matcha Games
 - Javier Zazo Morillo  
