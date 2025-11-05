@@ -1,6 +1,5 @@
 import Building from "./Building.js";
 import Button from "./Button.js";
-import Resource from "./resource.js";
 
 const ESCALADO_CONSTRUCCION = 0.4;
 

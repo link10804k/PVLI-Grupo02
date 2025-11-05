@@ -50,7 +50,7 @@ export default class MainScene extends Phaser.Scene {
         let cafeteria = new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.4);
         this.tiles[1][1].destructor();
         this.tiles[1][1] = null;
-        new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, [new Resource("coffeeGrain", "Simple grain of coffee. Used for making standard coffee.", 3, 1), new Resource("teaHerbs", "Common herbs of tea. Used for making green tea.", 6, 1)], 1).setOrigin(0.5);
+        new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, 0, 1).setOrigin(0.5);
         this.tiles[1][2].destructor();
         this.tiles[1][2] = null; 
     }

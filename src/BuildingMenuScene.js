@@ -1,5 +1,4 @@
 import Button from "./Button.js";
-import Resource from "./resource.js";
 
 export default class BuildingMenuScene extends Phaser.Scene {
     constructor(){

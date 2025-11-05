@@ -1,14 +1,23 @@
-import Products from "./Resources/Products.js" with { type: "json"}
+import Products from "./Resources/Products.json" with { type: "json"}
 export default class Inventory{
     constructor(){
         this.unprocessedProducts = Products.unprocessedProducts.tier1;
-
         this.processedProducts = Products.processedProducts.tier1;
 
         this.money = 0;
     }
 
-     // Aumenta la cantidad de un producto de la lista si existe, y si no, lo crea y le asigna la cantidad determinada
+    inventoryChange(popularityLevel) {
+        // Cambia la cantidad de productos en función del nivel de popularidad
+        switch (popularityLevel) {
+            case 2: // Tier 2
+                Object.assign(this.unprocessedProducts, Products.unprocessedProducts.tier2);
+                Object.assign(this.processedProducts, Products.processedProducts.tier2);
+                break;
+        }
+    }
+
+     // Aumenta la cantidad de un producto de la lista
     addProduct(product, amount = 1){
         product.quantity += amount;
     }
