@@ -25,7 +25,8 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("building", "assets/gameAssets/farm.jpg")
         this.load.image("pedidos", "assets/gameAssets/order.jpg")
         this.load.image("tile", "assets/gameAssets/tile.jpg")
-        this.load.image("order", "assets/gameAssets/order.jpg")
+
+        this.load.image("coffeeOrder", "assets/gameAssets/coffeeOrder.png")
 
         this.load.image("menos", "assets/gameAssets/Menos.jpg")
         this.load.image("panel", "assets/gameAssets/panel.jpg")
@@ -35,6 +36,12 @@ export default class MainScene extends Phaser.Scene {
     }
     
     create() { // Crear objetos del juego aquí
+        this.scene.launch("UIScene");
+        const ui = this.scene.get("UIScene");
+        ui.events.once('create', () => {
+            this.UIManager = ui;
+        });
+
         this.cameraManager = new CameraManager(this, this.cameras.main);
         this.playerInventory = new Inventory(this);
         this.phaseManager = new PhaseManager(this);

@@ -1,18 +1,18 @@
+import Button from "./Button.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 
 export default class Order extends Phaser.GameObjects.Sprite {
 
-    constructor(scene, x, y, texture = "order", id, resources, price, time) {
+    constructor(scene, x, y, texture, id, resources, price, time) {
         super(scene, x, y, texture);
         this.id = id;
         this.resources = resources;
         this.price = price;
 
         scene.add.existing(this);
-        this.setInteractive();
 
-        this.on('pointerdown', () => this.TryCompleteOrder());
+        new Button(scene, x + 50, y + 50, "button", () => this.TryCompleteOrder());
 
         this.timerEvent = this.scene.time.addEvent({
             callback: () => this.FailOrder(),
@@ -23,7 +23,7 @@ export default class Order extends Phaser.GameObjects.Sprite {
     TryCompleteOrder() {
         var canComplete = true;
         this.resources.forEach(resource => {
-            if (!this.scene.playerInventory.minimumResources(resource)) {
+            if (!this.scene.playerInventory.removeProduct(resource)) {
                 canComplete = false;
             }
         });

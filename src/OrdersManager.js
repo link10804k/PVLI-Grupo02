@@ -2,8 +2,8 @@ import Order from "./Order.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 
-const ORDER_INTERVAL = 20000; // 20 segundos entre pedidos(variable)
-const ORDER_TIME = 30000; // 30 segundos para completar el pedido (variable)
+const ORDER_INTERVAL = 10000; // 10 segundos entre pedidos (variable)
+const ORDER_TIME = 20000; // 20 segundos para completar el pedido (variable)
 const ORDER_IMAGE_SIZE = 100; // Tamaño en píxeles del sprite del pedido
     
 export default class OrdersManager {
@@ -11,11 +11,11 @@ export default class OrdersManager {
         this.scene = scene;
         this.orders = [];
 
-        EventBus.on(events.SELLING_PHASE, () => this.StartOrders());
-        EventBus.on(events.PRODUCTION_PHASE, () => this.StopOrders());
-
-        EventBus.on(events.ORDER_COMPLETED, (orderId) => this.RemoveOrder(orderId));
-        EventBus.on(events.ORDER_FAILED, (orderId) => this.FailOrder(orderId));
+        //EventBus.on(events.SELLING_PHASE, () => this.StartOrders());
+        //EventBus.on(events.PRODUCTION_PHASE, () => this.StopOrders());
+//
+        //EventBus.on(events.ORDER_COMPLETED, (orderId) => this.RemoveOrder(orderId));
+        //EventBus.on(events.ORDER_FAILED, (orderId) => this.FailOrder(orderId));
     }
     
     StartOrders() {
@@ -34,7 +34,7 @@ export default class OrdersManager {
     }
     AddOrder() {
         console.log("Order added");
-        let order = new Order(this.scene, 0, this.orders.length*ORDER_IMAGE_SIZE, "order", this.orders.length, 0, 100, ORDER_TIME);
+        let order = new Order(this.scene.UIManager, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, 0, 100, ORDER_TIME).setOrigin(0).setScale(0.4);
         this.orders.push(order);
     }
     RemoveOrder(orderId) {

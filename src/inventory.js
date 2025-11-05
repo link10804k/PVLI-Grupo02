@@ -8,6 +8,10 @@ export default class Inventory{
 
         EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
 
+        Object.values(this.unprocessedProducts).forEach(element => {
+            console.log(element.name);
+        });
+
         this.money = 0;
     }
 
@@ -20,23 +24,33 @@ export default class Inventory{
                 break;
         }
     }
+    
+    // Hace el proceso para conseguir un producto procesado
+    ProcessProduct(productWanted, amount = 1) {
+        Object.values(productWanted.neededProducts).forEach(element => {
+            this.removeProduct(element);
+        });
+        productWanted.quantity += amount;
+    }
 
+    //Comprueba si hay suficientes productos
+    checkProducts(productsWanted, quantities) {
+        let canProduce = true;
+        productsWanted.forEach(element => {
+            if (element.quantity < quantities[element.id]) {
+                canProduce = false;
+            }
+        });
+        return canProduce;
+    }
      // Aumenta la cantidad de un producto de la lista
     addProduct(product, amount = 1){
         product.quantity += amount;
     }
 
-    // Quita productos si hay suficientes, si no, devuelve false 
-    // (siempre se debería comprobar de antes de hacer nada si este método ha podido quitar dinero)
-    // Ej: if (inventory.removeProduct(product, amount)) { (Hacer lo que sea) } else { (Feedback al jugador de que no tiene suficiente) }
+    // Quita productos
     removeProduct(product, amount = 1){
-        if (amount <= product.quantity) {
-            product.quantity -= amount;
-            return true;
-        }
-        else {
-            return false;
-        }
+        product.quantity -= amount;
     }
 
     // Añade dinero
