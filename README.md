@@ -60,7 +60,7 @@ Sigue el proyecto o contacta con nosotros en:
 
 ## 🧾 Licencia
 
-Este proyecto se distribuye bajo la licencia de Matcha Game.  
+Este proyecto se distribuye bajo la licencia de Matcha Games.  
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # GDD
