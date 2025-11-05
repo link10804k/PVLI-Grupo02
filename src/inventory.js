@@ -1,8 +1,12 @@
 import Products from "./Resources/Products.json" with { type: "json"}
+import { EventBus } from "./EventBus.js";
+import { events } from "./EventBus.js";
 export default class Inventory{
     constructor(){
         this.unprocessedProducts = Products.unprocessedProducts.tier1;
         this.processedProducts = Products.processedProducts.tier1;
+
+        EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
 
         this.money = 0;
     }

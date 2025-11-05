@@ -7,5 +7,6 @@ export const events = {
     // Pedidos
     ORDER_COMPLETED: 'orderCompleted',
     ORDER_FAILED: 'orderFailed',
-    //
+    // Popularidad
+    POPULARITY_INCREASED: 'popularityIncreased', // Con nuevo nivel de popularidad como parámetro
 }
