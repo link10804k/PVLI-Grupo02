@@ -16,7 +16,7 @@ Genero: Construcción de bases y gestión de recursos. Con vista top-down.
 
 ## Características principales
 
-● Gestión de recursos
+● Gestión de recursos /n
 ● Construcción de edifi cios para producir y procesar recursos.
 ● Venta de productos a los clientes.
 ● Mejora de popularidad y expansión de la base.
@@ -25,7 +25,7 @@ Genero: Construcción de bases y gestión de recursos. Con vista top-down.
 
 ---
 
-## 📸 Capturas del juego
+## Capturas del juego
 
 
 | ![Captura 1](assets/gitAssets/PantallaPrincipal.PNG) | ![Captura 2](assets/gitAssets/MenuDeConstruccion.PNG) | ![Captura 3](assets/gitAssets/MenuDeProduccion.PNG) |
@@ -41,7 +41,7 @@ Puedes jugar o ver la versión publicada del juego en el siguiente enlace:
 
 ---
 
-## 📱 Redes sociales (opcional)
+## Redes sociales (opcional)
 
 Sigue el proyecto o contacta con nosotros en:
 
@@ -49,7 +49,7 @@ Sigue el proyecto o contacta con nosotros en:
 
 ---
 
-## 👥 Autores
+## Autores
 
 - [Adrian Arbas Perdiguero] — [@Macarr0n](https://github.com/Macarr0n)
 - [Javier Zazo Morillo] — [link10804k](https://github.com/link10804k)
