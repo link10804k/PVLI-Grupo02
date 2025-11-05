@@ -16,12 +16,12 @@ Genero: Construcción de bases y gestión de recursos. Con vista top-down.
 
 ## Características principales
 
-● Gestión de recursos /n
-● Construcción de edifi cios para producir y procesar recursos.
-● Venta de productos a los clientes.
-● Mejora de popularidad y expansión de la base.
-● Estética pixel art en 2D y atmósfera amigable y sencilla
-● Especial importancia en la gestión efi ciente de la cafetería para crecer lo más rápido posible..
+● Gestión de recursos.  
+● Construcción de edifi cios para producir y procesar recursos.  
+● Venta de productos a los clientes.  
+● Mejora de popularidad y expansión de la base.  
+● Estética pixel art en 2D y atmósfera amigable y sencilla.  
+● Especial importancia en la gestión efi ciente de la cafetería para crecer lo más rápido posible..  
 
 ---
 
