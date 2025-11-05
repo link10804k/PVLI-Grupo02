@@ -13,7 +13,15 @@ export default class BuildingMenuScene extends Phaser.Scene {
 
     create(){
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
-        this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
+        const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1); //lo guardo para sacar sus límites
+
+    //Guardamos sus límites
+    const menuBounds = {
+        x: menuRect.x - menuRect.width / 2,
+        y: menuRect.y - menuRect.height / 2,
+        width: menuRect.width,
+        height: menuRect.height
+    };
 
         // Título
         this.add.text(400, 80, "Menú de Construcción", {
@@ -68,7 +76,25 @@ export default class BuildingMenuScene extends Phaser.Scene {
             this.closeWindow();
         });
         this.add.existing(closeButton);
+
+ //cerrar el menú al hacer clic fuera de él
+    this.input.on('pointerdown', (pointer) => {
+        const { x, y } = pointer;
+        const inside =
+            x >= menuBounds.x &&
+            x <= menuBounds.x + menuBounds.width &&
+            y >= menuBounds.y &&
+            y <= menuBounds.y + menuBounds.height;
+
+        if (!inside) {
+            this.closeWindow();
+        }
+    });
+
     }
+
+
+
 
      selectBuilding(building) {
         console.log("Construir:", building.name);
