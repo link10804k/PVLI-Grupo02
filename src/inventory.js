@@ -61,10 +61,12 @@ export default class Inventory{
     }
 
     // Comprueba si hay suficiente dinero
+    // PARA COMPRAS
     hasEnoughMoney(amount) {
         return this.money >= amount;
     }
     // Quita dinero
+    // PARA COMPRAS
     removeMoney(amount) {
         this.money -= amount;
     }
