@@ -6,19 +6,13 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
     }
 
     init(data){
-        this.Cafeteria = data.Cafeteria;
+        this.cafetera = data.cafetera;
+        this.inventory = data.inventory;
         this.mainScene = data.mainScene;
         console.log("Datos recibidos:", data);
-        if (!this.Cafeteria) console.error("No se recibió la Cafeteria en CoffeSelectionMenu");
     }
 
     create() {
-
-        if (!this.Cafeteria) {
-      console.error("Peor: No se recibió la Cafeteria en CoffeSelectionMenu");
-      this.scene.stop();
-      return;
-    }
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
         this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
 
@@ -30,15 +24,32 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
         this.add.image(250, 200, "Coffe_display").setScale(0.1);
         this.add.image(250, 300, "Tea_display").setScale(0.1);
 
-        this.coffeeButton = new Button(this, 550, 200, "button", () => {
-            this.Cafeteria.CookingTime(10, this.Cafeteria.Cafetera, "coffeProcessed");
-            this.closeWindow();
-        }).setScale(1);
+        if (this.inventory?.processedProducts) {
+            const products = Object.values(this.inventory.processedProducts);
 
-        this.teaButton = new Button (this,550, 300, "button", () => {
-            this.Cafeteria.CookingTime(15, this.Cafeteria.Cafetera, "teaProcessed");
-            this.closeWindow();
-        }).setScale(1);            
+            let i = 0
+            products.forEach((product, i) => {
+            new Button(this, 550, 200 + 100*i, "button", () => {
+                this.cafetera.CookingTime(product.time, product);
+                this.closeWindow();
+                }).setScale(0.4);
+            i++;
+            });
+        }
+
+        else {
+            console.warn("Inventario no válido o processedProducts no encontrado:", this.inventory);
+        }
+
+        //this.coffeeButton = new Button(this, 550, 200, "button", () => {
+        //    this.Cafetera.CookingTime(10, this.inventory.coffeeProcessed);
+        //    this.closeWindow();
+        //}).setScale(1);
+//
+//        //this.teaButton = new Button (this,550, 300, "button", () => {
+        //    this.Cafetera.CookingTime(15, this.inventory.teaProcessed);
+        //    this.closeWindow();
+        //}).setScale(1);            
 
         this.closeButton = new Button(this, 400, 500, "button", () => {
             this.closeWindow();
