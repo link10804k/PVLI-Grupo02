@@ -35,9 +35,11 @@ export default class Inventory{
     }
     // Vender productos
     // PARA LOS PEDIDOS
-    sellProduct(product, amount = 1) { // Producto que se quiere vender y su cantidad
-        this.money += product.price * amount;
-        product.quantity -= amount;
+    sellProducts(products, amounts) { // Array de productos que se quieren vender y array de cantidades
+        products.forEach((product, index) => {
+            this.money += product.price * amounts[index];
+            product.quantity -= amounts[index];
+        });
     }
     // Comprueba si hay suficientes productos no procesados
     // PARA LOS EDIFICIOS DE PROCESADO

@@ -4,11 +4,12 @@ import { events } from "./EventBus.js";
 
 export default class Order extends Phaser.GameObjects.Sprite {
 
-    constructor(scene, x, y, texture, id, resources, price, time) {
+    constructor(scene, x, y, texture, id, resources, amounts, time) {
         super(scene, x, y, texture);
         this.id = id;
         this.resources = resources;
-        this.price = price;
+        this.amounts = amounts;
+        this.inventory = scene.playerInventory;
 
         scene.add.existing(this);
 
@@ -26,6 +27,7 @@ export default class Order extends Phaser.GameObjects.Sprite {
             if (!this.scene.playerInventory.removeProduct(resource)) {
                 canComplete = false;
             }
+        
         });
         if (canComplete) {
             this.CompleteOrder();
