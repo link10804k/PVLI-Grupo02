@@ -8,10 +8,6 @@ export default class Inventory{
 
         EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
 
-        Object.values(this.unprocessedProducts).forEach(element => {
-            console.log(element.name);
-        });
-
         this.money = 0;
     }
 
@@ -24,50 +20,52 @@ export default class Inventory{
                 break;
         }
     }
-    
-    // Hace el proceso para conseguir un producto procesado
-    ProcessProduct(productWanted, amount = 1) {
-        Object.values(productWanted.neededProducts).forEach(element => {
-            this.removeProduct(element);
+    // Producir un producto no procesadoÇ
+    // PARA LOS EDIFICIOS DE PRODUCCIÓN
+    produceProduct(product, amount = 1) { // Producto que se quiere producir y su cantidad
+        product.quantity += amount;
+    }
+    // Producir un producto procesado
+    // PARA LOS EDIFICIOS DE PROCESADO
+    processProduct(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad
+        Object.entries(productWanted.neededProducts).forEach(([key, quantity]) => {
+            this.unprocessedProducts[key].quantity -= quantity * amount;
         });
         productWanted.quantity += amount;
     }
-
-    //Comprueba si hay suficientes productos
-    checkProducts(productsWanted, quantities) {
-        let canProduce = true;
-        productsWanted.forEach(element => {
-            if (element.quantity < quantities[element.id]) {
-                canProduce = false;
-            }
-        });
-        return canProduce;
-    }
-     // Aumenta la cantidad de un producto de la lista
-    addProduct(product, amount = 1){
-        product.quantity += amount;
-    }
-
-    // Quita productos
-    removeProduct(product, amount = 1){
+    // Vender productos
+    // PARA LOS PEDIDOS
+    sellProduct(product, amount = 1) { // Producto que se quiere vender y su cantidad
+        this.money += product.price * amount;
         product.quantity -= amount;
     }
-
-    // Añade dinero
-    addMoney(amount) {
-        this.money += amount;
+    // Comprueba si hay suficientes productos no procesados
+    // PARA LOS EDIFICIOS DE PROCESADO
+    checkUnprocessedProducts(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad
+        Object.entries(productWanted.neededProducts).forEach(([key, quantity]) => {
+            if (this.unprocessedProducts[key].quantity < quantity * amount) {
+                return false;
+            }
+        });
+        return true;
+    }
+    // Comprueba si hay suficientes productos procesados
+    // PARA LOS PEDIDOS
+    checkProcessedProducts(productsWanted, quantities) { // Array de productos requeridos y array de cantidades requeridas
+        productsWanted.forEach(element => {
+            if (element.quantity < quantities[element.id]) {
+                return false;
+            }
+        });
+        return true;
     }
 
-    // Quita dinero si hay suficiente, si no, devuelve false 
-    // (siempre se debería comprobar de antes de hacer nada si este método ha podido quitar dinero)
-    // Ej: if (inventory.removeMoney(amount)) { (Hacer lo que sea) } else { (Feedback al jugador de que no tiene suficiente) }
+    // Comprueba si hay suficiente dinero
+    hasEnoughMoney(amount) {
+        return this.money >= amount;
+    }
+    // Quita dinero
     removeMoney(amount) {
-        if (amount <= this.money) {
-            this.money -= amount;
-            return true;
-        }
-        else {
-            return false;
-        }
+        this.money -= amount;
     }
 }
