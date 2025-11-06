@@ -54,7 +54,7 @@ export default class MainScene extends Phaser.Scene {
 
         this.createParcelas();
         
-        let cafeteria = new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", 0, 0, 0, [], 0).setOrigin(0.5).setScale(0.4);
+        let cafeteria = new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", 0, 0, this.playerInventory, [], 0).setOrigin(0.5).setScale(0.4);
         this.tiles[1][1].destructor();
         this.tiles[1][1] = null;
         new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, 0, 1).setOrigin(0.5);
