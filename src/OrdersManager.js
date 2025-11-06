@@ -3,7 +3,7 @@ import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 
 const ORDER_INTERVAL = 10000; // 10 segundos entre pedidos (variable)
-const ORDER_TIME = 20000; // 20 segundos para completar el pedido (variable)
+const ORDER_TIME = 12000; // 20 segundos para completar el pedido (variable)
 const ORDER_IMAGE_SIZE = 100; // Tamaño en píxeles del sprite del pedido
     
 export default class OrdersManager {
@@ -15,11 +15,8 @@ export default class OrdersManager {
         EventBus.on(events.SELLING_PHASE, () => this.StartOrders());
         EventBus.on(events.PRODUCTION_PHASE, () => this.StopOrders());
 
-        EventBus.on(events.ORDER_COMPLETED, (orderId) => this.RemoveOrder(orderId));
-        EventBus.on(events.ORDER_FAILED, (orderId) => {
-            console.log(orderId);
-            this.FailOrder(orderId);
-        });
+        EventBus.on(events.ORDER_COMPLETED, (order, orderId) => this.RemoveOrder(order, orderId));
+        EventBus.on(events.ORDER_FAILED, (order, orderId) => this.FailOrder(order, orderId));
     }
     
     StartOrders() {
@@ -31,10 +28,13 @@ export default class OrdersManager {
         });
     }
     StopOrders() {
-        this.timerEvent.remove();
-        this.orders.forEach(element => {
-            this.FailOrder(element.id);
-        });
+        this.scene.time.removeEvent(this.timerEvent);
+        this.timerEvent = null;
+
+        for (let i = 0; i < this.orders.length; i++) {
+            this.FailOrder(this.orders[i], this.orders[i].id);
+            this.orders[i].destructor();
+        }
     }
     AddOrder() {
         console.log("Order added");
@@ -49,15 +49,24 @@ export default class OrdersManager {
         let order = new Order(this.scene.UIManager, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(0.4);
         this.orders.push(order);
     }
-    RemoveOrder(orderId) {
-        this.orders = this.orders.filter(order => order.id !== orderId);
+    RemoveOrder(order, orderId) {
+        console.log("BORRANDO PEDIDO")
+        console.log(this.orders);
+
+        for (let i = orderId; i < this.orders.length; i++)  {
+            this.orders[i] = i+1 == this.orders.length ? null : this.orders[i+1];
+        }
+        this.orders = this.orders.filter(order => order != null);
+
+        console.log(this.orders);
+
         for(let i = orderId; i < this.orders.length; i++) {
-            this.orders[i].y -= ORDER_IMAGE_SIZE;
+            this.orders[i].moveOrder(ORDER_IMAGE_SIZE);
+            this.orders[i].id -= 1;
         }
     }
-    FailOrder(orderId) {
-        this.orders[orderId].destructor();
-        this.RemoveOrder(orderId);
+    FailOrder(order, orderId) {
+        this.RemoveOrder(order, orderId);
         // Perder popularidad, etc
     }
     RandomizeOrder() {
@@ -84,7 +93,7 @@ export default class OrdersManager {
     // Devuelve el índice de un elemento en un array o -1 si no está
     IsInArray(array, element) {
         let i = 0;
-        while (i < array.length && array[i] !== element) {
+        while (i < array.length && array[i].id != element.id) {
             i++;
         }
         return i < array.length ? i : -1;

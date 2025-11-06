@@ -9,9 +9,6 @@ export default class Inventory{
         EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
         
         this.money = 0;
-
-        this.processedProducts.coffee.quantity = 5;
-        this.processedProducts.tea.quantity = 5;
     }
 
     inventoryChange(popularityLevel) {
@@ -31,8 +28,8 @@ export default class Inventory{
     // Producir un producto procesado
     // PARA LOS EDIFICIOS DE PROCESADO
     processProduct(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad
-        Object.entries(productWanted.neededProducts).forEach(([key, quantity]) => {
-            this.unprocessedProducts[key].quantity -= quantity * amount;
+        Object.entries(productWanted.neededProducts).forEach(([key, value]) => {
+            this.unprocessedProducts[key].quantity -= value * amount;
         });
         productWanted.quantity += amount;
     }
