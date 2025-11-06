@@ -15,12 +15,34 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.upgradeTier = 0;       // Nivel de mejora
         
         this.setScale(0.4);
+
+    //Hacer el sprite interactivo
+    this.setInteractive({ useHandCursor: true });
+
+    //Efectos visuales (oscurecimiento)
+    this.on("pointerover", () => {
+      this.setTint(0x999999); // oscurece un poco
+    });
+
+    this.on("pointerout", () => {
+      this.clearTint(); // vuelve al color original
+    });
+
+    this.on("pointerdown", () => {
+      this.setTint(0x666666); // más oscuro al hacer clic
+    });
+
+    this.on("pointerup", () => {
+      this.clearTint();
+      this.showProductionMenu(); // abre el menú
+    });
+
         // Variables para el temporizador manual
         this.timerRunning = false;
         this.timeLeft = 0;
 
-        new Button(this.scene, this.x +100, this.y, "button", () => this.showProductionMenu()).setOrigin(0.5, 0.5);
-        new Button(this.scene, this.x -100, this.y, "button", () => this.showWorkerMenu()).setOrigin(0.5, 0.5);
+;  
+
     }
 
     produce(resource) {

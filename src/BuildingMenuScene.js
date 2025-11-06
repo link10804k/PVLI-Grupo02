@@ -1,4 +1,5 @@
 import Button from "./Button.js";
+import Products from "./Resources/Products.json" with { type: "json" };
 
 export default class BuildingMenuScene extends Phaser.Scene {
     constructor(){
@@ -33,12 +34,12 @@ export default class BuildingMenuScene extends Phaser.Scene {
         const buildings = [
             {
                 key: "farm",
-                texture: "building", // textura concreta del sprite (debe estar precargada)
+                texture: "building", // textura concreta del sprite
                 name: "Granja",
                 description: "Produce comida para tu población.",
-                resources: [new Resource("coffeeGrain", "Simple grain of coffee. Used for making standard coffee.", 3, 1), new Resource("teaHerbs", "Common herbs of tea. Used for making green tea.", 6, 1)],
-                productionSpeed: 1.0,
-                icon: "building" // opcional: icono del menú (puede ser distinto de la textura principal)
+                resources: [ Products.unprocessedProducts.tier1.coffeeGrain,],
+                
+        
             },
             // Futuro: puedes añadir más, ej:
             // { key: "house", name: "Casa", description: "Aumenta población.", icon: "houseIcon" },
@@ -54,7 +55,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
 
 
              // Botón principal del edificio
-            const button = new Button(this, 250, y, building.icon, () => {
+            const button = new Button(this, 250, y, building.texture, () => {
                 this.selectBuilding(building);
             }).setScale(0.1);
 
@@ -71,7 +72,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
         });
 
          // Botón para cerrar el menú
-        const closeButton = new Button(this, 400, 520, "Button", () => {
+        const closeButton = new Button(this, 400, 520, "button", () => {
             this.closeWindow();
         });
         this.add.existing(closeButton);

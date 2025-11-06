@@ -12,8 +12,19 @@ export default class ProductionMenuScene extends Phaser.Scene {
     }
 
     create(){
+        //
+        //Menu de Producción
+        //
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
-        this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
+       const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
+
+        //Guardamos sus límites
+    const menuBounds = {
+        x: menuRect.x - menuRect.width / 2,
+        y: menuRect.y - menuRect.height / 2,
+        width: menuRect.width,
+        height: menuRect.height
+    };
 
         //this.add.image(400, 150, "order").setScale(0.8).setOrigin(0.5).setScale(2);
 
@@ -32,7 +43,41 @@ export default class ProductionMenuScene extends Phaser.Scene {
             this.addButton = new Button(this, 520, 160 + 50 * i, "button", () => this.building.produce(this.resources[i])).setScale(0.5);
         }
 
-        this.closeButton = new Button(this, 400, 500, "button", () => this.closeWindow()).setScale(0.5);
+
+        //Menu de trabajadores
+        //
+        //
+                //this.add.image(400, 150, "panel").setScale(0.8).setOrigin(0.5).setScale(2);
+        
+                const text = this.add.text(400, 450, `Workers: ${this.building.assignedWorkers}`, {
+                    fontSize: "20px",
+                    color: "#fff",
+                }).setOrigin(0.5);
+        
+                this.addButton = new Button(this, 350, 500, "button", () => 
+                    this.building.addWorker(text))
+                    .setScale(0.5);
+        
+                this.removeButton = new Button(this, 450, 500, "menos", () => 
+                    this.building.removeWorker(text))
+                    .setScale(0.05);
+        
+
+
+                    //cerrar el menú al hacer clic fuera de él
+    this.input.on('pointerdown', (pointer) => {
+        const { x, y } = pointer;
+        const inside =
+            x >= menuBounds.x &&
+            x <= menuBounds.x + menuBounds.width &&
+            y >= menuBounds.y &&
+            y <= menuBounds.y + menuBounds.height;
+
+        if (!inside) {
+            this.closeWindow();
+        }
+    });
+
     }
 
     closeWindow() {
