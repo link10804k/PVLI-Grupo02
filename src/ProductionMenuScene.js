@@ -12,6 +12,11 @@ export default class ProductionMenuScene extends Phaser.Scene {
     }
 
     create(){
+
+        //Desactivar input en la escena principal mientras el menú está abierto
+        if (this.mainScene && this.mainScene.input) {
+            this.mainScene.input.enabled = false;
+        }
         //
         //Menu de Producción
         //
@@ -81,7 +86,13 @@ export default class ProductionMenuScene extends Phaser.Scene {
     }
 
     closeWindow() {
-        this.scene.stop();
-        this.mainScene.scene.resume();
-    }
+    // Esperamos un poco antes de cerrar y reactivar input
+    this.time.delayedCall(100, () => {
+        if (this.mainScene && this.mainScene.input) {
+            this.mainScene.input.enabled = true;
+        }
+        this.scene.resume("MainScene");
+        this.scene.stop(); // ahora sí detenemos el menú
+    });
+}
 }
