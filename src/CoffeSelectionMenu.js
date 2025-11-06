@@ -13,6 +13,12 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
     }
 
     create() {
+//Desactivar input en la escena principal mientras el menú está abierto
+        if (this.mainScene && this.mainScene.input) {
+            this.mainScene.input.enabled = false;
+        }
+
+
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
         this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
 
@@ -57,7 +63,13 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
     }
 
     closeWindow() {
-        this.scene.stop();
-        this.mainScene.scene.resume();
-    }
+    // Esperamos un poco antes de cerrar y reactivar input
+    this.time.delayedCall(100, () => {
+        if (this.mainScene && this.mainScene.input) {
+            this.mainScene.input.enabled = true;
+        }
+        this.scene.resume("MainScene");
+        this.scene.stop(); // ahora sí detenemos el menú
+    });
+}
 }
