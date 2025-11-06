@@ -11,7 +11,7 @@ export default class Inventory{
         this.money = 0;
         
 
-        this.produceProduct(this.unprocessedProducts.coffeeBeans, 10);
+        this.produceProduct(this.unprocessedProducts.coffeeGrain, 10);
         this.processProduct(this.processedProducts.coffee, 5);
     }
 
