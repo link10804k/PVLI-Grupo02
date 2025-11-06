@@ -16,7 +16,10 @@ export default class OrdersManager {
         EventBus.on(events.PRODUCTION_PHASE, () => this.StopOrders());
 
         EventBus.on(events.ORDER_COMPLETED, (orderId) => this.RemoveOrder(orderId));
-        EventBus.on(events.ORDER_FAILED, (orderId) => this.FailOrder(orderId));
+        EventBus.on(events.ORDER_FAILED, (orderId) => {
+            console.log(orderId);
+            this.FailOrder(orderId);
+        });
     }
     
     StartOrders() {

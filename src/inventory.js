@@ -9,10 +9,9 @@ export default class Inventory{
         EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
         
         this.money = 0;
-        
 
-        this.produceProduct(this.unprocessedProducts.coffeeGrain, 10);
-        this.processProduct(this.processedProducts.coffee, 5);
+        this.processedProducts.coffee.quantity = 5;
+        this.processedProducts.tea.quantity = 5;
     }
 
     inventoryChange(popularityLevel) {
@@ -40,9 +39,9 @@ export default class Inventory{
     // Vender productos
     // PARA LOS PEDIDOS
     sellProducts(products, amounts) { // Array de productos que se quieren vender y array de cantidades
-        products.forEach(element => {
-            this.money += element.price * amounts[element.id];
-            element.quantity -= amounts[element.id];
+        products.forEach((element, index) => {
+            this.money += element.price * amounts[index];
+            element.quantity -= amounts[index];
         });
     }
     // Comprueba si hay suficientes productos no procesados
@@ -50,8 +49,6 @@ export default class Inventory{
     checkUnprocessedProducts(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad
         let canProduce = true;
         Object.entries(productWanted.neededProducts).forEach(([key, quantity]) => {
-            console.log(this.unprocessedProducts[key]);
-            console.log(this.unprocessedProducts[key].quantity + " < " + quantity * amount);
             if (this.unprocessedProducts[key].quantity < quantity * amount) {
                 canProduce = false;
             }
@@ -63,8 +60,6 @@ export default class Inventory{
     checkProcessedProducts(productsWanted, quantities) { // Array de productos requeridos y array de cantidades requeridas
         let canSell = true;
         productsWanted.forEach((element, index) => {
-            console.log(element.quantity + " < " + quantities[index]);
-            console.log(index);
             if (element.quantity < quantities[index]) {
                 canSell = false;
             }

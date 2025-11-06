@@ -13,8 +13,8 @@ export default class Order extends Phaser.GameObjects.Sprite {
         console.log(this.inventory);
 
         scene.add.existing(this);
+        this.completeOrderButton = new Button(scene, x, y+40, "button", () => this.TryCompleteOrder()).setScale(0.8).setOrigin(0.5);
 
-        this.completeOrderButton = new Button(scene, x+90, y+40, "button", () => this.TryCompleteOrder()).setScale(0.8).setOrigin(0.5);
 
         this.timerEvent = this.scene.time.addEvent({
             callback: () => this.FailOrder(),
