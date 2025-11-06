@@ -4,16 +4,17 @@ import { events } from "./EventBus.js";
 
 export default class Order extends Phaser.GameObjects.Sprite {
 
-    constructor(scene, x, y, texture, id, resources, amounts, time) {
+    constructor(scene, x, y, texture, id, resources, amounts, time, inventory) {
         super(scene, x, y, texture);
         this.id = id;
         this.resources = resources;
         this.amounts = amounts;
-        this.inventory = scene.playerInventory;
+        this.inventory = inventory;
+        console.log(this.inventory);
 
         scene.add.existing(this);
 
-        new Button(scene, x + 50, y + 50, "button", () => this.TryCompleteOrder());
+        this.completeOrderButton = new Button(scene, x+90, y+40, "button", () => this.TryCompleteOrder()).setScale(0.8).setOrigin(0.5);
 
         this.timerEvent = this.scene.time.addEvent({
             callback: () => this.FailOrder(),
@@ -21,15 +22,13 @@ export default class Order extends Phaser.GameObjects.Sprite {
             loop: false
         });
     }
+    destructor() {
+        this.completeOrderButton.destroy();
+        this.timerEvent.remove();
+        this.destroy();
+    }
     TryCompleteOrder() {
-        var canComplete = true;
-        this.resources.forEach(resource => {
-            if (!this.scene.playerInventory.removeProduct(resource)) {
-                canComplete = false;
-            }
-        
-        });
-        if (canComplete) {
+        if (this.inventory.checkProcessedProducts(this.resources, this.amounts)) {
             this.CompleteOrder();
         }
         else {
@@ -40,18 +39,14 @@ export default class Order extends Phaser.GameObjects.Sprite {
         EventBus.emit(events.ORDER_COMPLETED, this.id);
         this.timerEvent.remove();
 
-        this.resources.forEach(resource => {
-            this.scene.playerInventory.removeProduct(resource);
-        });
+        this.inventory.sellProducts(this.resources, this.amounts);
 
-        this.scene.playerInventory.AddMoney(this.price);
-        this.destroy();
+        this.destructor();
     }
     FailCompleteOrder() {
         console.log("No se pueden completar los requisitos del pedido"); // Feedback en la UI a futuro
     }
     FailOrder() {
         EventBus.emit(events.ORDER_FAILED, this.id);
-        this.destroy();
     }
 }

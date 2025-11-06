@@ -7,15 +7,16 @@ const ORDER_TIME = 20000; // 20 segundos para completar el pedido (variable)
 const ORDER_IMAGE_SIZE = 100; // Tamaño en píxeles del sprite del pedido
     
 export default class OrdersManager {
-    constructor(scene) {
+    constructor(scene, inventory) {
         this.scene = scene;
         this.orders = [];
+        this.inventory = inventory;
 
-        //EventBus.on(events.SELLING_PHASE, () => this.StartOrders());
-        //EventBus.on(events.PRODUCTION_PHASE, () => this.StopOrders());
-//
-        //EventBus.on(events.ORDER_COMPLETED, (orderId) => this.RemoveOrder(orderId));
-        //EventBus.on(events.ORDER_FAILED, (orderId) => this.FailOrder(orderId));
+        EventBus.on(events.SELLING_PHASE, () => this.StartOrders());
+        EventBus.on(events.PRODUCTION_PHASE, () => this.StopOrders());
+
+        EventBus.on(events.ORDER_COMPLETED, (orderId) => this.RemoveOrder(orderId));
+        EventBus.on(events.ORDER_FAILED, (orderId) => this.FailOrder(orderId));
     }
     
     StartOrders() {
@@ -34,7 +35,15 @@ export default class OrdersManager {
     }
     AddOrder() {
         console.log("Order added");
-        let order = new Order(this.scene.UIManager, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, 0, 100, ORDER_TIME).setOrigin(0).setScale(0.4);
+
+        let {products, amounts} = this.RandomizeOrder();
+        console.log("Productos: ");
+        
+        for (let i = 0; i < products.length; i++) {
+            console.log(products[i].name + " (" + amounts[i] + ")");
+        }
+
+        let order = new Order(this.scene.UIManager, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(0.4);
         this.orders.push(order);
     }
     RemoveOrder(orderId) {
@@ -44,29 +53,37 @@ export default class OrdersManager {
         }
     }
     FailOrder(orderId) {
+        this.orders[orderId].destructor();
         this.RemoveOrder(orderId);
         // Perder popularidad, etc
     }
     RandomizeOrder() {
-        let randomNumber = Math.random();
-        let i = 0;
-        while (i < this.ordersChances.nProducts.length - 1 && randomNumber >= this.ordersChances.nProducts[i]) {
-            randomNumber -= this.ordersChances.nProducts[i];
-            i++;
-        }
+        let nProducts = Phaser.Math.Between(1, 3); // elegir entre 1 y 3 productos
         let products = [];
-        for (let j = 0; j < parseInt(this.ordersChances.nProducts[i]); j++) {
-            products.push(this.ordersChances.productNames[i]);
+        let amounts = [];
+        let eligibleProducts = Object.keys(this.inventory.processedProducts); // keys = ['coffee', 'tea', ...]
+
+        for (let i = 0; i < nProducts; i++) {
+            let selectedProduct = eligibleProducts[Phaser.Math.Between(0, eligibleProducts.length - 1)];
+            
+            let position = this.IsInArray(products, selectedProduct);
+            if (position == -1) {
+                products.push(this.inventory.processedProducts[selectedProduct]);
+                amounts[products.length - 1] = 1;
+            }
+            else {
+                amounts[position] += 1;
+            }
         }
-        return products;
+   
+        return {products, amounts};
     }
-    SelectRandomOption(options) {
-        let randomNumber = Math.random();
+    // Devuelve el índice de un elemento en un array o -1 si no está
+    IsInArray(array, element) {
         let i = 0;
-        while (i < options.length && randomNumber >= options[i]) {
-            randomNumber -= options[i].chance;
+        while (i < array.length && array[i] !== element) {
             i++;
         }
-        return options[i];   
+        return i < array.length ? i : -1;
     }
 }

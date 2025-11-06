@@ -7,8 +7,12 @@ export default class Inventory{
         this.processedProducts = Products.processedProducts.tier1;
 
         EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
-
+        
         this.money = 0;
+        
+
+        this.produceProduct(this.unprocessedProducts.coffeeBeans, 10);
+        this.processProduct(this.processedProducts.coffee, 5);
     }
 
     inventoryChange(popularityLevel) {
@@ -20,7 +24,7 @@ export default class Inventory{
                 break;
         }
     }
-    // Producir un producto no procesadoÇ
+    // Producir un producto no procesado
     // PARA LOS EDIFICIOS DE PRODUCCIÓN
     produceProduct(product, amount = 1) { // Producto que se quiere producir y su cantidad
         product.quantity += amount;
@@ -36,30 +40,36 @@ export default class Inventory{
     // Vender productos
     // PARA LOS PEDIDOS
     sellProducts(products, amounts) { // Array de productos que se quieren vender y array de cantidades
-        products.forEach((product, index) => {
-            this.money += product.price * amounts[index];
-            product.quantity -= amounts[index];
+        products.forEach(element => {
+            this.money += element.price * amounts[element.id];
+            element.quantity -= amounts[element.id];
         });
     }
     // Comprueba si hay suficientes productos no procesados
     // PARA LOS EDIFICIOS DE PROCESADO
     checkUnprocessedProducts(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad
+        let canProduce = true;
         Object.entries(productWanted.neededProducts).forEach(([key, quantity]) => {
+            console.log(this.unprocessedProducts[key]);
+            console.log(this.unprocessedProducts[key].quantity + " < " + quantity * amount);
             if (this.unprocessedProducts[key].quantity < quantity * amount) {
-                return false;
+                canProduce = false;
             }
         });
-        return true;
+        return canProduce;
     }
     // Comprueba si hay suficientes productos procesados
     // PARA LOS PEDIDOS
     checkProcessedProducts(productsWanted, quantities) { // Array de productos requeridos y array de cantidades requeridas
-        productsWanted.forEach(element => {
-            if (element.quantity < quantities[element.id]) {
-                return false;
+        let canSell = true;
+        productsWanted.forEach((element, index) => {
+            console.log(element.quantity + " < " + quantities[index]);
+            console.log(index);
+            if (element.quantity < quantities[index]) {
+                canSell = false;
             }
         });
-        return true;
+        return canSell;
     }
 
     // Comprueba si hay suficiente dinero
