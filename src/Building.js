@@ -43,7 +43,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
     produce(product) {
         if(this.assignedWorkers > 0)
         {
-            new Phaser.Time.TimerEvent({
+            this.timerEvent = this.scene.time.addEvent({
             callback: this.scene.playerInventory.produceProduct(product),
             delay: product.time * 1000,
             loop: true

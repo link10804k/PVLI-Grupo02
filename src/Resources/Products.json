@@ -5,7 +5,7 @@
                 "name": "Coffee grain", 
                 "description": "Simple grain of coffee. Used for making standard coffee.",
                 "quantity": 0,
-                "time": 3
+                "time": 5
             },
             "teaHerbs": {
                 "name": "Tea herbs",

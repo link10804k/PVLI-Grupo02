@@ -60,7 +60,7 @@ export default class ProductionMenuScene extends Phaser.Scene {
                     color: "#fff",
                 }).setOrigin(0.5);
         
-                this.addButton = new Button(this, 350, 500, "button", () => 
+                this.addWorkerButton = new Button(this, 350, 500, "button", () => 
                     this.building.addWorker(text))
                     .setScale(0.5);
         

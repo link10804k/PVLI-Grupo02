@@ -12,7 +12,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
     }
 
     create(){
-//Desactivar input en la escena principal mientras el menú está abierto
+    //Desactivar input en la escena principal mientras el menú está abierto
         if (this.mainScene && this.mainScene.input) {
             this.mainScene.input.enabled = false;
         }

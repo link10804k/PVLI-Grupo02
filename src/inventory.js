@@ -46,6 +46,7 @@ export default class Inventory{
             this.money += element.price * amounts[index];
             element.quantity -= amounts[index];
         });
+        console.log("Dinero actual: ", this.money);
     }
     // Comprueba si hay suficientes productos no procesados
     // PARA LOS EDIFICIOS DE PROCESADO
