@@ -21,7 +21,7 @@ export default class MainScene extends Phaser.Scene {
 
     preload() { // Cargar recursos aquí
         this.load.image("background2", "assets/gameAssets/background2.jpg");
-        this.load.image("cafeteria", "./assets/gameAssets/cafeteria.jpg")
+        this.load.image("cafeteria", "assets/gameAssets/Cafeteria.jpg")
         this.load.image("building", "assets/gameAssets/farm.jpg")
         this.load.image("pedidos", "assets/gameAssets/order.jpg")
         this.load.image("tile", "assets/gameAssets/tile.jpg")
