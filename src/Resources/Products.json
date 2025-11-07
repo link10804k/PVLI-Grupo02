@@ -2,13 +2,13 @@
     "unprocessedProducts": {
         "tier1": {
             "coffeeGrain": {
-                "name": "Coffee Grain", 
+                "name": "Coffee grain", 
                 "description": "Simple grain of coffee. Used for making standard coffee.",
                 "quantity": 0,
                 "time": 3
             },
-            "teaGrain": {
-                "name": "Tea Grain",
+            "teaHerbs": {
+                "name": "Tea herbs",
                 "description": "Common herbs of tea. Used for making green tea.",
                 "quantity": 0,
                 "time": 6

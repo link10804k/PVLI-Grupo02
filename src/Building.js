@@ -1,15 +1,12 @@
-import Button from "./Button.js";
-import Inventory from "./inventory.js";
-
 export default class Building extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, texture = "building", name, description, resources, productionSpeed = 1.0) {
+  constructor(scene, x, y, texture = "building", name, description, products, productionSpeed = 1.0) {
         super(scene, x, y, texture);
 
         scene.add.existing(this);
 
         this.name = name;
         this.description = description;
-        this.resources = resources; // Array de recursos
+        this.products = products; // Array de recursos
         this.productionSpeed = productionSpeed; // Ratio de velocidad
         this.currentResource = null; // Recurso actual
         this.assignedWorkers = 0;     // Número de trabajadores
@@ -41,26 +38,18 @@ export default class Building extends Phaser.GameObjects.Sprite{
         // Variables para el temporizador manual
         this.timerRunning = false;
         this.timeLeft = 0;
-
-;  
-
     }
 
-    produce(resource) {
-        if (!resource || !resource.productionTime) {
-            console.warn("Recurso inválido en produce()");
-            return;
-        }
-
+    produce(product) {
         if(this.assignedWorkers > 0)
         {
             new Phaser.Time.TimerEvent({
-            callback: this.scene.playerInventory.addResource(resource),
-            delay: resource.productionTime * 1000,
+            callback: this.scene.playerInventory.produceProduct(product),
+            delay: product.time * 1000,
             loop: true
             });
 
-            console.log(`${this.name} está produciendo ${resource.name}...`);
+            console.log(`${this.name} está produciendo ${product.name}...`);
         }
         
         else console.log("No hay ningun trabajador en este edificio");
@@ -103,12 +92,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
     }
 
     showProductionMenu() {
-        this.scene.scene.launch("ProductionMenuScene", { 
-            building: this,
-            mainScene: this.scene,
-            resources: this.resources,
-        });
+        this.scene.scene.launch("ProductionMenuScene", { building: this, mainScene: this.scene, products: this.products });
         this.scene.scene.pause();
     }
- }
-
+}

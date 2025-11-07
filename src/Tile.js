@@ -56,10 +56,9 @@ export default class Tile extends Phaser.GameObjects.Sprite{
         buildingData.texture,            // Textura principal del edificio
         buildingData.name,               // Nombre
         buildingData.description,        // Descripción
-        buildingData.resources || [],    // Recursos que produce
+        buildingData.products,    // Recursos que produce
         buildingData.productionSpeed ?? 1.0 // Velocidad de producción
     )
-
   
  // Guardar referencia
     this.currentBuilding = newBuilding;

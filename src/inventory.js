@@ -24,6 +24,7 @@ export default class Inventory{
     // PARA LOS EDIFICIOS DE PRODUCCIÓN
     produceProduct(product, amount = 1) { // Producto que se quiere producir y su cantidad
         product.quantity += amount;
+        console.log("La cantidad de ", product.name, " es: ", product.quantity);
     }
     // Producir un producto procesado
     // PARA LOS EDIFICIOS DE PROCESADO

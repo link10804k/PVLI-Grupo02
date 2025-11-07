@@ -1,4 +1,5 @@
 import Button from "./Button.js";
+import Products from "./Resources/Products.json" with { type: "json"}
 
 export default class ProductionMenuScene extends Phaser.Scene {
     constructor(){
@@ -8,7 +9,7 @@ export default class ProductionMenuScene extends Phaser.Scene {
     init(data){
         this.building = data.building;
         this.mainScene = data.mainScene;
-        this.resources = data.resources;
+        this.products = data.products;
     }
 
     create(){
@@ -33,19 +34,19 @@ export default class ProductionMenuScene extends Phaser.Scene {
 
         //this.add.image(400, 150, "order").setScale(0.8).setOrigin(0.5).setScale(2);
 
-        this.add.text(410, 90, `PRODUCTION MENU `, {
+        this.add.text(410, 90, `PRODUCTION MENU`, {
             fontSize: "40px",
             color: "#fff",
         }).setOrigin(0.5);
 
-        for(let i = 0; i < this.resources.length; i++)
+        for(let i = 0; i < this.products.length; i++)
         {
-            this.add.text(320, 160 + 50 * i, this.resources[i].name.toUpperCase(), {
+            this.add.text(320, 160 + 50 * i, this.products[i].name.toUpperCase(), {
             fontSize: "30px",
             color: "#fff",
             }).setOrigin(0.5);
 
-            this.addButton = new Button(this, 520, 160 + 50 * i, "button", () => this.building.produce(this.resources[i])).setScale(0.5);
+            this.addButton = new Button(this, 520, 160 + 50 * i, "button", () => this.building.produce(this.products[i])).setScale(0.5);
         }
 
 

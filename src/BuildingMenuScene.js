@@ -20,13 +20,13 @@ export default class BuildingMenuScene extends Phaser.Scene {
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
         const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1); //lo guardo para sacar sus límites
 
-    //Guardamos sus límites
-    const menuBounds = {
+        //Guardamos sus límites
+        const menuBounds = {
         x: menuRect.x - menuRect.width / 2,
         y: menuRect.y - menuRect.height / 2,
         width: menuRect.width,
         height: menuRect.height
-    };
+        };
 
         // Título
         this.add.text(400, 80, "Menú de Construcción", {
@@ -38,14 +38,24 @@ export default class BuildingMenuScene extends Phaser.Scene {
         // Lista de edificios disponibles
         const buildings = [
             {
-                key: "farm",
+                key: "coffee farm",
                 texture: "building", // textura concreta del sprite
-                name: "Granja",
-                description: "Produce comida para tu población.",
-                resources: [ Products.unprocessedProducts.tier1.coffeeGrain,],
+                name: "Granja de café",
+                description: "Produce granos de café.",
+                products: [ Products.unprocessedProducts.tier1.coffeeGrain, ],
                 
         
             },
+
+            {
+                key: "tea farm",
+                texture: "building", // textura concreta del sprite
+                name: "Granja de té",
+                description: "Produce hierbas de té.",
+                products: [ Products.unprocessedProducts.tier1.teaHerbs, ],
+                
+        
+            }
             // Futuro: puedes añadir más, ej:
             // { key: "house", name: "Casa", description: "Aumenta población.", icon: "houseIcon" },
             // { key: "mine", name: "Mina", description: "Extrae recursos.", icon: "mineIcon" },
@@ -67,7 +77,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
             this.add.existing(button);
 
              // Descripción
-            this.add.text(400, y , "Granja:" + building.description, {
+            this.add.text(450, y , building.name + ": " + building.description, {
                 fontSize: "14px",
                 color: "#cccccc",
                 fontFamily: "Arial",
