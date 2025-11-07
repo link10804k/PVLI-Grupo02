@@ -36,7 +36,7 @@ export default class Cafetera extends Building {
 
       if (targetInventory.checkUnprocessedProducts(resource, resource.amount))
       {
-        targetInventory.produceProduct(resource, resource.amount);
+        targetInventory.processProduct(resource, resource.amount);
         console.log(`${this.name} ha producido ${resource.amount} ${resource.name}`);
       }
         
