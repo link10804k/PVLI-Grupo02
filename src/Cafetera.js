@@ -18,47 +18,57 @@ export default class Cafetera extends Building {
 }
 
   produce(resource) {
-    if (!resource) {
+    if(this.assignedWorkers > 0)
+    {
+      if (!resource) {
         console.warn("La cafetera no tiene recurso asignado.");
         return;
-    }
+      }
 
-    const targetInventory = this.inventory || this.scene.playerInventory;
+      const targetInventory = this.inventory || this.scene.playerInventory;
 
-    if(!targetInventory) {
+     if(!targetInventory) {
         console.warn("No se encontró inventario para añadir el recurso.");
         return;
+      }
+    
+      resource.amount = 1;
+
+      if (targetInventory.checkUnprocessedProducts(resource, resource.amount))
+      {
+        targetInventory.produceProduct(resource, resource.amount);
+        console.log(`${this.name} ha producido ${resource.amount} ${resource.name}`);
+      }
+        
+      else console.log("No existen recursos suficientes para producir: ", resource.name);
     }
     
-    resource.amount = 1;
-
-    targetInventory.produceProduct(resource, resource.amount);
-    console.log(`${this.name} ha producido ${resource.amount} ${resource.name}`);
+    else console.log("No hay ningun trabajador en este edificio");
   } 
 
   showCoffeSelectionMenu() {
       this.scene.scene.launch("CoffeSelectionMenu", {
         cafetera: this,
-        inventory : this.inventory,
+        inventory: this.inventory,
         mainScene: this.scene,
     });
     this.scene.scene.pause();
   }
 
   
-CookingTime(duration, typeOfDrink) {
-  if (this.timerActive) return;
-  this.timerActive = true;
+  CookingTime(duration, typeOfDrink) {
+    if (this.timerActive) return;
+    this.timerActive = true;
 
-  // Desactivar el botón Cafetera mientras está activo
-  this.disableInteractive();
+    // Desactivar el botón Cafetera mientras está activo
+    this.disableInteractive();
 
-  // Crear elementos visuales del temporizador
-  const { timerBox, timerText } = this.createTimerUI();
+    // Crear elementos visuales del temporizador
+    const { timerBox, timerText } = this.createTimerUI();
 
-  // Iniciar el temporizador
-  this.startTimer(duration, timerText, timerBox, typeOfDrink);
-}
+    // Iniciar el temporizador
+    this.startTimer(duration, timerText, timerBox, typeOfDrink);
+  }
 
 /** Crea el fondo y el texto del temporizador */
 createTimerUI() {

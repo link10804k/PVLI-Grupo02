@@ -44,16 +44,16 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
         this.add.image(250, 200, "Coffe_display").setScale(0.1);
         this.add.image(250, 300, "Tea_display").setScale(0.1);
 
-        if (this.inventory?.processedProducts) {
+        if (this.inventory.processedProducts) {
             const products = Object.values(this.inventory.processedProducts);
 
-            let i = 0
-            products.forEach((product, i) => {
+            let i = 0;
+            products.forEach((product) => {
             new Button(this, 550, 200 + 100*i, "button", () => {
                 this.cafetera.CookingTime(product.time, product);
                 this.closeWindow();
                 }).setScale(0.4);
-            i++;
+                i++;
             });
         }
 
@@ -61,7 +61,7 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
             console.warn("Inventario no válido o processedProducts no encontrado:", this.inventory);
         }
 
-         const text = this.add.text(400, 450, `Workers: ${this.cafetera.assignedWorkers}`, {
+        const text = this.add.text(400, 450, `Workers: ${this.cafetera.assignedWorkers}`, {
                 fontSize: "20px",
                 color: "#fff",
             }).setOrigin(0.5);

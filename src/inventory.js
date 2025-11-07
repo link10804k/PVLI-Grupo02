@@ -24,6 +24,7 @@ export default class Inventory{
     // PARA LOS EDIFICIOS DE PRODUCCIÓN
     produceProduct(product, amount = 1) { // Producto que se quiere producir y su cantidad
         product.quantity += amount;
+
         console.log("La cantidad de ", product.name, " es: ", product.quantity);
     }
     // Producir un producto procesado
@@ -31,8 +32,12 @@ export default class Inventory{
     processProduct(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad
         Object.entries(productWanted.neededProducts).forEach(([key, value]) => {
             this.unprocessedProducts[key].quantity -= value * amount;
+            console.log("La cantidad de ", this.unprocessedProducts[key].name, " es: ", this.unprocessedProducts[key].quantity);
         });
+
         productWanted.quantity += amount;
+
+        console.log("La cantidad de ", productWanted.name, " es: ", productWanted.quantity);
     }
     // Vender productos
     // PARA LOS PEDIDOS
