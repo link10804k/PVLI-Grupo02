@@ -25,16 +25,16 @@ export default class Button extends Phaser.GameObjects.Sprite {
         if (this.func) this.func();} // Aquí se ejecuta la función pasada como parámetro}
     
     //Métodos nuevos para controlar visibilidad y estado
-    //disable() {
-    //  this.isActive = false;
-    //  this.disableInteractive();
-    //  this.setAlpha(0); // apariencia desactivada
-    //}
-//
-    //enable() {
-    //  this.isActive = true;
-    //  this.setInteractive();
-    //  this.setAlpha(1);
-    //}
+    disable() {
+    this.isActive = false;
+    this.disableInteractive();
+    this.setAlpha(0); // apariencia desactivada
+    }
+
+  enable() {
+  this.isActive = true;
+  this.setInteractive();
+  this.setAlpha(1);
+  }
 
 }

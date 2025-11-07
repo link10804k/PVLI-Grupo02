@@ -1,21 +1,20 @@
-//import {worker} from "Worker.js";
-//import {productName} from "Product.js";
-//import {client} from "Client.js";
+import Cafetera from "./Cafetera.js";
 
 export default class Cafeteria extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, texture = "cafeteria", kitchen, cashier, inventory, clients = [], capacity) {   
-      super(scene, x , y, texture)
-
+  constructor(scene, x, y, texture = "cafeteria", kitchen, cashier, inventory, clients = [], capacity, building) {
+    super(scene, x, y, texture);
       scene.add.existing(this);
 
-        this.kitchen = kitchen;
-        this.cashier = cashier;
-        this.inventory = inventory;
-        this.clients = clients;
-        this.capacity = capacity;
-        this.workers = 0;
-    }
-    deliverOrder(client) {
-    // Lógica para entregar el pedido al cliente
+      this.kitchen = kitchen;
+      this.cashier = cashier;
+
+      this.inventory = inventory;
+      this.scene.playerInventory = inventory;
+
+      this.clients = clients;
+      this.capacity = capacity;
+      this.workers = 0;
+
+    this.cafetera = new Cafetera(this.scene, this.x +100, this.y - 150, this.inventory);
     }
 }

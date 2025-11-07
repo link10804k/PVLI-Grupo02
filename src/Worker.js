@@ -1,4 +1,3 @@
-import Building from "./Building.js";
 import Person from "./Person.js";
 
 export default class Worker extends Person{

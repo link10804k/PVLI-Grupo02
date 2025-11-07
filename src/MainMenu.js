@@ -1,11 +1,8 @@
 import Button from "./Button.js";
-import { events } from "./EventManager.js";
 
 export default class MainMenu extends Phaser.Scene {
     constructor() {
         super({ key: "MainMenu" });
-
-        //this.events.emit(events.MENU_LOADED);
     }
     preload() { // Cargar recursos aquí
         // usar rutas relativas al root del servidor (assets/ está en la raíz del proyecto)
@@ -19,6 +16,5 @@ export default class MainMenu extends Phaser.Scene {
     }
     startMainScene() {
         this.scene.start("MainScene");
-        this.events.emit(events.MENU_CLOSED);
     }
 }
