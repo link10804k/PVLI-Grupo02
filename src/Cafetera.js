@@ -3,13 +3,19 @@ import Button from "./Button.js";
 
 export default class Cafetera extends Building {
   constructor(scene, x, y, inventory) {
-    super(scene, x, y, "cafetera", "Cafetera", "Produce café caliente");
+    super(scene, x, y, "button", "Cafetera", "Produce café caliente");
 
   this.inventory = inventory;
   this.setScale(0.5);
+  this.assignedWorkers = 0; 
 
-  this.Button = new Button(this.scene, this.x, this.y + 100, "button", () => this.showCoffeSelectionMenu()).setOrigin(0.5, 0.5);
-  }
+  this.off("pointerup");
+
+  this.on("pointerup", () => {
+    this.clearTint();
+    this.showCoffeSelectionMenu();
+  });
+}
 
   produce(resource) {
     if (!resource) {
@@ -17,17 +23,18 @@ export default class Cafetera extends Building {
         return;
     }
 
-    console.log(`${this.name} produce ${resource.name}...`);
+    const targetInventory = this.inventory || this.scene.playerInventory;
 
-    this.scene.time.addEvent({
-        delay: resource.productionTime * 1000 ,
-        callback: () => {
-          this.scene.playerInventory.addResource(resource);
-          console.log(`${this.name} ha producido ${resource.amount} ${resource.name}`);
-        },
-        loop: true
-    });
-  }  
+    if(!targetInventory) {
+        console.warn("No se encontró inventario para añadir el recurso.");
+        return;
+    }
+    
+    resource.amount = 1;
+
+    targetInventory.produceProduct(resource, resource.amount);
+    console.log(`${this.name} ha producido ${resource.amount} ${resource.name}`);
+  } 
 
   showCoffeSelectionMenu() {
       this.scene.scene.launch("CoffeSelectionMenu", {
@@ -44,7 +51,7 @@ CookingTime(duration, typeOfDrink) {
   this.timerActive = true;
 
   // Desactivar el botón Cafetera mientras está activo
-  this.Button.disableInteractive();
+  this.disableInteractive();
 
   // Crear elementos visuales del temporizador
   const { timerBox, timerText } = this.createTimerUI();
@@ -92,7 +99,7 @@ finishCooking(timerText, timerBox, typeOfDrink) {
   this.produce(typeOfDrink);
 
   // Reactivar el botón Cafetera
-  this.Button.setInteractive();
+  this.setInteractive();
   this.timerActive = false;
 
   // Eliminar los elementos del temporizador tras un breve retraso

@@ -12,6 +12,20 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
         console.log("Datos recibidos:", data);
     }
 
+    update() {
+    
+        if (this.cafetera.assignedWorkers < 1) {
+            this.addButton.setInteractive();
+        }
+        else {
+            if (this.addButton) {
+                this.addButton.disableInteractive();
+                }
+        }
+
+        //if()
+    }
+
     create() {
 //Desactivar input en la escena principal mientras el menú está abierto
         if (this.mainScene && this.mainScene.input) {
@@ -47,6 +61,19 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
             console.warn("Inventario no válido o processedProducts no encontrado:", this.inventory);
         }
 
+         const text = this.add.text(400, 450, `Workers: ${this.cafetera.assignedWorkers}`, {
+                fontSize: "20px",
+                color: "#fff",
+            }).setOrigin(0.5);
+        
+        this.addButton = new Button(this, 350, 500, "button", () => 
+            this.cafetera.addWorker(text))
+            .setScale(0.5);
+        
+        this.removeButton = new Button(this, 450, 500, "menos", () => 
+            this.cafetera.removeWorker(text))
+            .setScale(0.05);        
+
         //this.coffeeButton = new Button(this, 550, 200, "button", () => {
         //    this.Cafetera.CookingTime(10, this.inventory.coffeeProcessed);
         //    this.closeWindow();
@@ -57,9 +84,9 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
         //    this.closeWindow();
         //}).setScale(1);            
 
-        this.closeButton = new Button(this, 400, 500, "button", () => {
+        this.closeButton = new Button(this, 580, 90, "menos", () => {
             this.closeWindow();
-        }).setScale(0.5);
+        }).setScale(0.05);
     }
 
     closeWindow() {
@@ -71,5 +98,6 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
         this.scene.resume("MainScene");
         this.scene.stop(); // ahora sí detenemos el menú
     });
+
 }
 }

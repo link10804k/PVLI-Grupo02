@@ -37,20 +37,20 @@ export default class OrdersManager {
         }
     }
     AddOrder() {
-        console.log("Order added");
+        //console.log("Order added");
 
         let {products, amounts} = this.RandomizeOrder();
-        console.log("Productos: ");
+        //console.log("Productos: ");
         
         for (let i = 0; i < products.length; i++) {
-            console.log(products[i].name + " (" + amounts[i] + ")");
+            //console.log(products[i].name + " (" + amounts[i] + ")");
         }
 
         let order = new Order(this.scene.UIManager, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(0.4);
         this.orders.push(order);
     }
     RemoveOrder(order, orderId) {
-        console.log("BORRANDO PEDIDO")
+        //console.log("BORRANDO PEDIDO")
         console.log(this.orders);
 
         for (let i = orderId; i < this.orders.length; i++)  {

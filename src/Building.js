@@ -1,4 +1,5 @@
 import Button from "./Button.js";
+import Inventory from "./inventory.js";
 
 export default class Building extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, texture = "building", name, description, resources, productionSpeed = 1.0) {
@@ -102,7 +103,12 @@ export default class Building extends Phaser.GameObjects.Sprite{
     }
 
     showProductionMenu() {
-        this.scene.scene.launch("ProductionMenuScene", { building: this, mainScene: this.scene, resources: this.resources });
+        this.scene.scene.launch("ProductionMenuScene", { 
+            building: this,
+            mainScene: this.scene,
+            resources: this.resources,
+        });
         this.scene.scene.pause();
     }
-}
+ }
+
