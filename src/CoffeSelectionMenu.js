@@ -41,7 +41,7 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
             color: "#fff",
         }).setOrigin(0.25).setScale(1.5);
 
-        this.add.image(250, 200, "Coffe_display").setScale(0.1);
+        this.add.image(250, 200, "Coffee_display").setScale(0.1);
         this.add.image(250, 300, "Tea_display").setScale(0.1);
 
         if (this.inventory.processedProducts) {

@@ -31,9 +31,10 @@ export default class OrdersManager {
         this.scene.time.removeEvent(this.timerEvent);
         this.timerEvent = null;
 
-        for (let i = 0; i < this.orders.length; i++) {
-            this.orders[i].destructor();
-            this.FailOrder(this.orders[i], this.orders[i].id);     
+        let ordersLength = this.orders.length;
+        for (let i = 0; i < ordersLength; i++) {
+            this.orders[0].destructor();
+            this.FailOrder(this.orders[0], this.orders[0].id);
         }
     }
     AddOrder() {
