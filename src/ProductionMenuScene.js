@@ -93,6 +93,7 @@ export default class ProductionMenuScene extends Phaser.Scene {
             this.mainScene.input.enabled = true;
         }
         this.scene.resume("MainScene");
+        this.scene.resume("UIScene");
         this.scene.stop(); // ahora sí detenemos el menú
     });
 }

@@ -39,7 +39,7 @@ export default class MainScene extends Phaser.Scene {
         this.scene.launch("UIScene");
         const ui = this.scene.get("UIScene");
         ui.events.once('create', () => {
-            this.UIManager = ui;
+            this.UIScene = ui;
         });
 
         this.cameraManager = new CameraManager(this, this.cameras.main);

@@ -33,7 +33,8 @@
                 "price": 10,
                 "neededProducts": {
                     "coffeeGrain": 1
-                }
+                },
+                "texture": "Coffee_display"
             },
             "tea": {
                 "name": "Tea",
@@ -42,8 +43,9 @@
                 "time": 8,
                 "price": 12,
                 "neededProducts": {
-                    "teaGrain": 1
-                }
+                    "teaHerbs": 1
+                },
+                "texture": "Tea_display"
             }
         },
         "tier2": {

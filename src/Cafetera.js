@@ -31,13 +31,11 @@ export default class Cafetera extends Building {
         console.warn("No se encontró inventario para añadir el recurso.");
         return;
       }
-    
-      resource.amount = 1;
 
-      if (targetInventory.checkUnprocessedProducts(resource, resource.amount))
+      if (targetInventory.checkUnprocessedProducts(resource, 1))
       {
-        targetInventory.processProduct(resource, resource.amount);
-        console.log(`${this.name} ha producido ${resource.amount} ${resource.name}`);
+        targetInventory.processProduct(resource, 1);
+        console.log(`${this.name} ha producido 1 ${resource.name}`);
       }
         
       else console.log("No existen recursos suficientes para producir: ", resource.name);
@@ -53,6 +51,7 @@ export default class Cafetera extends Building {
         mainScene: this.scene,
     });
     this.scene.scene.pause();
+    this.scene.UIScene.scene.pause();
   }
 
   

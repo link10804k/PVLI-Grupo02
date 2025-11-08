@@ -29,6 +29,7 @@ export default class Tile extends Phaser.GameObjects.Sprite{
         }
         else {
             this.scene.scene.pause();
+            this.scene.UIScene.scene.pause();
             this.scene.scene.launch("BuildingMenuScene", { tile: this, mainScene: this.scene});
         }
     }

@@ -32,8 +32,8 @@ export default class OrdersManager {
         this.timerEvent = null;
 
         for (let i = 0; i < this.orders.length; i++) {
-            this.FailOrder(this.orders[i], this.orders[i].id);
             this.orders[i].destructor();
+            this.FailOrder(this.orders[i], this.orders[i].id);     
         }
     }
     AddOrder() {
@@ -46,7 +46,7 @@ export default class OrdersManager {
             console.log(products[i].name + " (" + amounts[i] + ")");
         }
 
-        let order = new Order(this.scene.UIManager, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(0.4);
+        let order = new Order(this.scene.UIScene, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(0.4);
         this.orders.push(order);
     }
     RemoveOrder(order, orderId) {
@@ -73,14 +73,15 @@ export default class OrdersManager {
         let nProducts = Phaser.Math.Between(1, 3); // elegir entre 1 y 3 productos
         let products = [];
         let amounts = [];
-        let eligibleProducts = Object.keys(this.inventory.processedProducts); // keys = ['coffee', 'tea', ...]
+        let eligibleProducts = Object.keys(this.inventory.processedProducts);
 
         for (let i = 0; i < nProducts; i++) {
-            let selectedProduct = eligibleProducts[Phaser.Math.Between(0, eligibleProducts.length - 1)];
-            
+            // Elige un producto aleatorio entre el array de keys. LUEGO, accede al objeto del inventario usando la key (como en un array).
+            let selectedProduct = this.inventory.processedProducts[eligibleProducts[Phaser.Math.Between(0, eligibleProducts.length - 1)]];
+
             let position = this.IsInArray(products, selectedProduct);
             if (position == -1) {
-                products.push(this.inventory.processedProducts[selectedProduct]);
+                products.push(selectedProduct);
                 amounts[products.length - 1] = 1;
             }
             else {
@@ -93,7 +94,7 @@ export default class OrdersManager {
     // Devuelve el índice de un elemento en un array o -1 si no está
     IsInArray(array, element) {
         let i = 0;
-        while (i < array.length && array[i].id != element.id) {
+        while (i < array.length && array[i] != element) {
             i++;
         }
         return i < array.length ? i : -1;

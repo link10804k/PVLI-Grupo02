@@ -52,8 +52,8 @@ export default class Inventory{
     // PARA LOS EDIFICIOS DE PROCESADO
     checkUnprocessedProducts(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad
         let canProduce = true;
-        Object.entries(productWanted.neededProducts).forEach(([key, quantity]) => {
-            if (this.unprocessedProducts[key].quantity < quantity * amount) {
+        Object.entries(productWanted.neededProducts).forEach(([key, value]) => {
+            if (this.unprocessedProducts[key].quantity < value * amount) {
                 canProduce = false;
             }
         });

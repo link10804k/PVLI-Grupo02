@@ -57,5 +57,6 @@ export default class BuildingMenuScene extends Phaser.Scene {
     closeWindow() {
         this.scene.stop();
         this.mainScene.scene.resume();
+        this.scene.resume("UIScene");
     }
 }
