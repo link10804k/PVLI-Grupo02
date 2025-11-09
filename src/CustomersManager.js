@@ -1,0 +1,58 @@
+import { EventBus } from "./EventBus.js";
+import { events } from "./EventBus.js";
+import Customer from "./Customer.js";
+
+const CUSTOMER_IMAGE_SIZE = 30; // Tamaño en píxeles del sprite del cliente
+const Direction = {
+    UP: { x: 0, y: -1 },
+    DOWN: { x: 0, y: 1 },
+    LEFT: { x: -1, y: 0 },
+    RIGHT: { x: 1, y: 0 },
+};
+
+export default class CustomersManager {
+    constructor(scene, cafeteria) {
+        this.scene = scene;
+        this.cafeteria = cafeteria;
+        this.customers = [];
+
+        EventBus.on(events.ORDER_ADDED, (order) => this.AddCustomer(order));
+        EventBus.on(events.ORDER_COMPLETED, (order, orderId) => this.RemoveCustomer(order, orderId));
+        EventBus.on(events.ORDER_FAILED, (order, orderId) => this.AngryCustomer(order, orderId));
+        EventBus.on(events.PRODUCTION_PHASE, () => this.RemoveAllCustomers());
+    }
+
+    AddCustomer(order) {
+        console.log("Adding customer");
+        let customerImage = "customer" + Phaser.Math.Between(0, 15);
+        let customer = new Customer(this.scene, this.cafeteria.x+30, this.cafeteria.y-80 + this.customers.length * (CUSTOMER_IMAGE_SIZE+10), customerImage).setOrigin(0.5).setScale(0.1);
+        this.customers.push(customer);
+    }
+
+    RemoveCustomer(order, orderId) {
+        this.customers[orderId].GetOut(50, Direction.LEFT);
+
+        for (let i = orderId; i < this.customers.length; i++)  {
+            this.customers[i] = i+1 == this.customers.length ? null : this.customers[i+1];
+        }
+        this.customers = this.customers.filter(customer => customer != null);
+
+        for(let i = orderId; i < this.customers.length; i++) {
+            this.customers[i].Walk(CUSTOMER_IMAGE_SIZE + 10, Direction.UP);
+            this.customers[i].id -= 1;
+        }
+    }
+    RemoveAllCustomers() {
+        let customersLength = this.customers.length;
+        for (let i = 0; i < customersLength; i++) {
+            this.customers[i].GetOut(50, Direction.LEFT);
+        }
+
+        this.customers = [];
+    }
+
+    AngryCustomer(order, orderId) {
+        this.customers[orderId].GetAngry();
+        this.RemoveCustomer(order, orderId);
+    }
+}

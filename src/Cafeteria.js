@@ -1,4 +1,5 @@
 import Cafetera from "./Cafetera.js";
+import CustomersManager from "./CustomersManager.js";
 
 export default class Cafeteria extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, texture = "cafeteria", kitchen, cashier, inventory, clients = [], capacity, building) {
@@ -15,6 +16,7 @@ export default class Cafeteria extends Phaser.GameObjects.Sprite{
       this.capacity = capacity;
       this.workers = 0;
 
-    this.cafetera = new Cafetera(this.scene, this.x +100, this.y - 150, this.inventory);
+      this.customersManager = new CustomersManager(scene, this);
+      this.cafetera = new Cafetera(this.scene, this.x +100, this.y - 150, this.inventory);
     }
 }

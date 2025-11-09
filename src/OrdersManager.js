@@ -37,7 +37,7 @@ export default class OrdersManager {
             this.FailOrder(this.orders[0], this.orders[0].id);
         }
     }
-    AddOrder() {
+    AddOrder() {     
         console.log("Order added");
 
         let {products, amounts} = this.RandomizeOrder();
@@ -49,6 +49,8 @@ export default class OrdersManager {
 
         let order = new Order(this.scene.UIScene, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(0.4);
         this.orders.push(order);
+
+        EventBus.emit(events.ORDER_ADDED, order); // Para los clientes
     }
     RemoveOrder(order, orderId) {
         //console.log("BORRANDO PEDIDO")

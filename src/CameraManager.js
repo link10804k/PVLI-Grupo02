@@ -63,13 +63,13 @@ export default class CameraManager {
         this.camera.scrollY += direction.y * this.scrollSpeed * dt;
     }
     cameraZoomIn(dt) {
-        this.camera.zoom += this.zoomSpeed * dt //* this.scene.time.elapsed/1000
+        this.camera.zoom += this.zoomSpeed * dt;
         if (this.camera.zoom > this.maxZoom) {
             this.camera.zoom = this.maxZoom;
         }
     }
     cameraZoomOut(dt) {
-        this.camera.zoom -= this.zoomSpeed * dt //* this.scene.time.elapsed/1000
+        this.camera.zoom -= this.zoomSpeed * dt;
         if (this.camera.zoom < this.minZoom) {
             this.camera.zoom = this.minZoom;
         }

@@ -25,12 +25,21 @@ img {
 /*Columnas*/
 .contenedorApartados{
   display: grid;
-  grid-template-columns: 560px 800px 560px;
+  grid-template-columns: 1fr minmax(400px, 800px) 1fr; /*1fr reparte el espacio restante entre las columnas laterales*/
+                                                       /*minmax hace que la columna del medio pueda escalarse hasta 400px*/
+                                                       /*aunque su tamaño inicial sea de 800px*/
   justify-content: center;
+
+  gap: 20px; /*20px de espacio entre columnas (reemplazable con padding a 40px o viceversa??)*/
+  max-width: 100%;
+  overflow-x: hidden;
+  padding: 0 20px; /*0px de margen vertical, 20px de margen horizontal (20 a cada lado)*/
+  box-sizing: border-box;
 }
 .panel {
   text-align: justify;
-  line-height: 30px;
-  margin-left: 50px;
-  margin-right: 50px;
+  line-height: 1.8em; /*1.8em es 1.8 veces el tamaño de la letra*/
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
 }

@@ -9,11 +9,12 @@ import UIScene from "./UIScene.js";
 
 let config = {
     type: Phaser.AUTO,
-    parent: "canvas",
-    width: 800, 
-    height: 600,
+    parent: "canvas",  
     scale: {
-        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
+        mode: Phaser.Scale.FIT, // Ajusta el juego para que quepa en la ventana manteniendo la relación de aspecto
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 800,
+        height: 600,
     },
     scene: [
         MainMenu, 
