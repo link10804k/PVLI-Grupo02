@@ -25,7 +25,7 @@ img {
 /*Columnas*/
 .contenedorApartados{
   display: grid;
-  grid-template-columns: 1fr minmax(400px, 800px) 1fr; /*1fr reparte el espacio restante entre las columnas laterales*/
+  grid-template-columns: 1fr minmax(22.5%, 45%) 1fr; /*1fr reparte el espacio restante entre las columnas laterales*/
                                                        /*minmax hace que la columna del medio pueda escalarse hasta 400px*/
                                                        /*aunque su tamaño inicial sea de 800px*/
   justify-content: center;
