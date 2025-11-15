@@ -48,7 +48,7 @@ export default class MainScene extends Phaser.Scene {
         });
 
         this.cameraManager = new CameraManager(this, this.cameras.main);
-        this.playerInventory = new Inventory(this);
+        this.playerInventory = new Inventory(this, 50.00);
         this.phaseManager = new PhaseManager(this);
         this.ordersManager = new OrdersManager(this, this.playerInventory);
 
@@ -65,6 +65,11 @@ export default class MainScene extends Phaser.Scene {
         new Building(this, this.tiles[1][2].x, this.tiles[1][2].y, "building", 0, 0, 0, 1).setOrigin(0.5);
         this.tiles[1][2].destructor();
         this.tiles[1][2] = null; 
+
+        this.moneyUI = ui.add.text(620, 20, "$" + this.playerInventory.money, {
+            font: "50px",
+            color: "#007332",
+        }).setScrollFactor(0);
     }
 
     createParcelas(){ //Crea parcelas
@@ -89,5 +94,9 @@ export default class MainScene extends Phaser.Scene {
     showInventory() {
         this.scene.launch("InventoryScene", { mainScene: this.scene, inventory: this.playerInventory });
         this.scene.pause();
+    }
+
+    updateMoneyUI() {
+        this.moneyUI.setText("$" + this.playerInventory.money);
     }
 }

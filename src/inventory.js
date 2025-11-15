@@ -2,13 +2,14 @@ import Products from "./Resources/Products.json" with { type: "json"}
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 export default class Inventory{
-    constructor(){
+    constructor(scene, money){
         this.unprocessedProducts = Products.unprocessedProducts.tier1;
         this.processedProducts = Products.processedProducts.tier1;
 
         EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
         
-        this.money = 0;
+        this.money = money;
+        this.mainScene = scene;
     }
 
     inventoryChange(popularityLevel) {
@@ -46,7 +47,8 @@ export default class Inventory{
             this.money += element.price * amounts[index];
             element.quantity -= amounts[index];
         });
-        console.log("Dinero actual: ", this.money);
+
+        this.mainScene.updateMoneyUI();
     }
     // Comprueba si hay suficientes productos no procesados
     // PARA LOS EDIFICIOS DE PROCESADO
