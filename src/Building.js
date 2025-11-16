@@ -1,3 +1,5 @@
+
+import ProductionTimer from "./Timer.js";
 export default class Building extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, texture = "building", name, description, products, productionSpeed = 1.0) {
         super(scene, x, y, texture);
@@ -38,22 +40,65 @@ export default class Building extends Phaser.GameObjects.Sprite{
         // Variables para el temporizador manual
         this.timerRunning = false;
         this.timeLeft = 0;
+
+    }
+    
+
+   produce(product) {
+    if (this.assignedWorkers <= 0) {
+        console.log("No hay ningun trabajador en este edificio");
+        return;
     }
 
-    produce(product) {
-        if(this.assignedWorkers > 0)
-        {
-            this.timerEvent = this.scene.time.addEvent({
-            callback: this.scene.playerInventory.produceProduct(product),
-            delay: product.time * 1000,
-            loop: true
-            });
+    // Evita crear múltiples timers encima del mismo edificio
+    if (this.productionTimer) {
+       this.cancelProduction();
+        return;
+    }
 
-            console.log(`${this.name} está produciendo ${product.name}...`);
+    this.productionCancelled = false; // Resetear estado de cancelación
+
+    const duration = product.time * this.productionSpeed;
+
+    // Crear un contador circular sobre el edificio
+    this.productionTimer = new ProductionTimer(
+        this.scene,
+        this.x,
+        this.y - 60, // un poco arriba del edificio
+        duration,
+        product.texture   // icono del producto
+    );
+
+    this.productionTimer.start();
+
+    // Cuando termine → producir y reiniciar
+    // Guardar el callback para poder desconectarlo después
+    this.productionUpdateCallback = () => {
+
+        // si fue cancelado, no hacemos nada
+        if (this.productionCancelled) return;
+
+        if (this.productionTimer && this.productionTimer.finished) {
+
+            // producir recurso
+            this.scene.playerInventory.produceProduct(product);
+            console.log(`${this.name} produjo ${product.name}`);
+
+            // eliminar timer
+            this.productionTimer.destroy();
+            this.productionTimer = null;
+
+            // limpiar el callback de update antes de reiniciar
+            this.scene.events.off("update", this.productionUpdateCallback);
+            this.productionUpdateCallback = null;
+
+            // reiniciar producción (loop)
+            this.produce(product);
         }
-        
-        else console.log("No hay ningun trabajador en este edificio");
-    }
+    };
+           // Registrar listener
+    this.scene.events.on("update", this.productionUpdateCallback);
+}
 
     upgrade() {
         // Lógica de mejora
@@ -97,4 +142,24 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.scene.scene.pause();
         this.scene.UIScene.scene.pause();
     }
+
+    cancelProduction() {
+    // Si no hay producción activa, salir
+    if (!this.productionTimer) return;
+
+    console.log(`Producción en ${this.name} cancelada.`);
+
+    // Flag para indicar cancelación y evitar producción al acabar
+    this.productionCancelled = true;
+
+    // Destruir el timer visual
+    this.productionTimer.destroy();
+    this.productionTimer = null;
+
+    // quitar callback del update
+    if (this.productionUpdateCallback) {
+        this.scene.events.off("update", this.productionUpdateCallback);
+        this.productionUpdateCallback = null;
+    }
+}
 }
