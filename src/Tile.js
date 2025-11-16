@@ -42,32 +42,35 @@ export default class Tile extends Phaser.GameObjects.Sprite{
         return occupied;
     }
 
+    // devuelve false o true si se consigue construir el edificio
    build(buildingData) {
     // Evitar construir si ya hay un edificio en este tile
-    if (this.currentBuilding) {
-        console.warn(`⛔ Este tile ya tiene un edificio construido: ${this.currentBuilding.name}`);
-        return;
-    }
+        if (this.currentBuilding) {
+            console.warn(`⛔ Este tile ya tiene un edificio construido: ${this.currentBuilding.name}`);
+            return false;
+        }
 
-     // Crear una nueva instancia de la clase Building con los datos del tipo seleccionado
-    const newBuilding = new Building(
-        this.scene,                      // Escena actual
-        this.x,                          // Coordenada X del tile
-        this.y,                          // Coordenada Y del tile
-        buildingData.texture,            // Textura principal del edificio
-        buildingData.name,               // Nombre
-        buildingData.description,        // Descripción
-        buildingData.products,    // Recursos que produce
-        buildingData.productionSpeed ?? 1.0 // Velocidad de producción
-    )
+            // Crear una nueva instancia de la clase Building con los datos del tipo seleccionado
+            const newBuilding = new Building(
+            this.scene,                      // Escena actual
+            this.x,                          // Coordenada X del tile
+            this.y,                          // Coordenada Y del tile
+            buildingData.texture,            // Textura principal del edificio
+            buildingData.name,               // Nombre
+            buildingData.description,        // Descripción
+            buildingData.products,    // Recursos que produce
+            buildingData.productionSpeed ?? 1.0 // Velocidad de producción
+        )
   
- // Guardar referencia
-    this.currentBuilding = newBuilding;
+        // Guardar referencia
+        this.currentBuilding = newBuilding;
 
-     // Agregarlo a la lista global de edificios de la escena (si existe)
-   // if (!this.scene.buildings) this.scene.buildings = [];
-    //this.scene.buildings.push(newBuilding);
-    this.buildButton.disable(); // Desactivar el botón de construcción
-    this.occupied = true; // Marcar el tile como ocupado
-  }
+        // Agregarlo a la lista global de edificios de la escena (si existe)
+        // if (!this.scene.buildings) this.scene.buildings = [];
+        //this.scene.buildings.push(newBuilding);
+        this.buildButton.disable(); // Desactivar el botón de construcción
+        this.occupied = true; // Marcar el tile como ocupado
+
+        return true;
+    }
 }

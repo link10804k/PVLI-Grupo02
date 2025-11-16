@@ -4,6 +4,8 @@ import Products from "./Resources/Products.json" with { type: "json" };
 export default class BuildingMenuScene extends Phaser.Scene {
     constructor(){
         super({ key: "BuildingMenuScene" });
+        // Número de edificios construidos para aplicar un multiplicador por 
+        this.buildingCount = 0;
     }
 
     init(data){
@@ -12,7 +14,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
     }
 
     create(){
-    //Desactivar input en la escena principal mientras el menú está abierto
+        //Desactivar input en la escena principal mientras el menú está abierto
         if (this.mainScene && this.mainScene.input) {
             this.mainScene.input.enabled = false;
         }
@@ -43,8 +45,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 name: "Granja de café",
                 description: "Produce granos de café.",
                 products: [ Products.unprocessedProducts.tier1.coffeeGrain, ],
-                
-        
+                price: 50 * Math.pow(2, this.buildingCount),
             },
 
             {
@@ -53,7 +54,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 name: "Granja de té",
                 description: "Produce hierbas de té.",
                 products: [ Products.unprocessedProducts.tier1.teaHerbs, ],
-                
+                price: 50 * Math.pow(2, this.buildingCount),
         
             }
             // Futuro: puedes añadir más, ej:
@@ -61,7 +62,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
             // { key: "mine", name: "Mina", description: "Extrae recursos.", icon: "mineIcon" },
         ];
 
-         // Posición inicial del primer botón
+        // Posición inicial del primer botón
         const startY = 160;
         const spacing = 100;
 
@@ -84,51 +85,64 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 align: "center",
                 wordWrap: { width: 250 },
             }).setOrigin(0.5);
+
+            this.add.text(450, y + 30, "$" + building.price, {
+                fontSize: "20px",
+                color: "#007332",
+                fontFamily: "Arial",
+                align: "center",
+                wordWrap: { width: 250 },
+            }).setOrigin(0.5);
         });
 
-         // Botón para cerrar el menú
+        // Botón para cerrar el menú
         const closeButton = new Button(this, 400, 520, "button", () => {
             this.closeWindow();
         });
         this.add.existing(closeButton);
 
- //cerrar el menú al hacer clic fuera de él
-    this.input.on('pointerdown', (pointer) => {
-        const { x, y } = pointer;
-        const inside =
-            x >= menuBounds.x &&
-            x <= menuBounds.x + menuBounds.width &&
-            y >= menuBounds.y &&
-            y <= menuBounds.y + menuBounds.height;
+        //cerrar el menú al hacer clic fuera de él
+        this.input.on('pointerdown', (pointer) => {
+            const { x, y } = pointer;
+            const inside = (
+                x >= menuBounds.x &&
+                x <= menuBounds.x + menuBounds.width &&
+                y >= menuBounds.y &&
+                y <= menuBounds.y + menuBounds.height
+            );
 
-        if (!inside) {
-            this.closeWindow();
-        }
-    });
-
+            if (!inside) {
+                this.closeWindow();
+            }
+        });
     }
 
-
-
-
-     selectBuilding(building) {
+    // Si el jugador tiene suficiente dinero para construir el edificio seleccionado y la parcela esta vacía, se construye el edificio 
+    selectBuilding(building) {
         console.log("Construir:", building.name);
-       this.tile.build(building);
+        if(this.mainScene.playerInventory.hasEnoughMoney(building.price))
+        {
+            if(this.tile.build(building)) 
+            {
+                this.mainScene.playerInventory.removeMoney(building.price);
+                this.mainScene.updateMoneyUI();
+                this.buildingCount++;
+            }
+        }
+        else console.log("No tienes suficiente dinero para construir ", building.name)
+
         this.closeWindow();
     }
 
-
-    
    closeWindow() {
-    // Esperamos un poco antes de cerrar y reactivar input
-    this.time.delayedCall(100, () => {
-        if (this.mainScene && this.mainScene.input) {
-            this.mainScene.input.enabled = true;
-        }
-        this.scene.resume("MainScene");
-        this.scene.resume("UIScene");
-        this.scene.stop(); // ahora sí detenemos el menú
-    });
-}
-    
+        // Esperamos un poco antes de cerrar y reactivar input
+        this.time.delayedCall(100, () => {
+            if (this.mainScene && this.mainScene.input) {
+                this.mainScene.input.enabled = true;
+            }
+            this.scene.resume("MainScene");
+            this.scene.resume("UIScene");
+            this.scene.stop(); // ahora sí detenemos el menú
+        });
+    }
 }

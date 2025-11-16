@@ -66,6 +66,7 @@ export default class MainScene extends Phaser.Scene {
         this.tiles[1][2].destructor();
         this.tiles[1][2] = null; 
 
+        // UI del dinero del jugador
         this.moneyUI = ui.add.text(620, 20, "$" + this.playerInventory.money, {
             font: "50px",
             color: "#007332",
@@ -96,6 +97,7 @@ export default class MainScene extends Phaser.Scene {
         this.scene.pause();
     }
 
+    // Actualiza la cantidad de dinero en pantalla
     updateMoneyUI() {
         this.moneyUI.setText("$" + this.playerInventory.money);
     }
