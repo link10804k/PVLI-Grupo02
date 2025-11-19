@@ -5,6 +5,7 @@ import Inventory from "./inventory.js";
 import CameraManager from "./CameraManager.js";
 import PhaseManager from "./PhaseManager.js";
 import OrdersManager from "./OrdersManager.js";
+import PopularityBar from "./Popularity.js";
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -71,6 +72,9 @@ export default class MainScene extends Phaser.Scene {
             font: "50px",
             color: "#007332",
         }).setScrollFactor(0);
+
+        //UI crear la barra de popularidad
+        this.popularityBar = new PopularityBar(ui);
     }
 
     createParcelas(){ //Crea parcelas
@@ -101,4 +105,6 @@ export default class MainScene extends Phaser.Scene {
     updateMoneyUI() {
         this.moneyUI.setText("$" + this.playerInventory.money);
     }
+
+    
 }

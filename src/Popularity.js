@@ -1,0 +1,89 @@
+import { EventBus } from "./EventBus.js";
+import { events } from "./EventBus.js"; 
+export default class PopularityBar {
+    constructor(scene) {
+        this.scene = scene;
+
+        //Dimensiones
+        this.width = 200;
+        this.height = 20;
+
+        //Popularidad
+        this.level = 1;
+        this.currentPopularity = 0;
+        this.popularityNeeded = 100;
+
+        //Color personalizable
+        this.color = 0Xda0086;
+
+        //Posiciones (anclado arriba a la derecha)
+        const padding = 30; // espacio desde el borde
+        this.x = (scene.scale.width - this.width) / 2;
+        this.y = padding + this.height / 2;
+
+        //Texto del nivel (a la izquierda)
+        this.levelText = scene.add.text(this.x - 20, this.y, `${this.level}`, {
+            fontSize: '30px',
+            fill: '#da0086ff',
+            stroke: '#da0086',
+            strokeThickness: 2
+        }).setOrigin(0, 0.5);
+
+        // Barra de fondo
+        this.background = scene.add.rectangle(
+            this.x, this.y, this.width, this.height, 0x333333, 0.3
+        ).setOrigin(0, 0.5);
+
+        // Barra de progreso
+        this.bar = scene.add.rectangle(
+            this.x, this.y, 0, this.height, this.color
+        ).setOrigin(0, 0.5);
+
+        // Que sigan la cámara si se mueve
+        this.levelText.setScrollFactor(0);
+        this.background.setScrollFactor(0);
+        this.bar.setScrollFactor(0);
+
+        // Escuchar eventos de aumento de popularidad
+        EventBus.on(events.ADD_POPULARITY, (amount) => {
+        this.addPopularity(amount);
+        });
+        EventBus.on(events.REMOVE_POPULARITY, (amount) => {
+        this.loosePopularity(amount);
+});
+    }
+
+    addPopularity(amount) {
+        this.currentPopularity += amount;
+
+        while (this.currentPopularity >= this.popularityNeeded) {
+            this.currentPopularity -= this.popularityNeeded;
+            this.levelUp();
+        }
+
+        this.updateBar();
+    }
+   
+    loosePopularity(amount) {
+        this.currentPopularity -= amount;
+
+        if (this.currentPopularity < 0) {
+            this.currentPopularity = 0;
+        }
+
+        this.updateBar();
+    }
+
+    levelUp() {
+        this.level++;
+        this.popularityNeeded = Math.floor(this.popularityNeeded * 1.25);
+        this.levelText.setText(`${this.level}`);
+
+
+    }
+
+    updateBar() {
+        const percentage = this.currentPopularity / this.popularityNeeded;
+        this.bar.width = this.width * percentage;
+    }
+}

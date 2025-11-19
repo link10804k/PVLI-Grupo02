@@ -70,7 +70,6 @@ export default class OrdersManager {
     }
     FailOrder(order, orderId) {
         this.RemoveOrder(order, orderId);
-        // Perder popularidad, etc
     }
     RandomizeOrder() {
         let nProducts = Phaser.Math.Between(1, 3); // elegir entre 1 y 3 productos

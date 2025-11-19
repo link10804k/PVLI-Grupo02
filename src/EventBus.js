@@ -9,5 +9,7 @@ export const events = {
     ORDER_FAILED: 'orderFailed',
     ORDER_ADDED: 'orderAdded', // Para los clientes
     // Popularidad
-    POPULARITY_INCREASED: 'popularityIncreased', // Con nuevo nivel de popularidad como parámetro (El nivel inicial es 1)
+    LEVEL_INCREASED: 'popularityIncreased', //Con nuevo nivel de popularidad como parámetro (El nivel inicial es 1)
+    ADD_POPULARITY: 'addPopularity', //Con cantidad a añadir como parámetro
+    REMOVE_POPULARITY: 'removePopularity' //Con cantidad a quitar como parámetro
 }

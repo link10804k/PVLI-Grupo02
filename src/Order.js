@@ -1,6 +1,10 @@
 import Button from "./Button.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
+import MainScene from "./MainScene.js";
+
+const POPULARITY_LOSS_ON_FAIL = 30; // Cantidad de popularidad que se pierde al fallar un pedido
+const POPULARITY_GAIN_ON_COMPLETE = 20; // Cantidad de popularidad que se gana al completar un pedido
 
 export default class Order extends Phaser.GameObjects.Sprite {
 
@@ -61,6 +65,14 @@ export default class Order extends Phaser.GameObjects.Sprite {
 
         this.inventory.sellProducts(this.resources, this.amounts);
 
+        let popularityGain = 0;
+
+        this.amounts.forEach(amount => {
+            popularityGain += amount * POPULARITY_GAIN_ON_COMPLETE;
+        });
+
+        EventBus.emit(events.ADD_POPULARITY, popularityGain);
+
         this.destructor();
     }
     FailCompleteOrder() {
@@ -68,6 +80,14 @@ export default class Order extends Phaser.GameObjects.Sprite {
     }
     FailOrder() {
         EventBus.emit(events.ORDER_FAILED, this, this.id);
+
+        let popularityLoss = 0;
+
+        this.amounts.forEach(amount => {
+            popularityLoss += amount * POPULARITY_LOSS_ON_FAIL;
+        });
+
+        EventBus.emit(events.REMOVE_POPULARITY, popularityLoss);
 
         this.destructor();
     }
