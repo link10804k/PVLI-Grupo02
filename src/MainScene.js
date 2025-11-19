@@ -105,6 +105,5 @@ export default class MainScene extends Phaser.Scene {
     updateMoneyUI() {
         this.moneyUI.setText("$" + this.playerInventory.money);
     }
-
     
 }

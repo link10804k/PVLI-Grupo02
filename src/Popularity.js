@@ -1,5 +1,7 @@
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js"; 
+import Aplication from "./Aplication.js";
+
 export default class PopularityBar {
     constructor(scene) {
         this.scene = scene;
@@ -51,7 +53,14 @@ export default class PopularityBar {
         EventBus.on(events.REMOVE_POPULARITY, (amount) => {
         this.loosePopularity(amount);
 });
-    }
+
+ this.zKey = this.scene.input.keyboard.addKey('Z');
+    this.zKey.on("down", () => {
+        this.addPopularity(25);
+    }   );
+
+
+}
 
     addPopularity(amount) {
         this.currentPopularity += amount;
@@ -78,6 +87,8 @@ export default class PopularityBar {
         this.level++;
         this.popularityNeeded = Math.floor(this.popularityNeeded * 1.25);
         this.levelText.setText(`${this.level}`);
+        new Aplication(this.scene, Image, "Cuanto me gustan los macarrones!");
+        console.log(`¡Has alcanzado el nivel de popularidad ${this.level}!`);
 
 
     }
