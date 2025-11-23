@@ -1,7 +1,6 @@
 export default class Customer extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture){
         super(scene, x ,y, texture);
-        this.scene.events.on('preupdate', this.preupdate.bind(this));
 
         //escena añadida
         scene.add.existing(this);
@@ -50,7 +49,7 @@ export default class Customer extends Phaser.GameObjects.Sprite {
         // *Se enfada*
     }
 
-    preupdate(t, dt) {
+    preUpdate(t, dt) {
         dt /= 1000; // Convertir dt a segundos
         if (this.walking) {
             this.x += this.direction.x * this.speed * dt;

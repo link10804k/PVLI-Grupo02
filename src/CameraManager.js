@@ -9,7 +9,7 @@ export default class CameraManager {
     constructor(scene, camera) {
         this.scene = scene;
         this.camera = camera;
-        this.scene.events.on('preupdate', this.preupdate.bind(this));
+        this.scene.events.on('preupdate', this.preUpdate.bind(this)) // Es necesario suscribirse al preupdate ya que la clase no extiende de Phaser
 
         this.scrollSpeed = 300; // Parámetro variable
         this.zoomSpeed = 0.5; // Parámetro variable
@@ -74,7 +74,7 @@ export default class CameraManager {
             this.camera.zoom = this.minZoom;
         }
     }
-    preupdate(t, dt) {
+    preUpdate(t, dt) {
         dt /= 1000; // Convertir dt a segundos
 
         if (this.moveUp) {
