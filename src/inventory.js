@@ -3,8 +3,8 @@ import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 export default class Inventory{
     constructor(scene, money){
-        this.unprocessedProducts = Products.unprocessedProducts.tier1;
-        this.processedProducts = Products.processedProducts.tier1;
+        this.unprocessedProducts = structuredClone(Products.unprocessedProducts.tier1);
+        this.processedProducts = structuredClone(Products.processedProducts.tier1);
 
         EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
         
@@ -14,12 +14,8 @@ export default class Inventory{
 
     inventoryChange(popularityLevel) {
         // Cambia la cantidad de productos en función del nivel de popularidad
-        switch (popularityLevel) {
-            case 2: // Tier 2
-                Object.assign(this.unprocessedProducts, Products.unprocessedProducts.tier2);
-                Object.assign(this.processedProducts, Products.processedProducts.tier2);
-                break;
-        }
+        Object.assign(this.unprocessedProducts, Products.unprocessedProducts[`tier${popularityLevel}`]);
+        Object.assign(this.processedProducts, Products.processedProducts[`tier${popularityLevel}`]);
     }
     // Producir un producto no procesado
     // PARA LOS EDIFICIOS DE PRODUCCIÓN
@@ -82,5 +78,26 @@ export default class Inventory{
     // PARA COMPRAS
     removeMoney(amount) {
         this.money -= amount;
+    }
+
+    getUnprocessedProductsFromTier(tier) {
+        let productKeys = Object.keys(Products.unprocessedProducts[`tier${tier}`]);
+        let list = [];
+
+        productKeys.forEach((key) => {
+            list.push(this.unprocessedProducts[key]);
+        });
+
+        return list;
+    }
+    getProcessedProductsFromTier(tier) {
+        let productKeys = Object.keys(Products.processedProducts[`tier${tier}`]);
+        let list = [];
+
+        productKeys.forEach((key) => {
+            list.push(this.processedProducts[key]);
+        });
+
+        return list;
     }
 }
