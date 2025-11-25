@@ -53,9 +53,6 @@ export default class MainScene extends Phaser.Scene {
         this.phaseManager = new PhaseManager(this);
         this.ordersManager = new OrdersManager(this, this.playerInventory);
 
-        this.tabKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
-        this.tabKey.on("down", () => this.showInventory());
-
         this.add.image(400, 300, "background2").setOrigin(0.5, 0.5);
 
         this.createParcelas();

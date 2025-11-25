@@ -22,7 +22,7 @@ export default class Inventory{
     produceProduct(product, amount = 1) { // Producto que se quiere producir y su cantidad
         product.quantity += amount;
 
-        console.log("La cantidad de ", product.name, " es: ", product.quantity);
+        this.updateInventoryUI();
     }
     // Producir un producto procesado
     // PARA LOS EDIFICIOS DE PROCESADO
@@ -34,7 +34,7 @@ export default class Inventory{
 
         productWanted.quantity += amount;
 
-        console.log("La cantidad de ", productWanted.name, " es: ", productWanted.quantity);
+        this.updateInventoryUI();
     }
     // Vender productos
     // PARA LOS PEDIDOS
@@ -45,6 +45,7 @@ export default class Inventory{
         });
 
         this.mainScene.updateMoneyUI();
+        this.updateInventoryUI();
     }
     // Comprueba si hay suficientes productos no procesados
     // PARA LOS EDIFICIOS DE PROCESADO
@@ -99,5 +100,9 @@ export default class Inventory{
         });
 
         return list;
+    }
+
+    updateInventoryUI() {
+        EventBus.emit(events.INVENTORY_UPDATE, this.unprocessedProducts, this.processedProducts);
     }
 }
