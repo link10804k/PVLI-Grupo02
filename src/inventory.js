@@ -8,7 +8,7 @@ export default class Inventory{
 
         EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
         
-        this.money = money;
+        this.money = money + 1000;
         this.mainScene = scene;
 
         this.popularityLevel = 1;
