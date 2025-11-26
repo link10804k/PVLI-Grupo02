@@ -10,12 +10,16 @@ export default class Inventory{
         
         this.money = money;
         this.mainScene = scene;
+
+        this.popularityLevel = 1;
+        this.maxTier = Object.keys(Products.unprocessedProducts).length;
     }
 
     inventoryChange(popularityLevel) {
         // Cambia la cantidad de productos en función del nivel de popularidad
         Object.assign(this.unprocessedProducts, Products.unprocessedProducts[`tier${popularityLevel}`]);
         Object.assign(this.processedProducts, Products.processedProducts[`tier${popularityLevel}`]);
+        this.popularityLevel = popularityLevel;
     }
     // Producir un producto no procesado
     // PARA LOS EDIFICIOS DE PRODUCCIÓN

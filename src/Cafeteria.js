@@ -1,4 +1,4 @@
-import Cafetera from "./Cafetera.js";
+import Tile from "./Tile.js";
 import CustomersManager from "./CustomersManager.js";
 
 export default class Cafeteria extends Phaser.GameObjects.Sprite{
@@ -17,6 +17,6 @@ export default class Cafeteria extends Phaser.GameObjects.Sprite{
       this.workers = 0;
 
       this.customersManager = new CustomersManager(scene, this);
-      this.cafetera = new Cafetera(this.scene, this.x +100, this.y - 150, this.inventory);
+      this.cafetera = new Tile(this.scene, this.x +100, this.y - 150, "button", false, true).setScale(0.5);
     }
 }

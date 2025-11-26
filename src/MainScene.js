@@ -6,6 +6,7 @@ import CameraManager from "./CameraManager.js";
 import PhaseManager from "./PhaseManager.js";
 import OrdersManager from "./OrdersManager.js";
 import PopularityBar from "./Popularity.js";
+import InventoryUI from "./InventoryUI.js";
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -43,10 +44,7 @@ export default class MainScene extends Phaser.Scene {
     
     create() { // Crear objetos del juego aquí
         this.scene.launch("UIScene");
-        const ui = this.scene.get("UIScene");
-        ui.events.once('create', () => {
-            this.UIScene = ui;
-        });
+        this.UIScene = this.scene.get("UIScene");
 
         this.cameraManager = new CameraManager(this, this.cameras.main);
         this.playerInventory = new Inventory(this, 50.00);
@@ -65,13 +63,15 @@ export default class MainScene extends Phaser.Scene {
         this.tiles[1][2] = null; 
 
         // UI del dinero del jugador
-        this.moneyUI = ui.add.text(620, 20, "$" + this.playerInventory.money, {
+        this.moneyUI = this.UIScene.add.text(620, 20, "$" + this.playerInventory.money, {
             font: "50px",
             color: "#007332",
         }).setScrollFactor(0);
 
         //UI crear la barra de popularidad
-        this.popularityBar = new PopularityBar(ui);
+        this.popularityBar = new PopularityBar(this.UIScene);
+
+        this.inventoryUI = new InventoryUI(this.UIScene);
     }
 
     createParcelas(){ //Crea parcelas

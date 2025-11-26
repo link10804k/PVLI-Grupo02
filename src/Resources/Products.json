@@ -1,9 +1,9 @@
 {
     "unprocessedProducts": {
         "tier1": {
-            "coffeeGrain": {
-                "name": "Coffee grain", 
-                "description": "Simple grain of coffee. Used for making standard coffee.",
+            "coffeeGrains": {
+                "name": "Coffee grains", 
+                "description": "Simple grains of coffee. Used for making standard coffee.",
                 "quantity": 0,
                 "time": 5
             },
@@ -32,7 +32,7 @@
                 "time": 5,
                 "price": 10,
                 "neededProducts": {
-                    "coffeeGrain": 1
+                    "coffeeGrains": 1
                 },
                 "texture": "Coffee_display"
             },

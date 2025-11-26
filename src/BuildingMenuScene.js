@@ -1,5 +1,5 @@
 import Button from "./Button.js";
-import Products from "./Resources/Products.json" with { type: "json" };
+import Buildings from "./Resources/Buildings.json" with { type: "json"}
 
 export default class BuildingMenuScene extends Phaser.Scene {
     constructor(){
@@ -11,6 +11,8 @@ export default class BuildingMenuScene extends Phaser.Scene {
     init(data){
         this.mainScene = data.mainScene;
         this.tile = data.tile;
+        this.inventory = data.inventory;
+        this.isProcessor = data.isProcessor;
     }
 
     create(){
@@ -37,36 +39,15 @@ export default class BuildingMenuScene extends Phaser.Scene {
             fontFamily: "Arial",
         }).setOrigin(0.5);
 
-        // Lista de edificios disponibles
-        const buildings = [
-            {
-                key: "coffee farm",
-                texture: "building", // textura concreta del sprite
-                name: "Granja de café",
-                description: "Produce granos de café.",
-                products: [ Products.unprocessedProducts.tier1.coffeeGrain, ],
-                price: 50 * Math.pow(2, this.buildingCount),
-            },
-
-            {
-                key: "tea farm",
-                texture: "building", // textura concreta del sprite
-                name: "Granja de té",
-                description: "Produce hierbas de té.",
-                products: [ Products.unprocessedProducts.tier1.teaHerbs, ],
-                price: 50 * Math.pow(2, this.buildingCount),
-        
-            }
-            // Futuro: puedes añadir más, ej:
-            // { key: "house", name: "Casa", description: "Aumenta población.", icon: "houseIcon" },
-            // { key: "mine", name: "Mina", description: "Extrae recursos.", icon: "mineIcon" },
-        ];
+        // Generar la lista de edificios disponibles según el nivel de popularidad
+        if (this.isProcessor) this.buildings = this.getProcessedBuildings();
+        else this.buildings = this.getUnprocessedBuildings();
 
         // Posición inicial del primer botón
         const startY = 160;
         const spacing = 100;
 
-        buildings.forEach((building, index) => {
+        this.buildings.forEach((building, index) => {
             const y = startY + index * spacing;
 
 
@@ -144,5 +125,36 @@ export default class BuildingMenuScene extends Phaser.Scene {
             this.scene.resume("UIScene");
             this.scene.stop(); // ahora sí detenemos el menú
         });
+    }
+
+    getUnprocessedBuildings() {
+        let buildings = []
+        let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier);
+        for (let i = 1; i <= tier; i++) {
+            let currentTier = Buildings.unprocessedProducts[`tier${i}`];
+            buildings.push({
+                name: currentTier.name,
+                description: currentTier.description,
+                products: this.inventory.getUnprocessedProductsFromTier(i),
+                price: 50 * Math.pow(2, this.buildingCount),
+                texture: currentTier.texture // textura concreta del sprite
+            });
+        }
+        return buildings;
+    }
+    getProcessedBuildings() {
+        let buildings = []
+        let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier);
+        for (let i = 1; i <= tier; i++) {
+            let currentTier = Buildings.processedProducts[`tier${i}`];
+            buildings.push({
+                name: currentTier.name,
+                description: currentTier.description,
+                products: this.inventory.getProcessedProductsFromTier(i),
+                price: 50 * Math.pow(2, this.buildingCount),
+                texture: currentTier.texture // textura concreta del sprite
+            });
+        }
+        return buildings;
     }
 }

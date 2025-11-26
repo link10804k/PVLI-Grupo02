@@ -1,0 +1,26 @@
+{
+    "unprocessedProducts": {
+        "tier1": {
+            "name": "Farm",
+            "description": "A building to produce coffee grains and tea herbs.",
+            "texture": "building"
+        },
+        "tier2": {
+            "name": "Slaughterhouse",
+            "description": "A building to produce meat.",
+            "texture": "Slaughterhouse_building"
+        }
+    },
+    "processedProducts": {
+        "tier1": {
+            "name": "Coffee Maker",
+            "description": "A machine to process coffee grains into coffee and tea herbs into tea.",
+            "texture": "Coffee_display"
+        },
+        "tier2": {
+            "name": "Grill",
+            "description": "A machine to produce grilled meat.",
+            "texture": "Grill_building"
+        }
+    }
+}

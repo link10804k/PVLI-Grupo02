@@ -16,7 +16,7 @@ export default class InventoryUI {
     }
 
     updateInventoryUI() {
-        // TODO: ClearInvetoryUI()
+        // TODO: ClearInvetoryUI() -> Mejor solo actualizar lo que cambia porque esto NO es eficiente
 
         let unprocessedKeys = Object.keys(this.unprocessedProducts);
         let processedKeys = Object.keys(this.processedProducts);

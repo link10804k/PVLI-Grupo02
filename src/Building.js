@@ -1,7 +1,6 @@
-
 import ProductionTimer from "./Timer.js";
 export default class Building extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, texture = "building", name, description, products, productionSpeed = 1.0) {
+  constructor(scene, x, y, texture = "building", name, description, products, productionSpeed = 1.0, isProcessor = false) {
         super(scene, x, y, texture);
 
         scene.add.existing(this);
@@ -13,6 +12,8 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.currentResource = null; // Recurso actual
         this.assignedWorkers = 0;     // Número de trabajadores
         this.upgradeTier = 0;       // Nivel de mejora
+        this.isProcessor = isProcessor; // Indica si el edificio es de producción o de procesado
+        this.inventory = this.scene.playerInventory;
         
         this.setScale(0.4);
 
@@ -56,6 +57,12 @@ export default class Building extends Phaser.GameObjects.Sprite{
         return;
     }
 
+    // Si es un edificio de procesado, comprobar materias primas
+    if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product)) {
+        console.log(`No hay suficientes materias primas para producir ${product.name}`);
+        return;
+    }
+
     this.productionCancelled = false; // Resetear estado de cancelación
 
     const duration = product.time * this.productionSpeed;
@@ -78,10 +85,21 @@ export default class Building extends Phaser.GameObjects.Sprite{
         // si fue cancelado, no hacemos nada
         if (this.productionCancelled) return;
 
+        // Si es un edificio de procesado, comprobar materias primas en el caso de que hayan cambiado
+        if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product)) {
+            console.log(`No hay suficientes materias primas para producir ${product.name}`);
+            return;
+        }
+
         if (this.productionTimer && this.productionTimer.finished) {
 
             // producir recurso
-            this.scene.playerInventory.produceProduct(product);
+            if (this.isProcessor) { // Método que también resta las materias primas correspondientes
+                this.inventory.processProduct(product);
+            }
+            else {
+                this.inventory.produceProduct(product);
+            }
             console.log(`${this.name} produjo ${product.name}`);
 
             // eliminar timer
