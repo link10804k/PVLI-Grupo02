@@ -11,7 +11,7 @@ export default class InventoryUI {
             this.updateInventoryUI();
         });
         this.UIScene = UIScene;
-        this.rectangle = this.UIScene.add.rectangle(800, 600, 200, 400, 0x000000, 1).setOrigin(1, 1);
+        this.rectangle = this.UIScene.add.rectangle(800, 600, 200, 400, 0x000000, 0.2).setOrigin(1, 1);
 
         this.unprocessedProductsCoords = { x: this.rectangle.x - this.rectangle.width + 20, y: this.rectangle.y - this.rectangle.height + 20 };
         this.processedProductsCoords = { x: this.rectangle.x - this.rectangle.width + 20, y: this.rectangle.y - this.rectangle.height / 2 + 20 };

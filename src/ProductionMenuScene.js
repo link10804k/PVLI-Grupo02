@@ -49,10 +49,19 @@ export default class ProductionMenuScene extends Phaser.Scene {
             this.addButton = new Button(this, 520, 160 + 50 * i, "button", () => this.building.produce(this.products[i])).setScale(0.5);
         }
 
+        //Boton de Upgrade
+        this.tierText = this.add.text(550, 450, `Tier:${this.building.upgradeTier}`, {
+            fontSize: "20px",
+            color: "#2fec00ff",
+        }).setOrigin(0.5);
+
+        // Guardar referencia en el edificio
+        this.building.tierText = this.tierText;
+        
+        this.upgradeButton = new Button(this, 550, 500, "upgradeButton", () => this.building.upgrade()).setScale(1.8);
 
         //Menu de trabajadores
-        //
-        //
+
                 //this.add.image(400, 150, "panel").setScale(0.8).setOrigin(0.5).setScale(2);
         
                 const text = this.add.text(400, 450, `Workers: ${this.building.assignedWorkers}`, {

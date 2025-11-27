@@ -11,9 +11,9 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.productionSpeed = productionSpeed; // Ratio de velocidad
         this.currentResource = null; // Recurso actual
         this.assignedWorkers = 0;     // Número de trabajadores
-        this.upgradeTier = 0;       // Nivel de mejora
+        this.upgradeTier = 1;       // Nivel de mejora
         this.isProcessor = isProcessor; // Indica si el edificio es de producción o de procesado
-        this.inventory = this.scene.playerInventory;
+        this.inventory = this.scene.playerInventory; // Referencia al inventario
         
         this.setScale(0.4);
 
@@ -119,15 +119,22 @@ export default class Building extends Phaser.GameObjects.Sprite{
 }
 
     upgrade() {
-        // Lógica de mejora
+        if (this.inventory.hasEnoughMoney(500 * (this.upgradeTier))) {
         this.upgradeTier++;
+        this.productionSpeed += 0.5; // Aumenta la velocidad de producción
+        this.inventory.removeMoney(500 * (this.upgradeTier));
         console.log(`${this.name} ha sido mejorado al nivel ${this.upgradeTier}`);
+
+        // Actualizar el texto del nivel de mejora en el menú si está abierto
+        if (this.tierText) {
+            this.tierText.setText(`Tier: ${this.upgradeTier}`);
+        }
     }
+    else {
+        console.log("No tienes suficiente dinero para mejorar este edificio.");
+    }
+}
     
-    addWorker(text) {
-        this.assignedWorkers++;
-        text.setText(`Workers: ${this.assignedWorkers}`);
-    }
 
     getName() {
         return this.name;
@@ -149,14 +156,12 @@ export default class Building extends Phaser.GameObjects.Sprite{
         }
     }
 
-    showWorkerMenu() {
-        this.scene.scene.launch("BuildingWorkerScene", { building: this, mainScene: this.scene });
-        this.scene.scene.pause();
-        this.scene.UIScene.scene.pause();
-    }
-
     showProductionMenu() {
         this.scene.scene.launch("ProductionMenuScene", { building: this, mainScene: this.scene, products: this.products });
+
+        // Guardamos la escena activa para poder actualizar sus textos
+        this.activeMenu = this.scene.scene.get("ProductionMenuScene");
+
         this.scene.scene.pause();
         this.scene.UIScene.scene.pause();
     }
