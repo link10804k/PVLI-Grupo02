@@ -11,9 +11,11 @@ export default class Inventory{
         this.money = money + 1000;
 
         this.workers = 1;
+        this.availableWorkers = 1;
         this.workersSlots = 4; // Número máximo de trabajadores disponibles. 1 de regalo por nivel + 3 que puedes comprar por nivel
         this.workerBasePrice = 250;  // precio base del primer trabajador
         this.workerGrowthRate = 1.25; // multiplicador (+25% cada compra)
+        this.workerPrice = this.workerBasePrice;
 
         this.mainScene = scene;
 
@@ -117,31 +119,32 @@ export default class Inventory{
     }
 
     buyWorker() {
-    // Verificar si hay espacio
-    if (this.workers >= this.workersSlots) {
-        console.log("No puedes contratar más trabajadores. Límite alcanzado.");
-        return false;
-    }
+        // Verificar si hay espacio
+        if (this.workers >= this.workersSlots) {
+            console.log("No puedes contratar más trabajadores. Límite alcanzado.");
+            return false;
+        }
 
-    // Verificar si hay dinero
-    if (!this.hasEnoughMoney(this.workerPrice)) {
-        console.log("No tienes suficiente dinero. Precio del trabajador:", this.workerPrice);
-        return false;
-    }
+        // Verificar si hay dinero
+        if (!this.hasEnoughMoney(this.workerPrice)) {
+            console.log("No tienes suficiente dinero. Precio del trabajador:", this.workerPrice);
+            return false;
+        }
 
-    // Cobrar y añadir trabajador
-    this.removeMoney(this.workerPrice);
-    this.workers++;
+        // Cobrar y añadir trabajador
+        this.removeMoney(this.workerPrice);
+        this.workers++;
 
-    // Aumentar el precio para el siguiente trabajador
-    this.workerPrice = Math.floor(this.workerPrice * this.workerGrowthRate);
+        // Aumentar el precio para el siguiente trabajador
+        this.workerPrice = Math.floor(this.workerPrice * this.workerGrowthRate);
 
-    console.log(`Trabajador comprado. Ahora tienes ${this.workers}. Próximo vale: ${this.workerPrice}`);
+        console.log(`Trabajador comprado. Ahora tienes ${this.workers}. Próximo vale: ${this.workerPrice}`);
 
-    // Actualizar UI del dinero
-    this.mainScene.updateMoneyUI();
+        // Actualizar UI del dinero
+        this.mainScene.updateMoneyUI();
+        this.mainScene.workerPriceText.setText("$" + this.workerPrice);
 
-    return true;
-}
+        return true;
+    }   
 
 }   

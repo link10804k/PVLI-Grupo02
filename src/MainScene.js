@@ -7,6 +7,9 @@ import PhaseManager from "./PhaseManager.js";
 import OrdersManager from "./OrdersManager.js";
 import PopularityBar from "./Popularity.js";
 import InventoryUI from "./InventoryUI.js";
+import Button from "./Button.js";
+import { EventBus } from "./EventBus.js";
+import { events } from "./EventBus.js";
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -67,6 +70,29 @@ export default class MainScene extends Phaser.Scene {
             font: "50px",
             color: "#007332",
         }).setScrollFactor(0);
+
+        //UI de workers
+        this.workersUI = this.UIScene.add.text(620, 65, "☭" + this.playerInventory.availableWorkers + "/" + this.playerInventory.workers, {
+            font: "50px",
+            color: "#ff0101ff",
+        }).setScrollFactor(0);
+            //Botón para comprar trabajadores
+        this.addWorkersBut = new Button(this.UIScene, 760, 85, "button", () => {
+            this.playerInventory.buyWorker();
+            this.workersUI.setText("☭" + this.playerInventory.availableWorkers + "/" + this.playerInventory.workers);
+            if(this.playerInventory.workers >= this.playerInventory.workersSlots){
+                this.addWorkersBut.setActive(false).setVisible(false);
+            }
+             EventBus.on(events.LEVEL_INCREASED, () => {
+                   this.addWorkersBut.setActive(true).setVisible(true);
+                    });
+        }).setScale(0.5);
+
+            //Texto del precio del siguiente trabajador
+        this.workerPriceText = this.UIScene.add.text(730, 105, "$" + this.playerInventory.workerPrice, {
+            font: "20px",
+            color: "#326d02ff",
+        });
 
         //UI crear la barra de popularidad
         this.popularityBar = new PopularityBar(this.UIScene,this.playerInventory);

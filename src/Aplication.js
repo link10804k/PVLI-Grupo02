@@ -6,22 +6,22 @@ export default class Aplication {
         this.width = 200;
         this.height = 300;
 
-        // Posición inicial (fuera de la pantalla a la derecha)
-        const xStart = this.scene.cameras.main.width + this.width / 2;
-        const yPos = this.scene.cameras.main.height / 2;
+        // Posición inicial (fuera de la pantalla abajo)
+        const xStart = this.scene.cameras.main.width / 2;
+        const yPos = this.scene.cameras.main.height + this.height / 2;
         
 
         // Contenedor para imagen, texto y background
         this.container = this.scene.add.container(xStart, yPos);
 
         // Crear el rectángulo dentro del container
-this.rect = this.scene.add.rectangle(0, 0, this.width, this.height, 0x734F96).setOrigin(0.5);
+        this.rect = this.scene.add.rectangle(0, 0, this.width, this.height, 0x734F96).setOrigin(0.5);
 
         // Velocidad de deslizamiento (en píxeles por segundo)
         this.speed = 120;
 
-        // Objetivo: Lateral derecho de la pantalla
-         this.targetX = this.scene.cameras.main.width - this.width / 2;
+        // Objetivo: Centro de la pantalla
+         this.targetY = this.scene.cameras.main.height / 2;
 
          // Tiempo que permanece visible (en ms)
         this.lifeTime = 5000; // 5 segundos
@@ -70,10 +70,10 @@ this.rect = this.scene.add.rectangle(0, 0, this.width, this.height, 0x734F96).se
 
         switch (this.state) {
             case 'entering':
-                if (this.container.x > this.targetX) {
-                    this.container.x -= this.speed * deltaSeconds;
-                    if (this.container.x <= this.targetX) {
-                        this.container.x = this.targetX;
+                if (this.container.y > this.targetY) {
+                    this.container.y -= this.speed * deltaSeconds;
+                    if (this.container.y <= this.targetY) {
+                        this.container.y = this.targetY;
                         this.state = 'staying';
                         this.lifeTimer = 0;
                     }
@@ -88,8 +88,8 @@ this.rect = this.scene.add.rectangle(0, 0, this.width, this.height, 0x734F96).se
                 break;
 
             case 'exiting':
-                this.container.x += this.speed * deltaSeconds;
-                if (this.container.x - this.width / 2 > this.scene.cameras.main.width) {
+                this.container.y += this.speed * deltaSeconds;
+                if (this.container.y - this.width / 2 > this.scene.cameras.main.width) {
                     this.container.destroy();
                     this.scene.events.off('update', this.update, this);
                 }

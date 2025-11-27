@@ -58,7 +58,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
     }
 
     // Si es un edificio de procesado, comprobar materias primas
-    if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product)) {
+    if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product, this.assignedWorkers)) {
         console.log(`No hay suficientes materias primas para producir ${product.name}`);
         return;
     }
@@ -86,7 +86,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
         if (this.productionCancelled) return;
 
         // Si es un edificio de procesado, comprobar materias primas en el caso de que hayan cambiado
-        if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product)) {
+        if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product, this.assignedWorkers)) {
             console.log(`No hay suficientes materias primas para producir ${product.name}`);
             return;
         }
@@ -95,10 +95,10 @@ export default class Building extends Phaser.GameObjects.Sprite{
 
             // producir recurso
             if (this.isProcessor) { // Método que también resta las materias primas correspondientes
-                this.inventory.processProduct(product);
+                this.inventory.processProduct(product, this.assignedWorkers);
             }
             else {
-                this.inventory.produceProduct(product);
+                this.inventory.produceProduct(product, this.assignedWorkers);
             }
             console.log(`${this.name} produjo ${product.name}`);
 
@@ -145,19 +145,22 @@ export default class Building extends Phaser.GameObjects.Sprite{
     }
 
     addWorker(text) {
-        if (this.inventory.workers <= 0) {
+        if (this.inventory.availableWorkers <= 0) {
             console.log("No hay trabajadores disponibles en el inventario.");
             return;
         }
         this.assignedWorkers++;
-        this.inventory.workers--;
+        this.inventory.availableWorkers--;
+        this.scene.workersUI.setText("☭" + this.inventory.availableWorkers + "/" + this.inventory.workers);
+
         text.setText(`Workers: ${this.assignedWorkers}`);
     }
 
     removeWorker(text){
         if (this.assignedWorkers > 0) {
             this.assignedWorkers--;
-            this.inventory.workers++;
+            this.inventory.availableWorkers++;
+            this.scene.workersUI.setText("☭" + this.inventory.availableWorkers + "/" + this.inventory.workers);
             text.setText(`Workers: ${this.assignedWorkers}`);
         }
     }
