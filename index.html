@@ -8,48 +8,226 @@
   <script src="./lib/phaser.js"></script>
   <link rel="icon" type="image/x-icon" href="assets/webAssets/imagenGrupo.jpg">
   <title>Far Away From Tea</title>
+  <link rel="stylesheet" href="css/style.css">
+
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;900&family=Bangers&display=swap" rel="stylesheet">
+
+   <style>
+    body {
+      font-family: "Poppins", sans-serif;
+    }
+
+    .hometitle {
+      font-family: "Bangers", cursive;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Far Away From Tea</h1>
-  <h2>Matcha Games</h2>
-  <div class="contenedorApartados">
-    <div class="panel">
-      <p>Te encargas de gestionar y expandir una cafetería, 
-      construyendo nuevos edificios para conseguir materias primas y producir 
-      una gran variedad de productos que los clientes te pedirán durante el día. 
-      Mejorarás los edificios y conseguirás nuevos trabajadores que te ayudarán 
-      a ser más eficiente en tu objetivo de convertirte en la cafetería más famosa del mundo.
-      </p>
-      <p>Controles:</p>
-    </div>
-    <div id="canvas">
-      <script src="src/Game.js" type="module"></script>
-    </div>
-    <div class="panel">
-      <div>Autores:
-        <ul> 
-          <li>Javier Zazo Morillo</li>
-          <li>Adrián Arbas Perdiguero</li>
-          <li>Jorge Augusto Blanco Fernández</li>
-          <li>Vicente Rodríguez Casado</li>
-        </ul>
-      </div>
-      <p>Créditos:</p>
-      <p>Redes sociales:</p>
-      <div class="redesSociales">  
-        <div class="contenedorImagen">
-          <a href="https://x.com/GamesMatcha" target="_blank">
-            <img src="assets/webAssets/XLogo.png" alt="Imagen X">
-          </a>
+
+ <!--Header-->
+
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="" class="navL">
+          <img src="assets/webAssets/MatchaGames.Logo.png" alt="favicon" class="navL-img" />
+          Nube
+        </a>
+
+        <div class="navM" id="nav-menu">
+          <ul class="navList">
+            <li class="navItem">
+              <a href="#home" class="navLink active-link"> Inicio </a>
+            </li>
+            <li class="navItem">
+              <a href="#about" class="navLink"> Nosotros </a>
+            </li>
+            <li class="navItem">
+              <a href="#product" class="navLink"> Integrantes </a>
+            </li>
+            <li class="navItem">
+              <a href="#new" class="navLink"> Controles </a>
+            </li>
+
+          <div class="navclose" id="nav-close">
+            <i class="bx bx-x"></i>
+          </div>
         </div>
-        <div class="contenedorImagen">
-          <a href="https://github.com/link10804k/PVLI-Grupo02" target="_blank">
-            <img src="assets/webAssets/githubLogo.png" alt="Imagen GitHub">
-          </a>
+
+        <div class="navToggle" id="nav-toggle">
+          <i class="bx bx-grid-alt"></i>
         </div>
-      </div>
-    </div>
-  </div>
-</body>
+      </nav>
+    </header>
+
+
+    <main class="main">
+      <!--HOME-->
+      <section class="home container" id="home">
+        <div class="swiper home-swiper">
+          <div class="swiper-wrapper">
+            <section>
+              <div class="homecont grid">
+                <div class="homedata">
+                  <h1 class="hometitle">FAR<br /> AWAY<br />FROM <br />TEA!!</h1>
+                  <p class="homedes">
+                    Te encargas de gestionar y expandir una cafetería, construyendo nuevos edificios 
+                    para conseguir materias primas y producir una gran variedad de productos que los
+                    clientes te pedirán durante el día. Mejorarás los edificios y conseguirás nuevos
+                    trabajadores que te ayudarán a ser más eficiente en tu objetivo de convertirte
+                    en la cafetería más famosa del mundo.
+                  </p>
+                  <div class="homebut">
+                    <a href="#" class="button">CONTROLES</a>
+                    <a href="#" class="button">NOSOTROS</a>
+                  </div>
+                </div>
+
+                <div id="canvas">
+                  <script src="src/Game.js" type="module"></script>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!--CATEGORY-->
+      <section class="section category">
+        <h2 class="sectiontitle">
+          Nuestras <br />
+          Redes
+        </h2>
+
+        <div class="categorycontainer container grid">
+        
+        <div class="categorydata">
+            <h3 class="categorytitle">GitHub</h3>
+            <div class="contenedorImagen">
+                <a href="https://github.com/link10804k/PVLI-Grupo02" target="_blank">
+                    <img src="assets/webAssets/githubLogo.png" alt="Imagen GitHub">
+                </a>
+            </div>
+        </div>
+
+        <div class="categorydata">
+            <h3 class="categorytitle">Twitter</h3>
+            <div class="contenedorImagen">
+              <a href="https://x.com/GamesMatcha" target="_blank">
+              <img src="assets/webAssets/XLogo.png" alt="Imagen X">
+              </a>
+            </div>
+
+        </div>
+      </section>
+
+      <!--ABOUT-->
+      <section class="section about" id="about">
+        <div class="aboutcontainer container grid">
+          <img src="assets/webAssets/MatchaGames.Logo.png" alt="" class="aboutimg" />
+          <div class="aboutdata">
+            <h2 class="sectiontitle abouttitle">Nosotros <br />Somos</h2>
+            <p class="aboutdescription">
+              Somos Matcha Games, un equipo de desarrollo de videojuegos dedicado a crear experiencias
+              únicas y emocionantes para jugadores de todo el mundo. Esperemos que disfrute de nuestros juegos tanto
+              como nosotros disfrutamos creándolos.
+            </p>
+            <a href="#" class="button"> A JUGAR!! </a>
+          </div>
+        </div>
+      </section>
+
+      <!--PRODUCTS-->
+      <section class="section product" id="product">
+        <h2 class="sectiontitle">Integrantes</h2>
+
+        <div class="productcontainer">
+      
+          <div class="productcontent">
+            <img src="assets/webAssets/Abuelo-Zazo.jpg" alt="" class="productimg" />
+            <h3 class="Nombre">Javier Zazo del Zazo</h3>
+            <span class="Alias">Zazo Zazez</span>
+          </div>
+
+          <div class="productcontent">
+            <img src="assets/webAssets/BMO-Vicente.jpg" alt="" class="productimg" />
+            <h3 class="Nombre">Vicente Rodriguez Casado</h3>
+            <span class="Alias">Vicenku</span>
+          </div>
+
+          <div class="productcontent">
+            <img src="assets/webAssets/Ralsei-Macarr0n.png" alt="" class="productimg" />
+            <h3 class="Nombre">Adrián Arbas Perdiguero</h3>
+            <span class="Alias">Macarr0n</span>
+          </div>
+
+          <div class="productcontent">
+            <img src="assets/webAssets/Vox-JorgeOfTheJungle.jpg" alt="" class="productimg" />
+            <h3 class="Nombre">Jorge Augusto Blanco</h3>
+            <span class="Alias">El perros</span>
+          </div>
+        </div>
+      </section>
+
+      <!--CONTROLES-->
+      <section class="section new" id="new">
+        <h2 class="sectiontitle">CONTROLES</h2>
+
+        <div class="newcontainer container">
+          <div class="swiper new-swiper">
+            <div class="swiper-wrapper">
+              <div class="newcontent swiper-slide">
+                <div class="newtag">W / A / S / D</div>
+                <img src="assets/webAssets/WASD.png" alt="" class="newimg" />
+                <h3 class="newtitle">MOVIMIENTO</h3>
+                <span class="newsubtitle">Mover la cámara</span>
+                  <button class="button newbutton">
+                    <i class="bx bx-cart-alt newicon"></i>
+                  </button>
+              </div>
+              <div class="newcontent swiper-slide">
+                <div class="newtag">I / O</div>
+                <img src="assets/webAssets/Lupa-zoom.png" alt="" class="newimg" />
+                <h3 class="newtitle">ZOOM</h3>
+                <span class="newsubtitle">Acercar y alejar la cámara</span>
+                  <button class="button newbutton">
+                    <i class="bx bx-cart-alt newicon"></i>
+                  </button>
+              </div>
+
+              <div class="newcontent swiper-slide">
+                <div class="newtag">Squick!</div>
+                <img src="assets/webAssets/Mouse.png" alt="" class="newimg" />
+                <h3 class="newtitle">Todo el resto de cosas</h3>
+                <span class="newsubtitle">Mueve el ratón por la pantalla para clickar en las diferentes partes del juego para interactuar con él y así construir, producir y vender café</span>
+                  <button class="button newbutton">
+                    <i class="bx bx-cart-alt newicon"></i>
+                  </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--CORREO-->
+
+      <section class="section newsletter">
+        <div class="newslc container">
+          <h2 class="sectiontitle">Noticias</h2>
+          <p class="newsld">Aquí puedes recibir noticias de nuestros juegos</p>
+          <form action="" class="newslf">
+            <input type="text" placeholder="Correo" class="newslin" />
+            <button class="button2">Subscribete</button>
+          </form>
+        </div>
+      </section>
+    </main>
+   
+    <!--JAVASCRIPT-->
+    <script src="js/scrollreveal.min.js"></script>
+
+    <script src="js/swiper-bundle.min.js"></script>
+
+    <script src="js/main.js"></script>
+  </body>
 </html>
