@@ -13,6 +13,8 @@ export default class Tile extends Phaser.GameObjects.Sprite{
     this.occupied = occupied;
 
     this.isProcessor = isProcessor;
+
+    this.inventory = this.scene.playerInventory;
   
 
     // Botón central
@@ -73,7 +75,7 @@ export default class Tile extends Phaser.GameObjects.Sprite{
    build(buildingData) {
     // Evitar construir si ya hay un edificio en este tile
         if (this.currentBuilding) {
-            console.warn(`⛔ Este tile ya tiene un edificio construido: ${this.currentBuilding.name}`);
+            console.warn(`Este tile ya tiene un edificio construido: ${this.currentBuilding.name}`);
             return false;
         }
 

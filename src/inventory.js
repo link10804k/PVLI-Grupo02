@@ -9,6 +9,12 @@ export default class Inventory{
         EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
         
         this.money = money + 1000;
+
+        this.workers = 1;
+        this.workersSlots = 4; // Número máximo de trabajadores disponibles. 1 de regalo por nivel + 3 que puedes comprar por nivel
+        this.workerBasePrice = 250;  // precio base del primer trabajador
+        this.workerGrowthRate = 1.25; // multiplicador (+25% cada compra)
+
         this.mainScene = scene;
 
         this.popularityLevel = 1;
@@ -109,4 +115,33 @@ export default class Inventory{
     updateInventoryUI() {
         EventBus.emit(events.INVENTORY_UPDATE, this.unprocessedProducts, this.processedProducts);
     }
+
+    buyWorker() {
+    // Verificar si hay espacio
+    if (this.workers >= this.workersSlots) {
+        console.log("No puedes contratar más trabajadores. Límite alcanzado.");
+        return false;
+    }
+
+    // Verificar si hay dinero
+    if (!this.hasEnoughMoney(this.workerPrice)) {
+        console.log("No tienes suficiente dinero. Precio del trabajador:", this.workerPrice);
+        return false;
+    }
+
+    // Cobrar y añadir trabajador
+    this.removeMoney(this.workerPrice);
+    this.workers++;
+
+    // Aumentar el precio para el siguiente trabajador
+    this.workerPrice = Math.floor(this.workerPrice * this.workerGrowthRate);
+
+    console.log(`Trabajador comprado. Ahora tienes ${this.workers}. Próximo vale: ${this.workerPrice}`);
+
+    // Actualizar UI del dinero
+    this.mainScene.updateMoneyUI();
+
+    return true;
 }
+
+}   

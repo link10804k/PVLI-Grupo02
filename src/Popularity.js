@@ -1,10 +1,12 @@
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js"; 
 import Aplication from "./Aplication.js";
+import MainScene from "./MainScene.js";
 
 export default class PopularityBar {
-    constructor(scene) {
+    constructor(scene, playerInventory) {
         this.scene = scene;
+        this.inventory = playerInventory
 
         //Dimensiones
         this.width = 200;
@@ -86,6 +88,10 @@ export default class PopularityBar {
     levelUp() {
         this.level++;
         this.popularityNeeded = Math.floor(this.popularityNeeded * 1.25);
+
+        this.inventory.workersSlots += 4; // Aumentar espacio para trabajadores al subir de nivel
+        this.inventory.worckers += 1; // Aumentar número de trabajadores al subir de nivel
+
         this.levelText.setText(`${this.level}`);
         new Aplication(this.scene, Image, "Cuanto me gustan los macarrones!");
         console.log(`¡Has alcanzado el nivel de popularidad ${this.level}!`);

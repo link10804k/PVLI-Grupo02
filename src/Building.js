@@ -145,13 +145,19 @@ export default class Building extends Phaser.GameObjects.Sprite{
     }
 
     addWorker(text) {
+        if (this.inventory.workers <= 0) {
+            console.log("No hay trabajadores disponibles en el inventario.");
+            return;
+        }
         this.assignedWorkers++;
+        this.inventory.workers--;
         text.setText(`Workers: ${this.assignedWorkers}`);
     }
 
     removeWorker(text){
         if (this.assignedWorkers > 0) {
             this.assignedWorkers--;
+            this.inventory.workers++;
             text.setText(`Workers: ${this.assignedWorkers}`);
         }
     }

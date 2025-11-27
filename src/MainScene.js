@@ -69,7 +69,7 @@ export default class MainScene extends Phaser.Scene {
         }).setScrollFactor(0);
 
         //UI crear la barra de popularidad
-        this.popularityBar = new PopularityBar(this.UIScene);
+        this.popularityBar = new PopularityBar(this.UIScene,this.playerInventory);
 
         this.inventoryUI = new InventoryUI(this.UIScene);
     }
