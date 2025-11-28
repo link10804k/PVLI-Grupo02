@@ -28,7 +28,7 @@ Genero: Construcción de bases y gestión de recursos. Con vista top-down.
 ## Capturas del juego
 
 
-| ![Captura 1](assets/gitAssets/PantallaPrincipal.PNG) | ![Captura 2](assets/gitAssets/MenuDeConstruccion.PNG) | ![Captura 3](assets/gitAssets/MenuDeProduccion.PNG) |
+![Captura 1](assets/gitAssets/PantallaPrincipal.PNG) | ![Captura 2](assets/gitAssets/MenuDeConstruccion.PNG) | ![Captura 3](assets/gitAssets/MenuDeProduccion.PNG) |
 
 ---
 
