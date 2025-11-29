@@ -3,7 +3,7 @@
         "tier1": {
             "coffeeGrains": {
                 "name": "Coffee grains", 
-                "description": "Simple grains of coffee. Used for making standard coffee.",
+                "description": "Simple grains of coffee. Used for making coffee.",
                 "quantity": 0,
                 "time": 5
             },
@@ -15,13 +15,59 @@
             }
         },
         "tier2": {
-            "meat": {
-                "name": "Meat",
-                "description": "Raw meat from animals.",
+            "cocoaBeans": {
+                "name": "Cocoa beans",
+                "description": "Raw cocoa beans. Used for making hot chocolate.",
+                "quantity": 0,
+                "time": 10
+            },
+            "pumpkins": {
+                "name": "Pumpkins",
+                "description": "Fresh pumpkins. Used for making pumpkin latte.",
+                "quantity": 0,
+                "time": 12
+            }
+        },
+        "tier3": {
+            "dough": {
+                "name": "Dough",
+                "description": "Basic dough used for making cookies.",
+                "quantity": 0,
+                "time": 15
+            },
+            "sugar": {
+                "name": "Sugar",
+                "description": "Sweet sugar used in various recipes.",
+                "quantity": 0,
+                "time": 13
+            }     
+        },    
+        "tier4": {
+            "frozenBurgers": {
+                "name": "Frozen Burgers",
+                "description": "Frozen burgers ready to be eaten when warmed.",
+                "quantity": 0,
+                "time": 30
+            },
+            "frozenTacos": {
+                "name": "Frozen Tacos",
+                "description": "Frozen tacos ready to be eaten when warmed.",
+                "quantity": 0,
+                "time": 25
+            },
+            "frozenPizza": {
+                "name": "Frozen Pizza",
+                "description": "Frozen pizza ready to be eaten when warmed.",
                 "quantity": 0,
                 "time": 20
+            },
+            "frozenPaella": {
+                "name": "Frozen Paella",
+                "description": "Frozen paella ready to be eaten when warmed.",
+                "quantity": 0,
+                "time": 35
             }
-        }    
+        }
     },
     "processedProducts": {
         "tier1": {
@@ -49,15 +95,113 @@
             }
         },
         "tier2": {
-            "grilledMeat": {
-                "name": "Grilled Meat",
-                "description": "Delicious grilled meat ready to be sold.",
+            "hotChocolate": {
+                "name": "Hot Chocolate",
+                "description": "Warm and comforting hot chocolate made from chocolate and milk.",
+                "quantity": 0,
+                "time": 15,
+                "price": 20,
+                "neededProducts": {
+                    "dough": 1
+                },
+                "texture": "HotChocolate_display"
+            },
+            "pumpkinLatte": {
+                "name": "Pumpkin Latte",
+                "description": "A seasonal favorite made with fresh pumpkins and espresso.",
+                "quantity": 0,
+                "time": 18,
+                "price": 25,
+                "neededProducts": {
+                    "pumpkins": 1,
+                    "coffeeGrains": 1
+                },
+                "texture": "PumpkinLatte_display"
+            }
+        },
+        "tier3": {
+            "cookies": {
+                "name": "Cookies",
+                "description": "Delicious cookies made from dough.",
+                "quantity": 0,
+                "time": 30,
+                "price": 50,
+                "neededProducts": {
+                    "dough": 1,
+                    "sugar": 2,
+                    "cocoaBeans": 1       
+                },
+                "texture": "Cookies_display"
+            },
+            "pumpkinPie": {
+                "name": "Pumpkin Pie",
+                "description": "A classic dessert made with fresh pumpkins and a flaky crust.",
+                "quantity": 0,
+                "time": 40,
+                "price": 70,
+                "neededProducts": {               
+                    "dough": 1,
+                    "sugar": 1,
+                    "pumpkins": 2
+                },
+                "texture": "PumpkinPie_display"
+            },
+            "bread": {
+                "name": "Bread",
+                "description": "Freshly baked bread made from dough.",
                 "quantity": 0,
                 "time": 25,
                 "price": 30,
                 "neededProducts": {
-                    "meat": 1
-                }
+                    "dough": 2
+                },
+                "texture": "Bread_display"
+            }
+        },
+        "tier4": {
+            "burgers": {
+                "name": "Burgers",
+                "description": "Juicy burgers made from frozen burgers.",
+                "quantity": 0,
+                "time": 20,
+                "price": 80,
+                "neededProducts": {
+                    "frozenBurgers": 1
+                },
+                "texture": "Burger_display"
+            },
+            "tacos": {
+                "name": "Tacos",
+                "description": "Delicious tacos made from frozen tacos.",
+                "quantity": 0,
+                "time": 18,
+                "price": 70,
+                "neededProducts": {
+                    "frozenTacos": 1
+                },
+                "texture": "Taco_display"
+            },
+            "pizza": {
+                "name": "Pizza",
+                "description": "Tasty pizza made from frozen pizza.",
+                "quantity": 0,
+                "time": 22,
+                "price": 90,
+                "neededProducts": {
+                    "frozenPizza": 1
+                },
+                "texture": "Pizza_display"
+            },
+            "paella": {
+                "name": "Paella",
+                "description": "Flavorful paella made from frozen paella.",
+                "quantity": 0,
+                "time": 28,
+                "price": 100,
+                "neededProducts": {
+                    "frozenPaella": 1
+                },
+                "texture": "Paella_display"
             }
         }
     }

@@ -6,21 +6,41 @@
             "texture": "building"
         },
         "tier2": {
-            "name": "Slaughterhouse",
-            "description": "A building to produce meat.",
-            "texture": "Slaughterhouse_building"
+            "name": "Exotic Farm",
+            "description": "A building to produce cocoa beans and pumpkins.",
+            "texture": "ExoticFarm_building"
+        },
+        "tier3": {
+            "name": "Bakery",
+            "description": "A building to produce dough and sugar.",
+            "texture": "Bakery_building"
+        },
+        "tier4": {
+            "name": "Harbor",
+            "description": "A building where ships arrive with frozen meals.",
+            "texture": "Harbor_building"
         }
     },
     "processedProducts": {
         "tier1": {
             "name": "Coffee Maker",
-            "description": "A machine to process coffee grains into coffee and tea herbs into tea.",
-            "texture": "Coffee_display"
+            "description": "A machine to make coffee and green tea.",
+            "texture": "CoffeeMaker_building"
         },
         "tier2": {
-            "name": "Grill",
-            "description": "A machine to produce grilled meat.",
-            "texture": "Grill_building"
+            "name": "Expensive Coffee Maker",
+            "description": "A machine to make hot chocolate and pumpkin latte.",
+            "texture": "ExpensiveCoffeeMaker_building"
+        },
+        "tier3": {
+            "name": "Oven",
+            "description": "A machine to bake cookies, pumpkin pies and bread.",
+            "texture": "Oven_building"
+        },
+        "tier4": {
+            "name": "Microwave",
+            "description": "A machine to warm frozen meals.",
+            "texture": "Microwave_building"
         }
     }
 }

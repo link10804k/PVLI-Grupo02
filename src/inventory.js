@@ -41,7 +41,6 @@ export default class Inventory{
     processProduct(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad
         Object.entries(productWanted.neededProducts).forEach(([key, value]) => {
             this.unprocessedProducts[key].quantity -= value * amount;
-            console.log("La cantidad de ", this.unprocessedProducts[key].name, " es: ", this.unprocessedProducts[key].quantity);
         });
 
         productWanted.quantity += amount;
