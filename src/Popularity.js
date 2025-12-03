@@ -25,12 +25,25 @@ export default class PopularityBar {
         this.x = (scene.scale.width - this.width) / 2;
         this.y = padding + this.height / 2;
 
+        //Corazon
+        this.heartText = scene.add.text(
+            this.x - 30,   // a la izquierda del nivel
+            this.y,
+            "❤",
+            {
+                fontSize: "42px",
+            color: "#da0086",    // mismo color que la barra
+            stroke: "#000000",
+            strokeThickness: 3,
+            }
+).setOrigin(0.5);
+
         //Texto del nivel (a la izquierda)
-        this.levelText = scene.add.text(this.x - 20, this.y, `${this.level}`, {
+        this.levelText = scene.add.text(this.x - 38, this.y - 3, `${this.level}`, {
             fontSize: '30px',
-            fill: '#da0086ff',
-            stroke: '#da0086',
-            strokeThickness: 2
+            fill: '#030002ff',
+            stroke: '#000000ff',
+            strokeThickness: 1
         }).setOrigin(0, 0.5);
 
         // Barra de fondo
@@ -54,12 +67,21 @@ export default class PopularityBar {
         });
         EventBus.on(events.REMOVE_POPULARITY, (amount) => {
         this.loosePopularity(amount);
-});
+        });
 
- this.zKey = this.scene.input.keyboard.addKey('Z');
-    this.zKey.on("down", () => {
-        this.addPopularity(25);
+    //////////////////////////////////////////////////////////////
+    //TRUQUITOS/////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////
+    this.zKey = this.scene.input.keyboard.addKey('Z');
+        this.zKey.on("down", () => {
+            this.addPopularity(25);
     }   );
+
+    this.xKey = this.scene.input.keyboard.addKey('X');
+        this.xKey.on("down", () => {
+            this.loosePopularity(25);
+    }   );
+
 
 
 }
@@ -73,6 +95,7 @@ export default class PopularityBar {
         }
 
         this.updateBar();
+        this.showFloatingPopularity(amount);
     }
    
     loosePopularity(amount) {
@@ -83,6 +106,7 @@ export default class PopularityBar {
         }
 
         this.updateBar();
+        this.showFloatingPopularity(-amount);
     }
 
     levelUp() {
@@ -103,6 +127,61 @@ export default class PopularityBar {
 
     updateBar() {
         const percentage = this.currentPopularity / this.popularityNeeded;
-        this.bar.width = this.width * percentage;
+         const targetWidth = this.width * percentage;
+    // Parar tween anterior si existe
+        if (this.barTween) {
+            this.barTween.stop();
+            this.barTween = null;
+        }
+
+    // Objeto proxy con el ancho actual
+    const startWidth = this.bar.width || 0;
+    const proxy = { w: startWidth };
+
+    this.barTween = this.scene.tweens.add({
+        targets: proxy,
+        w: targetWidth,
+        duration: 1000,            // ajusta la velocidad aquí
+        ease: "Quad.easeOut",
+        onUpdate: () => {
+            // Asignamos el valor intermedio al rectángulo
+            this.bar.width = proxy.w;
+        },
+        onComplete: () => {
+            // Aseguramos el valor final exacto y liberamos referencia
+            this.bar.width = targetWidth;
+            this.barTween = null;
+        }
+    });
+
     }
+
+    showFloatingPopularity(amount) {
+    const isPositive = amount >= 0;
+
+    const floatText = this.scene.add.text(
+        this.heartText.x - 35,   // a la izquierda del corazón
+        this.heartText.y,
+        `${isPositive ? "+" : ""}${amount}`,
+        {
+            fontSize: "22px",
+            fill: isPositive ? "#da0086" : "#ff0000",
+            stroke: "#000000",
+            strokeThickness: 1
+        }
+    ).setOrigin(1, 0.5);
+
+    floatText.setScrollFactor(0);
+
+    this.scene.tweens.add({
+        targets: floatText,
+        y: floatText.y - 35,     // sube
+        alpha: 0,                // desaparece
+        duration: 3000,
+        ease: "Cubic.easeOut",
+        onComplete: () => {
+            floatText.destroy();
+        }
+    });
+}
 }

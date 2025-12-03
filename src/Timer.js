@@ -1,5 +1,5 @@
 export default class ProductionTimer extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, duration, textureKey) {
+    constructor(scene, x, y, duration, textureKey, onCompleteCallback = null) {
         super(scene, x, y);
 
         this.scene = scene;
@@ -9,6 +9,7 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
         this.startTime = null;
         this.finished = false;
         this.destroyedFlag = false;
+        this.onCompleteCallback = onCompleteCallback; // callback opcional
 
         // Gráfico base (círculo gris)
         this.baseCircle = this.scene.add.graphics(); 
@@ -18,9 +19,11 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
        this.progressCircle = scene.make.graphics({});
 
         // Icono del producto
+
         this.icon = scene.add.image(0, 0, textureKey);
         this.icon.setDisplaySize(40, 40);
         this.icon.setDepth(10);
+        if(!textureKey) this.icon.setAlpha(0);
 
         // Texto del tiempo restante
         this.timeText = scene.add.text(0, 60, duration + "s", {
@@ -82,6 +85,11 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
 
         if (this.remaining <= 0) {
             this.finished = true;
-        }
+            if (this.onCompleteCallback) {
+                this.onCompleteCallback(); // llama al callback
     }
+        }
+        
+    }
+    
 }

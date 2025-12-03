@@ -10,12 +10,15 @@
             "description": "A building to produce cocoa beans and pumpkins.",
             "texture": "ExoticFarm_building"
         },
-        "tier3": {
+        "tier3": 
+        {
             "name": "Bakery",
             "description": "A building to produce dough and sugar.",
             "texture": "Bakery_building"
         },
-        "tier4": {
+        
+        "tier4": 
+        {
             "name": "Harbor",
             "description": "A building where ships arrive with frozen meals.",
             "texture": "Harbor_building"

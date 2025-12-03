@@ -21,6 +21,15 @@ export default class Inventory{
 
         this.popularityLevel = 1;
         this.maxTier = Object.keys(Products.unprocessedProducts).length;
+
+    //////////////////////////////////////////////////////////////
+    //TRUQUITOS/////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////
+    this.mKey = this.mainScene.input.keyboard.addKey('M');
+        this.mKey.on("down", () => {
+            this.addMoney(25);
+    }   );
+
     }
 
     inventoryChange(popularityLevel) {
@@ -50,12 +59,16 @@ export default class Inventory{
     // Vender productos
     // PARA LOS PEDIDOS
     sellProducts(products, amounts) { // Array de productos que se quieren vender y array de cantidades
+       
+        let totalMoney = 0;
+
         products.forEach((element, index) => {
-            this.money += element.price * amounts[index];
+           let earnedMoney = element.price * amounts[index];
+           totalMoney += earnedMoney;
             element.quantity -= amounts[index];
         });
 
-        this.mainScene.updateMoneyUI();
+        this.addMoney(totalMoney);
         this.updateInventoryUI();
     }
     // Comprueba si hay suficientes productos no procesados
@@ -89,7 +102,8 @@ export default class Inventory{
     // Quita dinero
     // PARA COMPRAS
     removeMoney(amount) {
-        this.money -= amount;
+       
+        this.addMoney(-amount)
     }
 
     getUnprocessedProductsFromTier(tier) {
@@ -145,6 +159,44 @@ export default class Inventory{
         this.mainScene.workerPriceText.setText("$" + this.workerPrice);
 
         return true;
-    }   
+    }  
+
+    addMoney(amount) {
+    this.money += amount;
+
+    // Actualizar UI
+    this.mainScene.updateMoneyUI();
+
+    // Crear texto flotante igual que la popularidad
+    this.showFloatingMoney(amount);
+}
+
+showFloatingMoney(amount) {
+
+    const isPositive = amount >= 0;
+
+    const floatText = this.mainScene.UIScene.add.text(
+        this.mainScene.moneyUI.x - 10,   // a la izquierda del UI del dinero
+        this.mainScene.moneyUI.y + 30,
+        `${isPositive ? "+" : ""}${amount}$`,
+        {
+            fontSize: "26px",
+            fill: isPositive ? "#00cc44" : "#ff0000", // verde si sube, rojo si baja
+            stroke: "#000000",
+            strokeThickness: 1
+        }
+    ).setOrigin(1, 0.5);
+
+    floatText.setScrollFactor(0);
+
+    this.mainScene.tweens.add({
+        targets: floatText,
+        y: floatText.y - 40,
+        alpha: 0,
+        duration: 3000,
+        ease: "Cubic.easeOut",
+        onComplete: () => floatText.destroy()
+    });
+}
 
 }   

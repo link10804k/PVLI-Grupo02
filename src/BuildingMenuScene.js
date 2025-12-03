@@ -2,6 +2,10 @@ import Button from "./Button.js";
 import Buildings from "./Resources/Buildings.json" with { type: "json"}
 
 export default class BuildingMenuScene extends Phaser.Scene {
+
+     // Definir constante para tiles cercanas al agua
+    static WATER_TILE_X = 200; // Todo tile con x <= 200 se considera cerca del agua
+
     constructor(){
         super({ key: "BuildingMenuScene" });
         // Número de edificios construidos para aplicar un multiplicador por 
@@ -101,6 +105,21 @@ export default class BuildingMenuScene extends Phaser.Scene {
     // Si el jugador tiene suficiente dinero para construir el edificio seleccionado y la parcela esta vacía, se construye el edificio 
     selectBuilding(building) {
         console.log("Construir:", building.name);
+
+        // Si es un puerto, solo permitir en tiles cerca del agua
+        if (building.name == "Harbor") {
+            if (this.tile.x > BuildingMenuScene.WATER_TILE_X) {
+                console.log("Solo se puede construir el puerto en tiles cercanas al agua");
+                return;
+            }
+        } else {
+            // Si el nivel del jugador aún no desbloquea otros edificios, bloquearlos
+            if (this.inventory.popularityLevel < building.requiredLevel) {
+                console.log("Aún no puedes construir este edificio");
+                return;
+            }
+        }
+
         if(this.mainScene.playerInventory.hasEnoughMoney(building.price))
         {
             if(this.tile.build(building)) 

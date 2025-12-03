@@ -1,6 +1,7 @@
 import Button from "./Button.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
+import ProductionTimer from "./Timer.js"; 
 import MainScene from "./MainScene.js";
 
 const POPULARITY_LOSS_ON_FAIL = 30; // Cantidad de popularidad que se pierde al fallar un pedido
@@ -27,11 +28,17 @@ export default class Order extends Phaser.GameObjects.Sprite {
             }
         }
 
-        this.timerEvent = this.scene.time.addEvent({
-            callback: () => this.FailOrder(),
-            delay: time,
-            loop: false
-        });
+        // Timer con ProductionTimer
+       this.timer = new ProductionTimer(
+            scene, 
+            this.x + 150, 
+            this.y + 20, 
+            Math.ceil(time / 1000), 
+            null,// <---icono si queremos aqui
+            this.FailOrder.bind(this) // <-- callback al terminar
+        ).setScale(0.5);
+        this.timer.start();
+
 
         //this.timer = this.scene.add.text(x + 150, y + 20, "Tiempo: " + Math.ceil(time / 1000).toString(), { font: "20px Arial", fill: "#00FF00" });
         //console.log(this.timer);
@@ -42,6 +49,9 @@ export default class Order extends Phaser.GameObjects.Sprite {
         this.productsImages.forEach(element => {
             element.y -= y;
         });
+
+     // Mueve también el timer
+        this.timer.y -= y;
     }
     destructor() {
         this.scene.time.removeEvent(this.timerEvent);
@@ -50,6 +60,11 @@ export default class Order extends Phaser.GameObjects.Sprite {
         this.productsImages.forEach(element => {
             element.destroy();
         });
+        
+        //Destruir timer
+        this.timer.destroy();
+        this.timer = null;
+    
         this.destroy();
     }
     TryCompleteOrder() {
