@@ -48,9 +48,6 @@ export default class GachaScene extends Phaser.Scene {
 
     init(data){
         this.inventory = data.inventory;
-
-        this.physics.world.setFPS(PHYSICS_FPS);
-        this.physics.world.timeScale = 1;
     }
 
     preload() {
@@ -83,16 +80,13 @@ export default class GachaScene extends Phaser.Scene {
                 else {
                     bumper = this.add.circle(BUMPER_ODD_START_X + j * BUMPER_ODD_GAP_X, BUMPER_START_Y + i * BUMPER_GAP_Y, BUMPER_RADIUS, 0x10FF10).setOrigin(0.5);      
                 }
-                this.physics.add.existing(bumper, true); // true para que sea estático
+                this.matter.add.gameObject(bumper, { isStatic: true, circleRadius: bumper.radius });
                 if (border) {
-                    bumper.body.setCircle(BUMPER_RADIUS*2);
                     this.bouncers.push(bumper);
                 }
                 else {
-                    bumper.body.setCircle(BUMPER_RADIUS);
                     this.colliders.push(bumper);
                 }
-                
             }
         }
 
@@ -100,13 +94,13 @@ export default class GachaScene extends Phaser.Scene {
         this.add.rectangle(LEFT_BORDER_X - 22.5, MID_POINT_Y, 15, 600, 0xff10F0).setOrigin(0.5); // Para tapar el tween
 
         let leftBorder = this.add.rectangle(LEFT_BORDER_X, MID_POINT_Y, 30, 600, 0xff10F0).setOrigin(0.5);
-        this.physics.add.existing(leftBorder, true); // true para que sea estático
+        this.matter.add.gameObject(leftBorder, { isStatic: true });
         this.colliders.push(leftBorder);
 
         this.add.rectangle(RIGHT_BORDER_X + 22.5, MID_POINT_Y, 15, 600, 0xff10F0).setOrigin(0.5); // Para tapar el tween
 
         let rightBorder = this.add.rectangle(RIGHT_BORDER_X, MID_POINT_Y, 30, 600, 0xff10F0).setOrigin(0.5);
-        this.physics.add.existing(rightBorder, true); // true para que sea estático
+        this.matter.add.gameObject(rightBorder, { isStatic: true });
         this.colliders.push(rightBorder);
 
         // Botón de inicio
@@ -121,51 +115,56 @@ export default class GachaScene extends Phaser.Scene {
             this.time.addEvent({
                 delay: i * 300,
                 callback: () => {
-                    let ball = new GachaBall(this, BALL_START.x, BALL_START.y, BALL_RADIUS, 0xFFFF10);
+                    //let ball = new GachaBall(this, BALL_START.x, BALL_START.y, BALL_RADIUS, 0xFFFF10);
+                    let ball = this.add.circle(BALL_START.x, BALL_START.y, BALL_RADIUS, 0xFFFF10).setOrigin(0.5);
+                    this.matter.add.gameObject(ball, { circleRadius: BALL_RADIUS });
+                    //let content = this.randomizeBallContent();
+                    //ball.applyForce({ x: Phaser.Math.Between(-0.01, 0.01), y: Phaser.Math.Between(-0.01, -0.02) });
+                    ball.setVelocity(Phaser.Math.Between(-1, 1), Phaser.Math.Between(-1, -1));
                     balls.push(ball);
                 }
             });
         }
-        this.physics.add.collider(balls, this.colliders, (ball) => {
-            if (ball.body.velocity.y < ballsSpeed[this.whichBall(balls, ball)] + this.physics.world.gravity.y / PHYSICS_FPS) {
-                ball.body.velocity.y = ballsSpeed[this.whichBall(balls, ball)] + this.physics.world.gravity.y / PHYSICS_FPS;
-                ballsSpeed[this.whichBall(balls, ball)] = ball.body.velocity.y;
-            }
-            if (ball.body.velocity.y < 10) {
-                ballsSpeed[this.whichBall(balls, ball)] = ball.body.velocity.y;
-            }
-        });
-        this.physics.add.collider(balls, balls, (ball1, ball2) => {
-            if (ball1.body.velocity.y < ballsSpeed[this.whichBall(balls, ball1)] + this.physics.world.gravity.y / PHYSICS_FPS) {
-                ball1.body.velocity.y = ballsSpeed[this.whichBall(balls, ball1)] + this.physics.world.gravity.y / PHYSICS_FPS;
-                ballsSpeed[this.whichBall(balls, ball1)] = ball1.body.velocity.y;
-            }
-            if (ball1.body.velocity.y < 10) {
-                ballsSpeed[this.whichBall(balls, ball1)] = ball1.body.velocity.y;
-            }
-
-            if (ball2.body.velocity.y < ballsSpeed[this.whichBall(balls, ball2)] + this.physics.world.gravity.y / PHYSICS_FPS) {
-                ball2.body.velocity.y = ballsSpeed[this.whichBall(balls, ball2)] + this.physics.world.gravity.y / PHYSICS_FPS;
-                ballsSpeed[this.whichBall(balls, ball2)] = ball2.body.velocity.y;
-            }
-            if (ball2.body.velocity.y < 10) {
-                ballsSpeed[this.whichBall(balls, ball2)] = ball2.body.velocity.y;
-            }
-        });
-
-        this.physics.add.collider(balls, this.bouncers, (ball, bumper) => {
-            if (this.tweens.getTweensOf(bumper).length == 0) {
-                this.tweens.add({
-                    targets: bumper,
-                    scale: 1.5,
-                    duration: 100,
-                    yoyo: true,
-                    ease: 'Quart',
-                })
-                let direction = new Phaser.Math.Vector2(ball.x - bumper.x, ball.y - bumper.y).normalize();
-                ball.body.setVelocity(direction.x * 300, direction.y * 300);
-            }     
-        });
+        //this.physics.add.collider(balls, this.colliders, (ball) => {
+        //    if (ball.body.velocity.y < ballsSpeed[this.whichBall(balls, ball)] + this.physics.world.gravity.y / PHYSICS_FPS) {
+        //        ball.body.velocity.y = ballsSpeed[this.whichBall(balls, ball)] + this.physics.world.gravity.y / PHYSICS_FPS;
+        //        ballsSpeed[this.whichBall(balls, ball)] = ball.body.velocity.y;
+        //    }
+        //    if (ball.body.velocity.y < 10) {
+        //        ballsSpeed[this.whichBall(balls, ball)] = ball.body.velocity.y;
+        //    }
+        //});
+        //this.physics.add.collider(balls, balls, (ball1, ball2) => {
+        //    if (ball1.body.velocity.y < ballsSpeed[this.whichBall(balls, ball1)] + this.physics.world.gravity.y / PHYSICS_FPS) {
+        //        ball1.body.velocity.y = ballsSpeed[this.whichBall(balls, ball1)] + this.physics.world.gravity.y / PHYSICS_FPS;
+        //        ballsSpeed[this.whichBall(balls, ball1)] = ball1.body.velocity.y;
+        //    }
+        //    if (ball1.body.velocity.y < 10) {
+        //        ballsSpeed[this.whichBall(balls, ball1)] = ball1.body.velocity.y;
+        //    }
+//
+        //    if (ball2.body.velocity.y < ballsSpeed[this.whichBall(balls, ball2)] + this.physics.world.gravity.y / PHYSICS_FPS) {
+        //        ball2.body.velocity.y = ballsSpeed[this.whichBall(balls, ball2)] + this.physics.world.gravity.y / PHYSICS_FPS;
+        //        ballsSpeed[this.whichBall(balls, ball2)] = ball2.body.velocity.y;
+        //    }
+        //    if (ball2.body.velocity.y < 10) {
+        //        ballsSpeed[this.whichBall(balls, ball2)] = ball2.body.velocity.y;
+        //    }
+        //});
+//
+        //this.physics.add.collider(balls, this.bouncers, (ball, bumper) => {
+        //    if (this.tweens.getTweensOf(bumper).length == 0) {
+        //        this.tweens.add({
+        //            targets: bumper,
+        //            scale: 1.5,
+        //            duration: 100,
+        //            yoyo: true,
+        //            ease: 'Quart',
+        //        })
+        //        let direction = new Phaser.Math.Vector2(ball.x - bumper.x, ball.y - bumper.y).normalize();
+        //        ball.body.setVelocity(direction.x * 300, direction.y * 300);
+        //    }     
+        //});
     }
 
     whichBall(balls, ball) { // Devuelve el índice de la bola en el array

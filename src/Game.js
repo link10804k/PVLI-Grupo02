@@ -18,10 +18,10 @@ let config = {
         height: 600,
     },
     physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 400 },
-            //debug: true,
+        default: 'matter',
+        matter: {
+            gravity: { y: 1 },
+            debug: true,
         },
     },
     scene: [
