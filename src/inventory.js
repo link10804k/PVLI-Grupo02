@@ -133,6 +133,7 @@ export default class Inventory{
         // Cobrar y añadir trabajador
         this.removeMoney(this.workerPrice);
         this.workers++;
+        this.availableWorkers++;
 
         // Aumentar el precio para el siguiente trabajador
         this.workerPrice = Math.floor(this.workerPrice * this.workerGrowthRate);

@@ -46,7 +46,11 @@ export default class ProductionMenuScene extends Phaser.Scene {
             color: "#fff",
             }).setOrigin(0.5);
 
-            this.addButton = new Button(this, 520, 160 + 50 * i, "button", () => this.building.produce(this.products[i])).setScale(0.5);
+            this.addButton = new Button(this, 520, 160 + 50 * i, "button", [
+                () => this.building.produce(this.products[i]),
+                () => this.closeWindow(),
+            ]).setScale(0.5);
+            
         }
 
         //Boton de Upgrade

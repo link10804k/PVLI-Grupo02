@@ -2,7 +2,8 @@ export default class Button extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture="button", func) {
         super(scene, x, y, texture);
 
-        this.func = func
+         // Convertimos func en array para permitir múltiples callbacks
+       this.func = [].concat(func); //concat añade func a un array, si ya es un array lo deja igual
 
         scene.add.existing(this);
 
@@ -22,7 +23,8 @@ export default class Button extends Phaser.GameObjects.Sprite {
     }
     onMouseDown() {
          console.log("Botón presionado");
-        if (this.func) this.func();} // Aquí se ejecuta la función pasada como parámetro}
+        // Ejecutamos todas las funciones
+       this.func.forEach(f => f());}
     
     //Métodos nuevos para controlar visibilidad y estado
     disable() {
