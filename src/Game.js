@@ -6,6 +6,7 @@ import InventoryScene from "./InventoryUI.js"
 import CoffeSelectionMenu from "./CoffeSelectionMenu.js";
 import BuildingMenuScene from "./BuildingMenuScene.js";
 import UIScene from "./UIScene.js";
+import GachaScene from "./GachaScene.js";
 
 let config = {
     type: Phaser.AUTO,
@@ -16,6 +17,13 @@ let config = {
         width: 800,
         height: 600,
     },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 400 },
+            //debug: true,
+        },
+    },
     scene: [
         MainMenu, 
         MainScene, 
@@ -23,7 +31,8 @@ let config = {
         ProductionMenuScene, 
         CoffeSelectionMenu, 
         BuildingMenuScene, 
-        UIScene],
+        UIScene,
+        GachaScene]
 }
 
 new Phaser.Game(config);
