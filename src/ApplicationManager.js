@@ -1,16 +1,16 @@
 import Application from "./Application.js";
-import EventBus from "./EventBus.js";
-import events from "./EventBus.js";
+import {EventBus} from "./EventBus.js";
+import {events} from "./EventBus.js";
 import Messages from "./Resources/Messages.json" with { type: "json" };
 
 export default class ApplicationManager {
-    constructor(scene) {
+    constructor(scene, inventory) {
         this.scene = scene;
-        this.inventory = this.scene.playerInventory;
+        this.inventory = inventory;
 
         this.tier = 1;
 
-        this.messages = Object.entries(structuredClone(Messages));
+        this.messages = structuredClone(Messages);
 
         EventBus.on(events.LEVEL_INCREASED, (tier) => this.tier = tier);
         EventBus.on(events.PRODUCTION_PHASE, () => this.createApplication());
@@ -18,25 +18,35 @@ export default class ApplicationManager {
 
     createApplication() {
         let image;
-        let text;
-        let user;
-        new Application(this.scene, image, text);
+
+        let message = this.produceAppText();
+        
+        let text = message.text;
+        let user = message.user;
+        new Application(this.scene, user, null /*image*/, text);
     }
 
     getRandomProcessedProduct() { // Devuelve un producto procesado aleatorio del tier actual
-        let products = Object.keys(this.inventory.getProcessedProductsFromTier(this.tier));
-
+        let products = this.inventory.getProcessedProductsFromTier(this.tier);
         let randomIndex = Phaser.Math.Between(0, products.length - 1);
-        return this.inventory.processedProducts[products[randomIndex]];
+
+        let product = products[randomIndex];
+        EventBus.emit(events.POPULAR_PRODUCT_REQUESTED, product);
+
+        return product;
     }
 
-    getRandomText() { // Devuelve un texto aleatorio de los mensajes
+    getRandomMessage() { // Devuelve un texto aleatorio de los mensajes
         let randomIndex = Phaser.Math.Between(0, this.messages.length - 1);
         return this.messages[randomIndex];
     }
 
-    produceAppText() { // Devuelve el texto ya preparado para la aplicación
-        let message = this.getRandomText();
+    produceAppText() { // Devuelve el mensaje ya preparado para la aplicación
+        let message = this.getRandomMessage();
         let product = this.getRandomProcessedProduct();
+
+        
+        message.text = message.text.replace("[producto]", product.name);
+        return message;
     }
 }

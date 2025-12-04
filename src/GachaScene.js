@@ -44,18 +44,6 @@ export default class GachaScene extends Phaser.Scene {
 
         this.colliders = [];
         this.bouncers = [];
-
-        this.ballPool = new Pool(this, BALL_NUMBER, false); // Pool para las bolas
-
-        for (let i = 0; i < BALL_NUMBER; i++) {
-            let ball = this.add.circle(BALL_START.x, BALL_START.y, BALL_RADIUS, 0xFFFF10).setOrigin(0.5);
-            this.matter.add.gameObject(ball, { shape: "circle" });    
-            ball.setBounce(0.6);
-            ball.setFrictionAir(0);
-            ball.setFriction(0);
-
-            this.ballPool.add(ball);
-        }
     }
 
     init(data){
@@ -71,6 +59,18 @@ export default class GachaScene extends Phaser.Scene {
         this.createBorders();
         // Botón de inicio
         new Button(this, MID_POINT_X, 550, "button", () => this.startGacha()).setOrigin(0.5).setScale(0.5);
+
+        this.ballPool = new Pool(this, BALL_NUMBER, false); // Pool para las bolas
+
+        for (let i = 0; i < BALL_NUMBER; i++) {
+            let ball = this.add.circle(BALL_START.x, BALL_START.y, BALL_RADIUS, 0xFFFF10).setOrigin(0.5);
+            this.matter.add.gameObject(ball, { shape: "circle" });    
+            ball.setBounce(0.6);
+            ball.setFrictionAir(0);
+            ball.setFriction(0);
+
+            this.ballPool.add(ball);
+        }
     }
 
     createBumpers() {

@@ -8,6 +8,7 @@ import OrdersManager from "./OrdersManager.js";
 import PopularityBar from "./Popularity.js";
 import InventoryUI from "./InventoryUI.js";
 import Button from "./Button.js";
+import ApplicationManager from "./ApplicationManager.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 
@@ -54,6 +55,7 @@ export default class MainScene extends Phaser.Scene {
         this.playerInventory = new Inventory(this, 50.00);
         this.phaseManager = new PhaseManager(this);
         this.ordersManager = new OrdersManager(this, this.playerInventory);
+        this.applicationManager = new ApplicationManager(this, this.playerInventory);
 
         this.add.image(400, 300, "background2").setOrigin(0.5, 0.5);
 

@@ -14,6 +14,6 @@ export const events = {
     REMOVE_POPULARITY: 'removePopularity', // Con cantidad a quitar como parámetro
     // UI Inventario
     INVENTORY_UPDATE: 'inventoryUpdate', // Con los recursos actuales como parámetro
-    //Trabajadores
-   
+    // Aplicación
+    POPULAR_PRODUCT_REQUESTED: 'popularProductRequested' // Con el producto popular como parámetro   
 }

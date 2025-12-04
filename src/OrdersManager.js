@@ -20,6 +20,12 @@ export default class OrdersManager {
 
         EventBus.on(events.ORDER_COMPLETED, (order, orderId) => this.RemoveOrder(order, orderId));
         EventBus.on(events.ORDER_FAILED, (order, orderId) => this.FailOrder(order, orderId));
+
+        this.popularProduct = null;
+
+        EventBus.on(events.POPULAR_PRODUCT_REQUESTED, (popularProduct) => {
+            this.popularProduct = popularProduct;
+        });
     }
     
     StartOrders() {
@@ -39,6 +45,8 @@ export default class OrdersManager {
             this.orders[0].destructor();
             this.FailOrder(this.orders[0], this.orders[0].id);
         }
+
+        this.popularProduct = null;
     }
     AddOrder() {     
         console.log("Order added");
@@ -83,8 +91,14 @@ export default class OrdersManager {
 
         for (let i = 0; i < nProducts; i++) {
             // Elige un producto aleatorio entre el array de keys. LUEGO, accede al objeto del inventario usando la key (como en un array).
-            let selectedProduct = this.inventory.processedProducts[eligibleProducts[Phaser.Math.Between(0, eligibleProducts.length - 1)]];
-
+            let selectedProduct;
+            if (this.popularProduct && Phaser.Math.Between(1, 100) <= 50) { // 50% de probabilidad de que salga el producto popular (más la probabilidad normal)
+                selectedProduct = this.popularProduct;
+            }
+            else {
+                selectedProduct = this.inventory.processedProducts[eligibleProducts[Phaser.Math.Between(0, eligibleProducts.length - 1)]];
+            }
+            
             let position = this.IsInArray(products, selectedProduct);
             if (position == -1) {
                 products.push(selectedProduct);
