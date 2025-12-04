@@ -42,6 +42,7 @@ export default class MainScene extends Phaser.Scene {
         for (let i = 0; i < 16; i++) {
             this.load.image("customer" + i, "assets/gameAssets/customersSprites/" + i + ".png");
         }
+        this.load.image("Angry", "assets/gameAssets/Angry.png");
         this.load.audio("customer_walk", "assets/gameAssets/audios/moving-stone.mp3");
     }
     
@@ -114,7 +115,10 @@ export default class MainScene extends Phaser.Scene {
                 const x = startX + col * (this.tileWidth);
                 const y = startY + row * (this.tileHeight);
 
-                this.tiles[row][col] = new Tile(this, x, y, "tile", 0).setOrigin(0.5).setScale(0.4);
+                // Establecer nearWater a true si es la primera columna
+                const nearWater = col === 0;
+
+                this.tiles[row][col] = new Tile(this, x, y, "tile", 0, false, nearWater).setOrigin(0.5).setScale(0.4);
             }
         }
     }    

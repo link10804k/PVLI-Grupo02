@@ -3,6 +3,7 @@ import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 import ProductionTimer from "./Timer.js"; 
 import MainScene from "./MainScene.js";
+import Customer from "./Customer.js";
 
 const POPULARITY_LOSS_ON_FAIL = 30; // Cantidad de popularidad que se pierde al fallar un pedido
 const POPULARITY_GAIN_ON_COMPLETE = 20; // Cantidad de popularidad que se gana al completar un pedido
@@ -15,6 +16,7 @@ export default class Order extends Phaser.GameObjects.Sprite {
         this.resources = resources;
         this.amounts = amounts;
         this.inventory = inventory;
+        
 
         scene.add.existing(this);
         this.completeOrderButton = new Button(scene, x+90, y+40, "button", () => this.TryCompleteOrder()).setScale(0.8).setOrigin(0.5);
@@ -35,7 +37,8 @@ export default class Order extends Phaser.GameObjects.Sprite {
             this.y + 20, 
             Math.ceil(time / 1000), 
             null,// <---icono si queremos aqui
-            this.FailOrder.bind(this) // <-- callback al terminar
+            this.FailOrder.bind(this), // <-- callback al terminar
+            true
         ).setScale(0.5);
         this.timer.start();
 
@@ -43,6 +46,7 @@ export default class Order extends Phaser.GameObjects.Sprite {
         //this.timer = this.scene.add.text(x + 150, y + 20, "Tiempo: " + Math.ceil(time / 1000).toString(), { font: "20px Arial", fill: "#00FF00" });
         //console.log(this.timer);
     }
+    
     moveOrder(y) {
         this.y -= y;
         this.completeOrderButton.y -= y;
@@ -106,4 +110,6 @@ export default class Order extends Phaser.GameObjects.Sprite {
 
         this.destructor();
     }
+
+   
 }

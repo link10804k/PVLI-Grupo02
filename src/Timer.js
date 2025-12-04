@@ -1,5 +1,5 @@
 export default class ProductionTimer extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, duration, textureKey, onCompleteCallback = null) {
+    constructor(scene, x, y, duration, textureKey, onCompleteCallback = null, changeColor = false) {
         super(scene, x, y);
 
         this.scene = scene;
@@ -10,6 +10,7 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
         this.finished = false;
         this.destroyedFlag = false;
         this.onCompleteCallback = onCompleteCallback; // callback opcional
+        this.changeColor= changeColor;
 
         // Gráfico base (círculo gris)
         this.baseCircle = this.scene.add.graphics(); 
@@ -78,7 +79,23 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
         const progress = (1 - this.remaining / this.duration) * Math.PI * 2;// Progreso en radianes, de 0 a 2π
 
         this.progressCircle.clear();
-        this.progressCircle.lineStyle(6, 0x00cc00, 1);
+        // progreso normalizado 0 = inicio (verde) → 1 = fin (rojo)
+        let t = 1 - (this.remaining / this.duration);
+
+        let color = 0x00cc00; // verde por defecto
+
+        if (this.changeColor) { //Si hay cambio de color:
+            color = this.interpolateColor(0x00ff00, 0xff0000, t);
+        }
+
+        this.progressCircle.lineStyle(6, color, 1);
+
+        if (this.changeColor) { // Si hay cambio de color convertimos el color numérico a string hex (#rrggbb)
+       
+            const hexColor = "#" + color.toString(16).padStart(6, "0");
+            this.timeText.setColor(hexColor);
+        }
+
         this.progressCircle.beginPath();
         this.progressCircle.arc(0, 0, this.radius, -Math.PI / 2, progress - Math.PI / 2);
         this.progressCircle.strokePath();
@@ -91,5 +108,21 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
         }
         
     }
+
+    interpolateColor(color1, color2, factor) {
+    const r1 = (color1 >> 16) & 0xff;
+    const g1 = (color1 >> 8) & 0xff;
+    const b1 = color1 & 0xff;
+
+    const r2 = (color2 >> 16) & 0xff;
+    const g2 = (color2 >> 8) & 0xff;
+    const b2 = color2 & 0xff;
+
+    const r = r1 + (r2 - r1) * factor;
+    const g = g1 + (g2 - g1) * factor;
+    const b = b1 + (b2 - b1) * factor;
+
+    return (r << 16) + (g << 8) + b;
+}
     
 }

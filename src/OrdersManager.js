@@ -1,6 +1,7 @@
 import Order from "./Order.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
+import Customer from "./Customer.js";
 
 const ORDER_INTERVAL = 10000; // 10 segundos entre pedidos (variable)
 const ORDER_TIME = 12000; // 20 segundos para completar el pedido (variable)
@@ -11,7 +12,9 @@ export default class OrdersManager {
         this.scene = scene;
         this.orders = [];
         this.inventory = inventory;
-
+        this.waitingCustomers = [];
+        
+         
         EventBus.on(events.SELLING_PHASE, () => this.StartOrders());
         EventBus.on(events.PRODUCTION_PHASE, () => this.StopOrders());
 
@@ -46,6 +49,7 @@ export default class OrdersManager {
         for (let i = 0; i < products.length; i++) {
             console.log(products[i].name + " (" + amounts[i] + ")");
         }
+
 
         let order = new Order(this.scene.UIScene, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(0.4);
         this.orders.push(order);

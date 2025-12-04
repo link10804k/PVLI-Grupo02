@@ -52,7 +52,7 @@ export default class CustomersManager {
     }
 
     AngryCustomer(order, orderId) {
-        this.customers[orderId].GetAngry();
+        this.customers[orderId].GetOutAngry(50, Direction.LEFT);
         this.RemoveCustomer(order, orderId);
     }
 }

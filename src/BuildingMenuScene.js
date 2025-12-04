@@ -60,6 +60,8 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 this.selectBuilding(building);
             }).setScale(0.1);
 
+            if(this.isProcessor) button.setScale(1.5)
+
             this.add.existing(button);
 
              // Descripción
@@ -106,12 +108,18 @@ export default class BuildingMenuScene extends Phaser.Scene {
     selectBuilding(building) {
         console.log("Construir:", building.name);
 
-        // Si es un puerto, solo permitir en tiles cerca del agua
-        if (building.name == "Harbor") {
-            if (this.tile.x > BuildingMenuScene.WATER_TILE_X) {
-                console.log("Solo se puede construir el puerto en tiles cercanas al agua");
+       // Si es un puerto, solo permitir en tiles cerca del agua y nivel de popularidad 4
+    if (building.name === "Harbor") {
+        if (!this.tile.nearWater) {
+            console.log("Solo se puede construir el puerto en tiles cercanas al agua");
+            return;
+        }
+
+            if (this.inventory.popularityLevel < 4) {
+                console.log("Necesitas ser nivel 4 de popularidad para construir el puerto");
                 return;
             }
+
         } else {
             // Si el nivel del jugador aún no desbloquea otros edificios, bloquearlos
             if (this.inventory.popularityLevel < building.requiredLevel) {
@@ -147,6 +155,19 @@ export default class BuildingMenuScene extends Phaser.Scene {
     }
 
     getUnprocessedBuildings() {
+        
+    // Si el tile está cerca del agua, solo devolver el puerto
+    if (this.tile.nearWater) {
+        const harbor = Buildings.unprocessedProducts.tier4; // Ajusta según tu JSON
+        return [{
+            name: harbor.name,
+            description: harbor.description,
+            products: harbor.products || [],
+            price: 50 * Math.pow(2, this.buildingCount),
+            texture: harbor.texture
+        }];
+    }
+        //comportamineto normal
         let buildings = []
         let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier);
         for (let i = 1; i <= tier; i++) {

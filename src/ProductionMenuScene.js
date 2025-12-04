@@ -41,7 +41,8 @@ export default class ProductionMenuScene extends Phaser.Scene {
 
         for(let i = 0; i < this.products.length; i++)
         {
-            this.add.text(320, 160 + 50 * i, this.products[i].name.toUpperCase(), {
+            const product = this.products[i];
+           const productText = this.add.text(320, 160 + 50 * i, this.products[i].name.toUpperCase(), {
             fontSize: "30px",
             color: "#fff",
             }).setOrigin(0.5);
@@ -50,6 +51,38 @@ export default class ProductionMenuScene extends Phaser.Scene {
                 () => this.building.produce(this.products[i]),
                 () => this.closeWindow(),
             ]).setScale(0.5);
+
+             
+        //Mostrar ingredientes si el producto es procesado ------------------------
+        if (product.neededProducts) {
+
+            const productTextBounds = productText.getBounds();
+            let offsetX = productTextBounds.right + productText.width + 10; // al lado del texto
+            const baseY = productTextBounds.centerY; // misma altura que el texto del producto
+
+            let offset = 0;
+
+            for (const requiredKey in product.neededProducts) {
+
+                const amount = product.neededProducts[requiredKey];
+            
+                const requiredProduct = this.findProductByKey(requiredKey);
+                if (!requiredProduct) continue;
+
+                // ICONO 
+                this.add.image(offsetX + offset, baseY, requiredProduct.texture)
+                    .setScale(0.4) // ajusta tamaño si quieres
+                    .setOrigin(0.5);
+
+                // TEXTO DE CANTIDAD
+                this.add.text(offsetX + offset, baseY + 10, "x" + amount, {
+                    fontSize: "18px",
+                    color: "#fff",
+                }).setOrigin(0.5);
+
+                offset += 50; // separa los iconos entre sí
+        }
+    }
             
         }
 
@@ -110,4 +143,21 @@ export default class ProductionMenuScene extends Phaser.Scene {
         this.scene.stop(); // ahora sí detenemos el menú
     });
 }
+
+findProductByKey(key) {
+    for (const tier in Products.unprocessedProducts) {
+        if (Products.unprocessedProducts[tier][key]) {
+            return Products.unprocessedProducts[tier][key];
+        }
+    }
+
+    for (const tier in Products.processedProducts) {
+        if (Products.processedProducts[tier][key]) {
+            return Products.processedProducts[tier][key];
+        }
+    }
+
+    return null;
+}
+
 }
