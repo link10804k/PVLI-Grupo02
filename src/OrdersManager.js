@@ -1,7 +1,7 @@
 import Order from "./Order.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
-import Customer from "./Customer.js";
+
 
 const ORDER_INTERVAL = 10000; // 10 segundos entre pedidos (variable)
 const ORDER_TIME = 12000; // 20 segundos para completar el pedido (variable)
