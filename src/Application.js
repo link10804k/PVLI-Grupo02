@@ -1,4 +1,4 @@
-export default class Aplication {
+export default class Application {
     constructor(scene, imageKey = null, captionText = "Pie de imagen") {
         this.scene = scene;
 
@@ -37,7 +37,7 @@ export default class Aplication {
         else {
         // placeholder más pequeño que el rectángulo
             this.image = this.scene.add.rectangle(0, -this.height * 0.1, this.width * 0.8, this.height * 0.5, 0xffffff);
-}
+        }
 
          // Ajustar tamaño máximo para que no se salga del rectángulo
         this.image.displayWidth = this.width * 0.8;

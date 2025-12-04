@@ -23,7 +23,6 @@ export default class CustomersManager {
     }
 
     AddCustomer(order) {
-        console.log("Adding customer");
         let customerImage = "customer" + Phaser.Math.Between(0, 15);
         let customer = new Customer(this.scene, this.cafeteria.x+30, this.cafeteria.y-80 + this.customers.length * (CUSTOMER_IMAGE_SIZE+10), customerImage).setOrigin(0.5).setScale(0.1);
         this.customers.push(customer);

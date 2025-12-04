@@ -9,9 +9,9 @@ export const events = {
     ORDER_FAILED: 'orderFailed',
     ORDER_ADDED: 'orderAdded', // Para los clientes
     // Popularidad
-    LEVEL_INCREASED: 'popularityIncreased', //Con nuevo nivel de popularidad como parámetro (El nivel inicial es 1)
-    ADD_POPULARITY: 'addPopularity', //Con cantidad a añadir como parámetro
-    REMOVE_POPULARITY: 'removePopularity', //Con cantidad a quitar como parámetro
+    LEVEL_INCREASED: 'popularityIncreased', // Con nuevo nivel de popularidad como parámetro (El nivel inicial es 1)
+    ADD_POPULARITY: 'addPopularity', // Con cantidad a añadir como parámetro
+    REMOVE_POPULARITY: 'removePopularity', // Con cantidad a quitar como parámetro
     // UI Inventario
     INVENTORY_UPDATE: 'inventoryUpdate', // Con los recursos actuales como parámetro
     //Trabajadores

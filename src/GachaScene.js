@@ -44,6 +44,18 @@ export default class GachaScene extends Phaser.Scene {
 
         this.colliders = [];
         this.bouncers = [];
+
+        this.ballPool = new Pool(this, BALL_NUMBER, false); // Pool para las bolas
+
+        for (let i = 0; i < BALL_NUMBER; i++) {
+            let ball = this.add.circle(BALL_START.x, BALL_START.y, BALL_RADIUS, 0xFFFF10).setOrigin(0.5);
+            this.matter.add.gameObject(ball, { shape: "circle" });    
+            ball.setBounce(0.6);
+            ball.setFrictionAir(0);
+            ball.setFriction(0);
+
+            this.ballPool.add(ball);
+        }
     }
 
     init(data){
@@ -129,14 +141,7 @@ export default class GachaScene extends Phaser.Scene {
             this.time.addEvent({
                 delay: i * 300,
                 callback: () => {
-                    let ball = this.add.circle(BALL_START.x, BALL_START.y, BALL_RADIUS, 0xFFFF10).setOrigin(0.5);
-                    this.matter.add.gameObject(ball, { shape: "circle" });
-
-                    ball.setBounce(0.6);
-                    ball.setFrictionAir(0);
-                    ball.setFriction(0);
-
-                    balls.push(ball);
+                    let ball = this.ballPool.spawn();
 
                     let force = new Phaser.Math.Vector2(Phaser.Math.FloatBetween(-0.005, 0.005), Phaser.Math.FloatBetween(-0.005, -0.0075));
                     ball.applyForce(force);
