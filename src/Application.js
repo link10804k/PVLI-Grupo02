@@ -1,61 +1,18 @@
 export default class Application {
-    constructor(scene, imageKey = null, captionText = "Pie de imagen") {
+    constructor(scene, userId = null, imageKey = null, captionText = "Pie de imagen") {
         this.scene = scene;
+        this.userId = userId;
 
-        // Dimensiones del rectángulo (puedes modificarlas aquí)
-        this.width = 200;
-        this.height = 300;
+        this.setupDimensions();
+        this.createContainer();
+        this.createRectangle();
+        this.setupMovement();
+        this.createUsernameText();
+        this.createImage(imageKey);
+        this.adjustImageSize();
+        this.createCaptionText(captionText);
 
-        // Posición inicial (fuera de la pantalla abajo)
-        const xStart = this.scene.cameras.main.width / 2;
-        const yPos = this.scene.cameras.main.height + this.height / 2;
-        
-
-        // Contenedor para imagen, texto y background
-        this.container = this.scene.add.container(xStart, yPos);
-
-        // Crear el rectángulo dentro del container
-        this.rect = this.scene.add.rectangle(0, 0, this.width, this.height, 0x734F96).setOrigin(0.5);
-
-        // Velocidad de deslizamiento (en píxeles por segundo)
-        this.speed = 120;
-
-        // Objetivo: Centro de la pantalla
-         this.targetY = this.scene.cameras.main.height / 2;
-
-         // Tiempo que permanece visible (en ms)
-        this.lifeTime = 5000; // 5 segundos
-        this.staying = false; // indicador de que está en su posición
-        this.lifeTimer = 0;
-
-         
-
-        // Crear imagen (placeholder si no se pasa key)
-       if (imageKey) {
-        this.image = this.scene.add.image(0, -this.height * 0.1, imageKey);
-        }       
-        else {
-        // placeholder más pequeño que el rectángulo
-            this.image = this.scene.add.rectangle(0, -this.height * 0.1, this.width * 0.8, this.height * 0.5, 0xffffff);
-        }
-
-         // Ajustar tamaño máximo para que no se salga del rectángulo
-        this.image.displayWidth = this.width * 0.8;
-        this.image.displayHeight = this.height * 0.5;
-
-        // Crear texto debajo de la imagen
-        this.text = this.scene.add.text(0, this.height / 4, captionText, {
-            fontSize: '14px',
-            color: '#000',
-            align: 'center',
-             stroke: '#000000ff',
-            strokeThickness: 1,
-            wordWrap: { width: this.width * 0.9 } // Ajustar al ancho del rectángulo
-        });
-        this.text.setOrigin(0.5, 0);
-
-        //Añadir rectángulo, imagen y texto al contenedor
-        this.container.add([this.rect, this.image, this.text]);
+        this.addToContainer();
         
 
         // Estado del rectángulo: 'entering', 'staying', 'exiting'
@@ -96,4 +53,80 @@ export default class Application {
                 break;
         }
     }
+
+     setupDimensions() {
+        this.width = 200;
+        this.height = 300;
+    }
+
+     createContainer() {
+        const xStart = this.scene.cameras.main.width / 2;
+        const yPos = this.scene.cameras.main.height + this.height / 2;
+        this.container = this.scene.add.container(xStart, yPos);
+    }
+
+     createRectangle() {
+        this.rect = this.scene.add.rectangle(0, 0, this.width, this.height, 0x734F96)
+            .setOrigin(0.5);
+    }
+
+     setupMovement() {
+        this.speed = 120;
+        this.targetY = this.scene.cameras.main.height / 2;
+        this.lifeTime = 5000;
+        this.staying = false;
+        this.lifeTimer = 0;
+    }
+
+    createUsernameText() {
+        this.usernameText = this.scene.add.text(
+            -this.width / 2 + 10,
+            -this.height / 2 + 10,
+            this.userId || "Usuario",
+            {
+                fontSize: '14px',
+                color: '#000',
+                fontStyle: 'bold',
+                stroke: '#000000ff',
+                strokeThickness: 1
+            }
+        );
+        this.usernameText.setOrigin(0, 0);
+    }
+
+    createImage(imageKey) {
+        if (imageKey) {
+            this.image = this.scene.add.image(0, -this.height * 0.1, imageKey);
+        } else {
+            this.image = this.scene.add.rectangle(
+                0,
+                -this.height * 0.1,
+                this.width * 0.8,
+                this.height * 0.5,
+                0xffffff
+            );
+        }
+    }
+
+     adjustImageSize() {
+        this.image.displayWidth = this.width * 0.8;
+        this.image.displayHeight = this.height * 0.5;
+    }
+
+     createCaptionText(captionText) {
+        this.text = this.scene.add.text(0, this.height / 4, captionText, {
+            fontSize: '14px',
+            color: '#000',
+            align: 'center',
+            stroke: '#000000ff',
+            strokeThickness: 1,
+            wordWrap: { width: this.width * 0.9 }
+        });
+        this.text.setOrigin(0.5, 0);
+    }
+
+    addToContainer() {
+        this.container.add([this.rect, this.usernameText, this.image, this.text]);
+    }
+
 }

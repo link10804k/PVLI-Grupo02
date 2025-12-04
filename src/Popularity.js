@@ -1,6 +1,6 @@
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js"; 
-import Aplication from "./Aplication.js";
+import Application from "./Application.js";
 import MainScene from "./MainScene.js";
 
 export default class PopularityBar {
@@ -118,7 +118,7 @@ export default class PopularityBar {
 
 
         this.levelText.setText(`${this.level}`);
-        new Aplication(this.scene, Image, "Cuanto me gustan los macarrones!");
+        new Application(this.scene, Image, "Cuanto me gustan los macarrones!");
         console.log(`¡Has alcanzado el nivel de popularidad ${this.level}!`);
 
         EventBus.emit(events.LEVEL_INCREASED);
