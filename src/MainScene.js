@@ -55,7 +55,7 @@ export default class MainScene extends Phaser.Scene {
         this.playerInventory = new Inventory(this, 50.00);
         this.phaseManager = new PhaseManager(this);
         this.ordersManager = new OrdersManager(this, this.playerInventory);
-        this.applicationManager = new ApplicationManager(this, this.playerInventory);
+        this.applicationManager = new ApplicationManager(this, this.playerInventory, this.UIScene);
 
         this.add.image(470, 300, "Background").setOrigin(0.5, 0.5).setScale(1.8);
 
