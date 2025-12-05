@@ -5,13 +5,15 @@
                 "name": "Granos de café", 
                 "description": "Granos simples de café. Se utilizan para hacer café.",
                 "quantity": 0,
-                "time": 5
+                "time": 5,
+                "buildingTexture": "building_CoffeeGrains_texture"
             },
             "teaHerbs": {
                 "name": "Hierbas de té",
                 "description": "Hierbas comunes de té. Se utilizan para hacer té verde.",
                 "quantity": 0,
-                "time": 6
+                "time": 6,
+                "buildingTexture": "building_TeaHerbs_texture"
             }
         },
         "tier2": {
@@ -19,13 +21,15 @@
                 "name": "Granos de cacao",
                 "description": "Granos de cacao sin procesar. Se utilizan para hacer chocolate caliente.",
                 "quantity": 0,
-                "time": 10
+                "time": 10,
+                "buildingTexture": "ExoticFarm_CocoaBeans_texture"
             },
             "pumpkins": {
                 "name": "Calabazas",
                 "description": "Calabazas frescas. Se utilizan para hacer latte de calabaza.",
                 "quantity": 0,
-                "time": 12
+                "time": 12,
+                "buildingTexture": "ExoticFarm_Pumpkins_texture"
             }
         },
         "tier3": {
@@ -81,7 +85,8 @@
                 "neededProducts": {
                     "coffeeGrains": 1
                 },
-                "texture": "Coffee_display"
+                "texture": "Coffee_display",
+                "japaneseName": "金"
             },
             "tea": {
                 "name": "Té",
@@ -92,7 +97,8 @@
                 "neededProducts": {
                     "teaHerbs": 1
                 },
-                "texture": "Tea_display"
+                "texture": "Tea_display",
+                "japaneseName": "木"
             }
         },
         "tier2": {
@@ -105,7 +111,8 @@
                 "neededProducts": {
                     "dough": 1
                 },
-                "texture": "HotChocolate_display"
+                "texture": "HotChocolate_display",
+                "japaneseName": "水"
             },
             "pumpkinLatte": {
                 "name": "Latte de Calabaza",
@@ -117,7 +124,8 @@
                     "pumpkins": 1,
                     "coffeeGrains": 1
                 },
-                "texture": "PumpkinLatte_display"
+                "texture": "PumpkinLatte_display",
+                "japaneseName": "火"
             }
         },
         "tier3": {
@@ -132,7 +140,8 @@
                     "sugar": 2,
                     "cocoaBeans": 1       
                 },
-                "texture": "Cookies_display"
+                "texture": "Cookies_display",
+                "japaneseName": "土"
             },
             "pumpkinPie": {
                 "name": "Pastel de Calabaza",
@@ -145,7 +154,8 @@
                     "sugar": 1,
                     "pumpkins": 2
                 },
-                "texture": "PumpkinPie_display"
+                "texture": "PumpkinPie_display",
+                "japaneseName": "山"
             },
             "bread": {
                 "name": "Pan",
@@ -156,7 +166,8 @@
                 "neededProducts": {
                     "dough": 2
                 },
-                "texture": "Bread_display"
+                "texture": "Bread_display",
+                "japaneseName": "川"
             }
         },
         "tier4": {
@@ -169,7 +180,8 @@
                 "neededProducts": {
                     "frozenBurgers": 1
                 },
-                "texture": "Burger_display"
+                "texture": "Burger_display",
+                "japaneseName": "天"
             },
             "tacos": {
                 "name": "Tacos",
@@ -180,7 +192,8 @@
                 "neededProducts": {
                     "frozenTacos": 1
                 },
-                "texture": "Taco_display"
+                "texture": "Taco_display",
+                "japaneseName": "雨"
             },
             "pizza": {
                 "name": "Pizza",
@@ -191,7 +204,8 @@
                 "neededProducts": {
                     "frozenPizza": 1
                 },
-                "texture": "Pizza_display"
+                "texture": "Pizza_display",
+                "japaneseName": "電"
             },
             "paella": {
                 "name": "Paella",
@@ -202,7 +216,8 @@
                 "neededProducts": {
                     "frozenPaella": 1
                 },
-                "texture": "Paella_display"
+                "texture": "Paella_display",
+                "japaneseName": "花"
             }
         }
     }

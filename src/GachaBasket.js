@@ -28,15 +28,15 @@ export default class GachaBasket extends Phaser.GameObjects.Container {
     }
     createShape() {
         let walls = [];
-        walls.push(this.scene.add.rectangle(0, 10, 30, 10, 0x654321).setOrigin(0.5));
-        walls.push(this.scene.add.rectangle(20, 0, 10, 30, 0x654321).setOrigin(0.5));
-        walls.push(this.scene.add.rectangle(-20, 0, 10, 30, 0x654321).setOrigin(0.5));
+        walls.push(this.scene.add.rectangle(0, 20, 40, 10, 0x654321).setOrigin(0.5));
+        walls.push(this.scene.add.rectangle(15, 0, 10, 30, 0x654321).setOrigin(0.5));
+        walls.push(this.scene.add.rectangle(-15, 0, 10, 30, 0x654321).setOrigin(0.5));
 
         this.add(walls);
 
-        let floor = Phaser.Physics.Matter.Matter.Bodies.rectangle(walls[0].x + this.x, walls[0].y + this.y, 30, 10, {label: 'floor'});
-        let rightWall = Phaser.Physics.Matter.Matter.Bodies.rectangle(walls[1].x + this.x, walls[1].y + this.y, 10, 30);
-        let leftWall = Phaser.Physics.Matter.Matter.Bodies.rectangle(walls[2].x + this.x, walls[2].y + this.y, 10, 30);
+        let floor = Phaser.Physics.Matter.Matter.Bodies.rectangle(walls[0].x + this.x, walls[0].y + this.y, walls[0].width, walls[0].height, {label: 'floor'});
+        let rightWall = Phaser.Physics.Matter.Matter.Bodies.rectangle(walls[1].x + this.x, walls[1].y + this.y, walls[1].width, walls[1].height);
+        let leftWall = Phaser.Physics.Matter.Matter.Bodies.rectangle(walls[2].x + this.x, walls[2].y + this.y, walls[2].width, walls[2].height);
         
         let compundBody = Phaser.Physics.Matter.Matter.Body.create({
             parts: [floor, rightWall, leftWall],

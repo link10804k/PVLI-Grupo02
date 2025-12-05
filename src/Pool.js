@@ -25,6 +25,7 @@ export default class Pool {
 		this._group.addMultiple(entities);
 		entities.forEach(c => {
 			this._group.killAndHide(c);
+			c.setSensor(true);
 			c.setToSleep();
 		});
 	}
