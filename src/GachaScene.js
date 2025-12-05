@@ -55,7 +55,7 @@ export default class GachaScene extends Phaser.Scene {
         // Bordes
         this.createBorders();
         // Botón de inicio
-        new Button(this, MID_POINT_X, 550, "button", () => this.startGacha()).setOrigin(0.5).setScale(0.5);
+        this.startButton = new Button(this, MID_POINT_X, 550, "button", () => this.startGacha()).setOrigin(0.5).setScale(0.5);
         // Pool de bolas
         this.createBallPool();
     }
@@ -112,15 +112,27 @@ export default class GachaScene extends Phaser.Scene {
         let rightBorder = this.add.rectangle(RIGHT_BORDER_X, MID_POINT_Y, 30, 800, 0xff10F0).setOrigin(0.5);
         this.matter.add.gameObject(rightBorder, { isStatic: true });
 
-        let floor = this.add.rectangle(MID_POINT_X, 700, 400, 30, 0xff10F0).setOrigin(0.5);
+        let floor = this.add.rectangle(MID_POINT_X, 700, 400, 100).setOrigin(0.5);
         this.matter.add.gameObject(floor, { isStatic: true });
 
         floor.setOnCollide((collisionData) => {
-            let ball = collisionData.bodyB.gameObject;
-            this.ballPool.release(ball);
+            let obj1 = collisionData.bodyB.gameObject;
+            let obj2 = collisionData.bodyA.gameObject;
+
+            if (obj1 != floor) {
+                this.ballPool.release(obj1);
+            }
+            else {
+                this.ballPool.release(obj2);
+            }
+
+            console.log("Bolas vivas: " + this.ballPool.getAliveCount())
+            if (this.ballPool.getAliveCount() == 0) { // Si no quedan bolas activas, se reactiva el botón
+                this.activateButton();
+            }
         })
 
-        let ceiling = this.add.rectangle(MID_POINT_X, -100, 400, 30, 0xff10F0).setOrigin(0.5);
+        let ceiling = this.add.rectangle(MID_POINT_X, -100, 400, 30).setOrigin(0.5);
         this.matter.add.gameObject(ceiling, { isStatic: true });
     }
     createBallPool() {
@@ -140,6 +152,7 @@ export default class GachaScene extends Phaser.Scene {
         this.ballPool.addMultipleEntity(balls);
     }
     startGacha() {
+        this.deactivateButton();
         let balls = [];
 
         for (let i = 0; i < BALL_NUMBER; i++) {
@@ -181,5 +194,15 @@ export default class GachaScene extends Phaser.Scene {
 
             return this.inventory.processedProducts[selectedProduct];
         }   
+    }
+    activateButton() {
+        console.log("botón activado");
+        this.startButton.setActive(true);
+        this.startButton.setVisible(true);
+    }
+    deactivateButton() {
+        console.log("botón desactivado");
+        this.startButton.setActive(false);
+        this.startButton.setVisible(false);
     }
 }

@@ -85,4 +85,8 @@ export default class Pool {
 	getPhaserGroup(){
 		return this._group;
 	}
+
+	getAliveCount(){
+		return this._group.countActive();
+	}
 }
