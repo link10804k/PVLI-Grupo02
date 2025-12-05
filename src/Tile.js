@@ -4,8 +4,8 @@ import Button from "./Button.js";
 const ESCALADO_CONSTRUCCION = 0.4;
 
 export default class Tile extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, texture = "tile", occupied, isProcessor = false, nearWater = false) {
-    super(scene, x, y, texture)
+  constructor(scene, x, y, texture = null , occupied, isProcessor = false, nearWater = false) {
+    super(scene, x, y, texture = null)
     
     scene.add.existing(this);
 

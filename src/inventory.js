@@ -183,7 +183,7 @@ showFloatingMoney(amount) {
             fontSize: "26px",
             fill: isPositive ? "#00cc44" : "#ff0000", // verde si sube, rojo si baja
             stroke: "#000000",
-            strokeThickness: 1
+            strokeThickness: 6
         }
     ).setOrigin(1, 0.5);
 

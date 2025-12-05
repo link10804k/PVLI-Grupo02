@@ -26,7 +26,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     preload() { // Cargar recursos aquí
-        this.load.image("background2", "assets/gameAssets/background2.jpg");
+        this.load.image("Background", "assets/gameAssets/Background.png");
         this.load.image("cafeteria", "assets/gameAssets/Cafeteria.jpg")
         this.load.image("building", "assets/gameAssets/farm.jpg")
         this.load.image("pedidos", "assets/gameAssets/order.jpg")
@@ -57,7 +57,7 @@ export default class MainScene extends Phaser.Scene {
         this.ordersManager = new OrdersManager(this, this.playerInventory);
         this.applicationManager = new ApplicationManager(this, this.playerInventory);
 
-        this.add.image(400, 300, "background2").setOrigin(0.5, 0.5);
+        this.add.image(470, 300, "Background").setOrigin(0.5, 0.5).setScale(1.8);
 
         this.createParcelas();
         
@@ -72,12 +72,16 @@ export default class MainScene extends Phaser.Scene {
         this.moneyUI = this.UIScene.add.text(620, 20, "$" + this.playerInventory.money, {
             font: "50px",
             color: "#007332",
+            stroke: "#000000",  
+            strokeThickness: 6
         }).setScrollFactor(0);
 
         //UI de workers
         this.workersUI = this.UIScene.add.text(620, 65, "☭" + this.playerInventory.availableWorkers + "/" + this.playerInventory.workers, {
             font: "50px",
             color: "#ff0101ff",
+            stroke: "#000000",  
+            strokeThickness: 6
         }).setScrollFactor(0);
             //Botón para comprar trabajadores
         this.addWorkersBut = new Button(this.UIScene, 760, 85, "button", () => {
@@ -95,6 +99,8 @@ export default class MainScene extends Phaser.Scene {
         this.workerPriceText = this.UIScene.add.text(730, 105, "$" + this.playerInventory.workerPrice, {
             font: "20px",
             color: "#326d02ff",
+            stroke: "#000000",  
+            strokeThickness: 6
         });
 
         //UI crear la barra de popularidad

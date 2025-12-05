@@ -118,8 +118,7 @@ export default class PopularityBar {
 
 
         this.levelText.setText(`${this.level}`);
-        new Application(this.scene, Image, "Cuanto me gustan los macarrones!");
-        console.log(`¡Has alcanzado el nivel de popularidad ${this.level}!`);
+       
 
         EventBus.emit(events.LEVEL_INCREASED);
 

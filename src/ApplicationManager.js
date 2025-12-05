@@ -2,6 +2,7 @@ import Application from "./Application.js";
 import {EventBus} from "./EventBus.js";
 import {events} from "./EventBus.js";
 import Messages from "./Resources/Messages.json" with { type: "json" };
+import UIScene from "./UIScene.js";
 
 export default class ApplicationManager {
     constructor(scene, inventory) {

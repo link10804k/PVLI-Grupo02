@@ -11,6 +11,7 @@ import GachaScene from "./GachaScene.js";
 let config = {
     type: Phaser.AUTO,
     parent: "canvas",  
+    pixelArt: true,  
     scale: {
         mode: Phaser.Scale.FIT, // Ajusta el juego para que quepa en la ventana manteniendo la relación de aspecto
         autoCenter: Phaser.Scale.CENTER_BOTH,

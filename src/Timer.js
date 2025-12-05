@@ -5,7 +5,7 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
         this.scene = scene;
         this.duration = duration;
         this.remaining = duration;
-        this.radius = 40;
+        this.radius = 30;
         this.startTime = null;
         this.finished = false;
         this.destroyedFlag = false;
@@ -14,7 +14,7 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
 
         // Gráfico base (círculo gris)
         this.baseCircle = this.scene.add.graphics(); 
-        this.baseCircle.lineStyle(6, 0x444444, 1);
+        this.baseCircle.lineStyle(10, 0x444444, 1);
         this.baseCircle.strokeCircle(0, 0, this.radius);
         // Gráfico del progreso (círculo que se rellena)
        this.progressCircle = scene.make.graphics({});
@@ -31,6 +31,8 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
             fontFamily: "Arial",
             fontSize: "30px",
             color: "#17bb08ff",
+            stroke: "#000000",  
+            strokeThickness: 6
         }).setOrigin(0.5);
 
         // Agregar los elementos al container
@@ -88,7 +90,7 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
             color = this.interpolateColor(0x00ff00, 0xff0000, t);
         }
 
-        this.progressCircle.lineStyle(6, color, 1);
+        this.progressCircle.lineStyle(10, color, 1);
 
         if (this.changeColor) { // Si hay cambio de color convertimos el color numérico a string hex (#rrggbb)
        
