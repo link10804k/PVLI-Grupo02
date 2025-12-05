@@ -5,8 +5,9 @@ import Messages from "./Resources/Messages.json" with { type: "json" };
 import UIScene from "./UIScene.js";
 
 export default class ApplicationManager {
-    constructor(scene, inventory) {
+    constructor(scene, inventory, UIScene) {
         this.scene = scene;
+        this.UIScene = UIScene;
         this.inventory = inventory;
 
         this.tier = 1;
@@ -24,7 +25,7 @@ export default class ApplicationManager {
         
         let text = message.text;
         let user = message.user;
-        new Application(this.scene, user, null /*image*/, text);
+        new Application(this.UIScene, user, null /*image*/, text);
     }
 
     getRandomProcessedProduct() { // Devuelve un producto procesado aleatorio del tier actual
