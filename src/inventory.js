@@ -6,7 +6,7 @@ export default class Inventory{
         this.unprocessedProducts = structuredClone(Products.unprocessedProducts.tier1);
         this.processedProducts = structuredClone(Products.processedProducts.tier1);
 
-        EventBus.on(events.LEVEL_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
+        EventBus.on(events.POPULARITY_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
         
         this.money = money + 1000;
 
@@ -37,8 +37,6 @@ export default class Inventory{
         Object.assign(this.unprocessedProducts, Products.unprocessedProducts[`tier${popularityLevel}`]);
         Object.assign(this.processedProducts, Products.processedProducts[`tier${popularityLevel}`]);
         this.popularityLevel = popularityLevel;
-
-        console.log(this.popularityLevel)
     }
     // Producir un producto no procesado
     // PARA LOS EDIFICIOS DE PRODUCCIÓN

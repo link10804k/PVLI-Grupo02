@@ -120,7 +120,7 @@ export default class PopularityBar {
         this.levelText.setText(`${this.level}`);
        
 
-        EventBus.emit(events.LEVEL_INCREASED, this.level);
+        EventBus.emit(events.LEVEL_INCREASED);
 
     }
 

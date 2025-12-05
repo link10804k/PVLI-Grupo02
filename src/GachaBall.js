@@ -14,16 +14,16 @@ export default class GachaBall extends Phaser.GameObjects.Container {
 
         this.add(this.scene.add.circle(0, 0, BALL_RADIUS, 0xFFFF10).setOrigin(0.5));
 
-        this.text = this.scene.add.text(0, 0, "", { fontSize: '20px', fill: '#000' }).setOrigin(0.5);
+        this.text = this.scene.add.text(-BALL_RADIUS/2, -BALL_RADIUS/2, "", { fontSize: '12px', fill: '#FFF' }).setOrigin(0.5);
         this.add(this.text);
     }
     setProduct(product) {
         this.product = product;
         if (product == null) {
-            this.setProductText("少");
+            this.setProductText("Empty");
         }
         else {
-            this.setProductText(product.japaneseName);
+            this.setProductText(product.name);
         }
     }
     setProductText(text) { // Método para asignar el texto (producto) a la bola
