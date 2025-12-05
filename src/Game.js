@@ -20,7 +20,7 @@ let config = {
     physics: {
         default: 'matter',
         matter: {
-            gravity: { y: 0.8 },
+            gravity: { y: 0.6 },
             debug: true,
         },
     },

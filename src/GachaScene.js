@@ -1,5 +1,9 @@
 import Button from "./Button.js";
 import Pool from "./Pool.js";
+import GachaBasket from "./GachaBasket.js"
+import GachaBall from "./GachaBall.js";
+import { EventBus } from "./EventBus.js";
+import { events } from "./EventBus.js";
 
 const PHYSICS_FPS = 120;
 
@@ -34,13 +38,16 @@ const BUMPER_EVEN_END_X = RIGHT_BORDER_X - 30;
 const BUMPER_EVEN_GAP_X = (BUMPER_EVEN_END_X - BUMPER_EVEN_START_X) / (BUMPER_EVEN_COLS - 1);
 
 // Bolas
-const BALL_RADIUS = 10;
 const BALL_NUMBER = 10;
 const BALL_START = { x: MID_POINT_X, y: 100 };
 
 export default class GachaScene extends Phaser.Scene {
     constructor() {
         super({ key: "GachaScene" });
+        
+        EventBus.on(events.BALL_CAUGHT, (ball) => this.onBallCaught(ball));
+
+        this.caughtProduct = null;
     }
 
     init(data){
@@ -54,12 +61,13 @@ export default class GachaScene extends Phaser.Scene {
         this.createBumpers();
         // Bordes
         this.createBorders();
-        // Botón de inicio
-        this.startButton = new Button(this, MID_POINT_X, 550, "button", () => this.startGacha()).setOrigin(0.5).setScale(0.5);
         // Pool de bolas
         this.createBallPool();
+        // Cesta
+        this.gachaBasket = new GachaBasket(this, MID_POINT_X, 550);
+        // Botón de inicio
+        this.startButton = new Button(this, 110, 500, "button", () => this.startGacha()).setOrigin(0.5);
     }
-
     createBumpers() {
         for (let i = 0; i < BUMPER_ROWS; i++) {
             for (let j = 0; j < (i % 2 == 0 ? BUMPER_EVEN_COLS : BUMPER_ODD_COLS); j++) {
@@ -112,27 +120,19 @@ export default class GachaScene extends Phaser.Scene {
         let rightBorder = this.add.rectangle(RIGHT_BORDER_X, MID_POINT_Y, 30, 800, 0xff10F0).setOrigin(0.5);
         this.matter.add.gameObject(rightBorder, { isStatic: true });
 
-        let floor = this.add.rectangle(MID_POINT_X, 700, 400, 100).setOrigin(0.5);
+        let floor = this.add.rectangle(MID_POINT_X, 700, 300, 30).setOrigin(0.5);
         this.matter.add.gameObject(floor, { isStatic: true });
 
         floor.setOnCollide((collisionData) => {
-            let obj1 = collisionData.bodyB.gameObject;
-            let obj2 = collisionData.bodyA.gameObject;
+            let obj = collisionData.bodyB.gameObject;
+            this.ballPool.release(obj);
 
-            if (obj1 != floor) {
-                this.ballPool.release(obj1);
-            }
-            else {
-                this.ballPool.release(obj2);
-            }
-
-            console.log("Bolas vivas: " + this.ballPool.getAliveCount())
             if (this.ballPool.getAliveCount() == 0) { // Si no quedan bolas activas, se reactiva el botón
-                this.activateButton();
+                this.endGame(false);
             }
         })
 
-        let ceiling = this.add.rectangle(MID_POINT_X, -100, 400, 30).setOrigin(0.5);
+        let ceiling = this.add.rectangle(MID_POINT_X, -100, 300, 30).setOrigin(0.5);
         this.matter.add.gameObject(ceiling, { isStatic: true });
     }
     createBallPool() {
@@ -141,18 +141,15 @@ export default class GachaScene extends Phaser.Scene {
         let balls = [];
 
         for (let i = 0; i < BALL_NUMBER; i++) {
-            let ball = this.add.circle(BALL_START.x, BALL_START.y, BALL_RADIUS, 0xFFFF10).setOrigin(0.5);
-            this.matter.add.gameObject(ball, { shape: "circle" });    
-            ball.setBounce(0.6);
-            ball.setFrictionAir(0);
-            ball.setFriction(0);
-
+            let ball = new GachaBall(this, BALL_START.x, BALL_START.y);
             balls.push(ball);
         }
         this.ballPool.addMultipleEntity(balls);
     }
+
     startGacha() {
         this.deactivateButton();
+        this.enableBasketControl();
         let balls = [];
 
         for (let i = 0; i < BALL_NUMBER; i++) {
@@ -160,8 +157,10 @@ export default class GachaScene extends Phaser.Scene {
                 delay: i * 300,
                 callback: () => {
                     let ball = this.ballPool.spawn(BALL_START.x, BALL_START.y);
+                    ball.setProduct(this.randomizeBallContent());
+                    
 
-                    let force = new Phaser.Math.Vector2(Phaser.Math.FloatBetween(-0.005, 0.005), Phaser.Math.FloatBetween(-0.005, -0.0075));
+                    let force = new Phaser.Math.Vector2(Phaser.Math.FloatBetween(-0.0025, 0.0025), Phaser.Math.FloatBetween(-0.0025, -0.005));
                     ball.applyForce(force);
                 }
             });
@@ -188,13 +187,14 @@ export default class GachaScene extends Phaser.Scene {
                 i++;
             }
             let productTier = i + 1;
-            let possibleProducts = Object.keys(this.inventory.getProcessedProductsFromTier(productTier)); // Se obtienen los productos de la tier
+            let possibleProducts = this.inventory.getProcessedProductsFromTier(productTier); // Se obtienen los productos de la tier
 
             let selectedProduct = possibleProducts[Phaser.Math.Between(0, possibleProducts.length - 1)]; // Se selecciona uno aleatoriamente
 
-            return this.inventory.processedProducts[selectedProduct];
+            return selectedProduct;
         }   
     }
+
     activateButton() {
         console.log("botón activado");
         this.startButton.setActive(true);
@@ -204,5 +204,45 @@ export default class GachaScene extends Phaser.Scene {
         console.log("botón desactivado");
         this.startButton.setActive(false);
         this.startButton.setVisible(false);
+    }
+
+    enableBasketControl() {
+        this.gachaBasket.setEnabled(true);
+    }
+    disableBasketControl() {
+        this.gachaBasket.setEnabled(false);
+        this.gachaBasket.x = MID_POINT_X;
+    }
+
+    onBallCaught(ball) {
+        this.caughtProduct = ball.product;
+        this.ballPool.releaseAll();
+        this.endGame(true);
+    }
+
+    endGame(hasBall) {
+        this.activateButton();
+        this.disableBasketControl();
+
+        if (hasBall) {
+            this.showCaughtProduct();
+        }
+        else {
+            this.pityThePlayer();
+        }  
+    }
+
+    showCaughtProduct() {
+        if (this.caughtProduct != null) {
+            console.log("¡Has conseguido: " + this.caughtProduct.name + "!");
+            this.caughtProduct.quantity += 1;
+            this.caughtProduct = null;
+        }
+        else {
+            console.log("La bola estaba vacía.");
+        }
+    }
+    pityThePlayer() {
+        console.log("No has conseguido atrapar ninguna bola.");
     }
 }

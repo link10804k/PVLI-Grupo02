@@ -67,6 +67,7 @@ export default class Pool {
 			entity.setActive(true);
 			entity.setVisible(true); 
 			entity.setAwake();
+			entity.setSensor(false);
 		} 
 		//console.log(entity)
 		return entity;
@@ -78,9 +79,14 @@ export default class Pool {
 	 */
 	release (entity) {
 		entity.setToSleep();
+		entity.setSensor(true);
 		this._group.killAndHide(entity);
 	}
-
+	releaseAll() {
+		this._group.getChildren().forEach(entity => {
+			this.release(entity);
+		});
+	}
 
 	getPhaserGroup(){
 		return this._group;
