@@ -162,7 +162,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
         return [{
             name: harbor.name,
             description: harbor.description,
-            products: harbor.products || [],
+            products: this.inventory.getUnprocessedProductsFromTier(4),
             price: 50 * Math.pow(2, this.buildingCount),
             texture: harbor.texture
         }];

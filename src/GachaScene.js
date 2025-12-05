@@ -67,6 +67,8 @@ export default class GachaScene extends Phaser.Scene {
         this.gachaBasket = new GachaBasket(this, MID_POINT_X, 550);
         // Botón de inicio
         this.startButton = new Button(this, 110, 500, "button", () => this.startGacha()).setOrigin(0.5);
+        // Botón de cierre
+        this.closeButton = new Button(this, 750, 100, "button", () => this.closeScene()).setOrigin(0.5);
     }
     createBumpers() {
         for (let i = 0; i < BUMPER_ROWS; i++) {
@@ -151,19 +153,20 @@ export default class GachaScene extends Phaser.Scene {
         this.deactivateButton();
         this.enableBasketControl();
         let balls = [];
+        this.timeEvents = [];
 
         for (let i = 0; i < BALL_NUMBER; i++) {
-            this.time.addEvent({
+            this.timeEvents.push(this.time.addEvent({
                 delay: i * 300,
                 callback: () => {
                     let ball = this.ballPool.spawn(BALL_START.x, BALL_START.y);
                     ball.setProduct(this.randomizeBallContent());
                     
 
-                    let force = new Phaser.Math.Vector2(Phaser.Math.FloatBetween(-0.0025, 0.0025), Phaser.Math.FloatBetween(-0.0025, -0.005));
+                    let force = new Phaser.Math.Vector2(Phaser.Math.FloatBetween(-0.005, 0.005), Phaser.Math.FloatBetween(-0.005, -0.0075));
                     ball.applyForce(force);
                 }
-            });
+            }));
         }
         
     }
@@ -196,14 +199,18 @@ export default class GachaScene extends Phaser.Scene {
     }
 
     activateButton() {
-        console.log("botón activado");
         this.startButton.setActive(true);
         this.startButton.setVisible(true);
+
+        this.closeButton.setActive(true);
+        this.closeButton.setVisible(true);
     }
     deactivateButton() {
-        console.log("botón desactivado");
         this.startButton.setActive(false);
         this.startButton.setVisible(false);
+
+        this.closeButton.setActive(false);
+        this.closeButton.setVisible(false);
     }
 
     enableBasketControl() {
@@ -223,6 +230,9 @@ export default class GachaScene extends Phaser.Scene {
     endGame(hasBall) {
         this.activateButton();
         this.disableBasketControl();
+
+        this.timeEvents.forEach(event => event.remove());
+        this.timeEvents = [];
 
         if (hasBall) {
             this.showCaughtProduct();
@@ -244,5 +254,11 @@ export default class GachaScene extends Phaser.Scene {
     }
     pityThePlayer() {
         console.log("No has conseguido atrapar ninguna bola.");
+    }
+
+    closeScene() {
+        this.scene.resume("MainScene");
+        this.scene.resume("UIScene");
+        this.scene.stop();
     }
 }
