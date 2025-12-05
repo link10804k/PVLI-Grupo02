@@ -25,7 +25,7 @@ export default class Pool {
 		this._group.addMultiple(entities);
 		entities.forEach(c => {
 			this._group.killAndHide(c);
-			c.body.checkCollision.none = true;
+			c.setToSleep();
 		});
 	}
 	
@@ -39,36 +39,36 @@ export default class Pool {
 			 - duplicar el tamaño
 			 - reutilizar la entidad que más tiempo ha estado viva
 		*/
-		if(!entity){
-			if (this._group.getLength() < this.max.value || this.max.value === 0) {
-				let newEntities = [];
-				let newMax = this.max.value < this._group.getLength()*2 ? this.max.value-this._group.getLength() : this._group.getLength()
-				for(let i=0; i<newMax; i++){ //En este caso hemos elegido duplicar el tamaño
-					entity = new Box(this.scene, x, y, this)
-					newEntities.push(entity);
-				}	
-				this.addMultipleEntity(newEntities);
-			} 
-			 //Como hemos mencionado podemos querer reutilizar el elemento que más tiempo ha estado vivo si no tenemos otra opción
-			else if (this.reuse.checked) { 
-				entity = this._group.getFirstNth(1, true);
-				this._group.remove(entity);
-				this._group.add(entity);	
-			}
-			
-		}
+		//if(!entity){
+		//	if (this._group.getLength() < this.max.value || this.max.value === 0) {
+		//		let newEntities = [];
+		//		let newMax = this.max.value < this._group.getLength()*2 ? this.max.value-this._group.getLength() : this._group.getLength()
+		//		for(let i=0; i<newMax; i++){ //En este caso hemos elegido duplicar el tamaño
+		//			entity = new Box(this.scene, x, y, this)
+		//			newEntities.push(entity);
+		//		}	
+		//		this.addMultipleEntity(newEntities);
+		//	} 
+		//	 //Como hemos mencionado podemos querer reutilizar el elemento que más tiempo ha estado vivo si no tenemos otra opción
+		//	else if (this.reuse.checked) { 
+		//		entity = this._group.getFirstNth(1, true);
+		//		this._group.remove(entity);
+		//		this._group.add(entity);	
+		//	}
+		//	
+		//}
 		
 
 		// Cuando ya hemos conseguido la entidad de alguna forma la reutilizamos
 		if (entity) {
 			entity.x = x;
 			entity.y = y;
-			entity.play(animationKey)
+			//entity.play(animationKey)
 			entity.setActive(true);
 			entity.setVisible(true); 
-			entity.body.checkCollision.none = false;
+			entity.setAwake();
 		} 
-		console.log(entity)
+		//console.log(entity)
 		return entity;
 	}
 	
@@ -77,7 +77,7 @@ export default class Pool {
 	 * @param {Object} entity - entidad de la pool que queremos marcar como libre
 	 */
 	release (entity) {
-		entity.body.checkCollision.none = true;
+		entity.setToSleep();
 		this._group.killAndHide(entity);
 	}
 

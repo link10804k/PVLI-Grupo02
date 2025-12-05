@@ -41,9 +41,6 @@ const BALL_START = { x: MID_POINT_X, y: 100 };
 export default class GachaScene extends Phaser.Scene {
     constructor() {
         super({ key: "GachaScene" });
-
-        this.colliders = [];
-        this.bouncers = [];
     }
 
     init(data){
@@ -59,18 +56,8 @@ export default class GachaScene extends Phaser.Scene {
         this.createBorders();
         // Botón de inicio
         new Button(this, MID_POINT_X, 550, "button", () => this.startGacha()).setOrigin(0.5).setScale(0.5);
-
-        this.ballPool = new Pool(this, BALL_NUMBER, false); // Pool para las bolas
-
-        for (let i = 0; i < BALL_NUMBER; i++) {
-            let ball = this.add.circle(BALL_START.x, BALL_START.y, BALL_RADIUS, 0xFFFF10).setOrigin(0.5);
-            this.matter.add.gameObject(ball, { shape: "circle" });    
-            ball.setBounce(0.6);
-            ball.setFrictionAir(0);
-            ball.setFriction(0);
-
-            this.ballPool.add(ball);
-        }
+        // Pool de bolas
+        this.createBallPool();
     }
 
     createBumpers() {
@@ -97,42 +84,60 @@ export default class GachaScene extends Phaser.Scene {
                 }
                 this.matter.add.gameObject(bumper, { shape: "circle", isStatic: true });
                 if (border) {
-                    this.bouncers.push(bumper);
-                }
-                else {
-                    this.colliders.push(bumper);
+                    bumper.setBounce(1.5);
+            
+                    bumper.setOnCollide(() => {
+                        if (this.tweens.getTweensOf(bumper).length == 0) {
+                            this.tweens.add({
+                                targets: bumper,
+                                scale: 1.5,
+                                duration: 150,
+                                yoyo: true,
+                                ease: Phaser.Math.Easing.Back.Out
+                            });
+                        }
+                    })
                 }
             }
         }
-
-        this.bouncers.forEach(bouncer => {
-            bouncer.setBounce(1.5);
-            
-            bouncer.setOnCollide(() => {
-                if (this.tweens.getTweensOf(bouncer).length == 0) {
-                    this.tweens.add({
-                        targets: bouncer,
-                        scale: 1.5,
-                        duration: 150,
-                        yoyo: true,
-                        ease: Phaser.Math.Easing.Back.Out
-                    });
-                }
-            })
-        });
     }
     createBorders() {
         this.add.rectangle(LEFT_BORDER_X - 22.5, MID_POINT_Y, 15, 600, 0xff10F0).setOrigin(0.5); // Para tapar el tween
 
         let leftBorder = this.add.rectangle(LEFT_BORDER_X, MID_POINT_Y, 30, 800, 0xff10F0).setOrigin(0.5);
         this.matter.add.gameObject(leftBorder, { isStatic: true });
-        this.colliders.push(leftBorder);
 
-        this.add.rectangle(RIGHT_BORDER_X + 22.5, MID_POINT_Y, 15, 800, 0xff10F0).setOrigin(0.5); // Para tapar el tween
+        this.add.rectangle(RIGHT_BORDER_X + 22.5, MID_POINT_Y, 15, 600, 0xff10F0).setOrigin(0.5); // Para tapar el tween
 
-        let rightBorder = this.add.rectangle(RIGHT_BORDER_X, MID_POINT_Y, 30, 600, 0xff10F0).setOrigin(0.5);
+        let rightBorder = this.add.rectangle(RIGHT_BORDER_X, MID_POINT_Y, 30, 800, 0xff10F0).setOrigin(0.5);
         this.matter.add.gameObject(rightBorder, { isStatic: true });
-        this.colliders.push(rightBorder);
+
+        let floor = this.add.rectangle(MID_POINT_X, 700, 400, 30, 0xff10F0).setOrigin(0.5);
+        this.matter.add.gameObject(floor, { isStatic: true });
+
+        floor.setOnCollide((collisionData) => {
+            let ball = collisionData.bodyB.gameObject;
+            this.ballPool.release(ball);
+        })
+
+        let ceiling = this.add.rectangle(MID_POINT_X, -100, 400, 30, 0xff10F0).setOrigin(0.5);
+        this.matter.add.gameObject(ceiling, { isStatic: true });
+    }
+    createBallPool() {
+        this.ballPool = new Pool(this, BALL_NUMBER, false); // Pool para las bolas
+
+        let balls = [];
+
+        for (let i = 0; i < BALL_NUMBER; i++) {
+            let ball = this.add.circle(BALL_START.x, BALL_START.y, BALL_RADIUS, 0xFFFF10).setOrigin(0.5);
+            this.matter.add.gameObject(ball, { shape: "circle" });    
+            ball.setBounce(0.6);
+            ball.setFrictionAir(0);
+            ball.setFriction(0);
+
+            balls.push(ball);
+        }
+        this.ballPool.addMultipleEntity(balls);
     }
     startGacha() {
         let balls = [];
@@ -141,7 +146,7 @@ export default class GachaScene extends Phaser.Scene {
             this.time.addEvent({
                 delay: i * 300,
                 callback: () => {
-                    let ball = this.ballPool.spawn();
+                    let ball = this.ballPool.spawn(BALL_START.x, BALL_START.y);
 
                     let force = new Phaser.Math.Vector2(Phaser.Math.FloatBetween(-0.005, 0.005), Phaser.Math.FloatBetween(-0.005, -0.0075));
                     ball.applyForce(force);
