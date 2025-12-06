@@ -31,7 +31,7 @@
       <nav class="nav container">
         <a href="" class="navL">
           <img src="assets/webAssets/MatchaGames.Logo.png" alt="favicon" class="navL-img" />
-          Nube
+          Índice
         </a>
 
         <div class="navM" id="nav-menu">
@@ -69,7 +69,7 @@
             <section>
               <div class="homecont grid">
                 <div class="homedata">
-                  <h1 class="hometitle">FAR<br /> AWAY<br />FROM <br />TEA!!</h1>
+                  <h1 class="hometitle">FAR AWAY<br />FROM TEA!!</h1>
                   <p class="homedes">
                     Te encargas de gestionar y expandir una cafetería, construyendo nuevos edificios 
                     para conseguir materias primas y producir una gran variedad de productos que los
@@ -77,15 +77,16 @@
                     trabajadores que te ayudarán a ser más eficiente en tu objetivo de convertirte
                     en la cafetería más famosa del mundo.
                   </p>
-                  <div class="homebut">
-                    <a href="#" class="button">CONTROLES</a>
-                    <a href="#" class="button">NOSOTROS</a>
-                  </div>
                 </div>
 
-                <div id="canvas">
-                  <script src="src/Game.js" type="module"></script>
+                <div id="canvasWrapper">
+                  <div id="canvas">
+                    <script src="src/Game.js" type="module"></script>
+                  </div>
+                  <button id="fullscreenBtn" class="fullscreenButton">Pantalla completa</button>
                 </div>
+
+
               </div>
             </section>
           </div>
@@ -137,34 +138,34 @@
         </div>
       </section>
 
-      <!--PRODUCTS-->
-      <section class="section product" id="product">
+      <!--MEMBERS-->
+      <section class="section membert" id="member">
         <h2 class="sectiontitle">Integrantes</h2>
 
-        <div class="productcontainer">
+        <div class="membercontainer">
       
-          <div class="productcontent">
-            <img src="assets/webAssets/Abuelo-Zazo.jpg" alt="" class="productimg" />
-            <h3 class="Nombre">Javier Zazo del Zazo</h3>
-            <span class="Alias">Zazo Zazez</span>
+          <div class="membercontent">
+            <img src="assets/webAssets/Abuelo-Zazo.jpg" alt="" class="memberimg" />
+            <h3 class="Nombre">Javier Zazo Morillo</h3>
+            <span class="Alias">El General supremo</span>
           </div>
 
-          <div class="productcontent">
-            <img src="assets/webAssets/BMO-Vicente.jpg" alt="" class="productimg" />
+          <div class="membercontent">
+            <img src="assets/webAssets/BMO-Vicente.jpg" alt="" class="memberimg" />
             <h3 class="Nombre">Vicente Rodriguez Casado</h3>
             <span class="Alias">Vicenku</span>
           </div>
 
-          <div class="productcontent">
-            <img src="assets/webAssets/Ralsei-Macarr0n.png" alt="" class="productimg" />
+          <div class="membercontent">
+            <img src="assets/webAssets/Ralsei-Macarr0n.png" alt="" class="memberimg" />
             <h3 class="Nombre">Adrián Arbas Perdiguero</h3>
             <span class="Alias">Macarr0n</span>
           </div>
 
-          <div class="productcontent">
-            <img src="assets/webAssets/Vox-JorgeOfTheJungle.jpg" alt="" class="productimg" />
+          <div class="membercontent">
+            <img src="assets/webAssets/JorgeDoge.jpg" alt="" class="memberimg" />
             <h3 class="Nombre">Jorge Augusto Blanco</h3>
-            <span class="Alias">El perros</span>
+            <span class="Alias">JorgeDoge</span>
           </div>
         </div>
       </section>
@@ -172,41 +173,28 @@
       <!--CONTROLES-->
       <section class="section new" id="new">
         <h2 class="sectiontitle">CONTROLES</h2>
-
         <div class="newcontainer container">
-          <div class="swiper new-swiper">
-            <div class="swiper-wrapper">
-              <div class="newcontent swiper-slide">
-                <div class="newtag">W / A / S / D</div>
-                <img src="assets/webAssets/WASD.png" alt="" class="newimg" />
-                <h3 class="newtitle">MOVIMIENTO</h3>
-                <span class="newsubtitle">Mover la cámara</span>
-                  <button class="button newbutton">
-                    <i class="bx bx-cart-alt newicon"></i>
-                  </button>
-              </div>
-              <div class="newcontent swiper-slide">
-                <div class="newtag">I / O</div>
-                <img src="assets/webAssets/Lupa-zoom.png" alt="" class="newimg" />
-                <h3 class="newtitle">ZOOM</h3>
-                <span class="newsubtitle">Acercar y alejar la cámara</span>
-                  <button class="button newbutton">
-                    <i class="bx bx-cart-alt newicon"></i>
-                  </button>
-              </div>
+          <div class="newcontent">
+            <div class="newtag">W / A / S / D</div>
+              <img src="assets/webAssets/WASD.png" alt="" class="newimg" />
+              <h3 class="newtitle">MOVIMIENTO</h3>
+              <span class="newsubtitle">Mover la cámara</span>
+            </div>
 
-              <div class="newcontent swiper-slide">
-                <div class="newtag">Squick!</div>
-                <img src="assets/webAssets/Mouse.png" alt="" class="newimg" />
-                <h3 class="newtitle">Todo el resto de cosas</h3>
-                <span class="newsubtitle">Mueve el ratón por la pantalla para clickar en las diferentes partes del juego para interactuar con él y así construir, producir y vender café</span>
-                  <button class="button newbutton">
-                    <i class="bx bx-cart-alt newicon"></i>
-                  </button>
-              </div>
+          <div class="newcontent">
+            <div class="newtag">I / O</div>
+              <img src="assets/webAssets/Lupa-zoom.png" alt="" class="newimg" />
+              <h3 class="newtitle">ZOOM</h3>
+              <span class="newsubtitle">Acercar y alejar la cámara</span>
+            </div>
+
+          <div class="newcontent">
+            <div class="newtag">Squick!</div>
+              <img src="assets/webAssets/Mouse.png" alt="" class="newimg" />
+              <h3 class="newtitle">Todo el resto de cosas</h3>
+              <span class="newsubtitle">Mueve el ratón por la pantalla…</span>
             </div>
           </div>
-        </div>
       </section>
 
       <!--CORREO-->
@@ -224,9 +212,61 @@
     </main>
    
     <!--JAVASCRIPT-->
-    <script src="js/scrollreveal.min.js"></script>
+<script>
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+const canvasWrapper = document.getElementById("canvasWrapper");
+const gameContainer = document.getElementById("canvas");
 
-    <script src="js/swiper-bundle.min.js"></script>
+function scaleGame() {
+  const canvas = gameContainer;
+
+  const windowRatio = window.innerWidth / window.innerHeight;
+  const gameRatio = 800 / 600;
+
+  let width, height;
+
+  if (windowRatio < gameRatio) {
+    width = window.innerWidth;
+    height = width / gameRatio;
+  } else {
+    height = window.innerHeight;
+    width = height * gameRatio;
+  }
+
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
+}
+
+function resetScale() {
+  const canvas = gameContainer;
+  canvas.style.width = "800px";
+  canvas.style.height = "600px";
+}
+
+fullscreenBtn.addEventListener("click", () => {
+  if (!document.fullscreenElement) {
+    canvasWrapper.requestFullscreen?.() ||
+    canvasWrapper.webkitRequestFullscreen?.() ||
+    canvasWrapper.msRequestFullscreen?.();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+document.addEventListener("fullscreenchange", () => {
+  if (document.fullscreenElement) {
+    canvasWrapper.classList.add("fullscreen");
+    fullscreenBtn.classList.add("fullscreen");
+    scaleGame();
+    window.addEventListener("resize", scaleGame);
+  } else {
+    canvasWrapper.classList.remove("fullscreen");
+    fullscreenBtn.classList.remove("fullscreen");
+    resetScale();
+    window.removeEventListener("resize", scaleGame);
+  }
+});
+  </script>
 
     <script src="js/main.js"></script>
   </body>
