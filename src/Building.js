@@ -6,6 +6,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
         scene.add.existing(this);
 
         this.name = name;
+        this.originalTexture = texture;
         this.description = description;
         this.products = products; // Array de recursos
         this.productionSpeed = productionSpeed; // Ratio de velocidad
@@ -53,9 +54,16 @@ export default class Building extends Phaser.GameObjects.Sprite{
 
     // Evita crear múltiples timers encima del mismo edificio
     if (this.productionTimer) {
-       this.cancelProduction();
-        return;
+       this.cancelProduction(true); //true = no restaura la textura
+        //no se hace return para reiniciar la producción
     }
+
+    // Cambiar textura al nuevo producto si existe
+    if (product.buildingTexture) {
+        this.setTexture(product.buildingTexture);
+    }
+
+    this.productionCancelled = false; // Resetear estado de cancelación
 
     // Si es un edificio de procesado, comprobar materias primas
     if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product, this.assignedWorkers)) {
@@ -63,7 +71,11 @@ export default class Building extends Phaser.GameObjects.Sprite{
         return;
     }
 
-    this.productionCancelled = false; // Resetear estado de cancelación
+
+     // Cambiar el sprite del edificio
+    if (product.buildingTexture) {
+        this.setTexture(product.buildingTexture);
+    }
 
     const duration = product.time * this.productionSpeed;
 
@@ -162,6 +174,12 @@ export default class Building extends Phaser.GameObjects.Sprite{
             this.inventory.availableWorkers++;
             this.scene.workersUI.setText("☭" + this.inventory.availableWorkers + "/" + this.inventory.workers);
             text.setText(`Workers: ${this.assignedWorkers}`);
+
+            if (this.assignedWorkers === 0) {
+                console.log(`Edificio ${this.name} se quedó sin trabajadores. Producción detenida.`);
+                this.cancelProduction(false); 
+            // false → restaurar textura original
+        }
         }
     }
 
@@ -175,7 +193,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.scene.UIScene.scene.pause();
     }
 
-    cancelProduction() {
+    cancelProduction(keepTexture = false) {
     // Si no hay producción activa, salir
     if (!this.productionTimer) return;
 
@@ -183,6 +201,11 @@ export default class Building extends Phaser.GameObjects.Sprite{
 
     // Flag para indicar cancelación y evitar producción al acabar
     this.productionCancelled = true;
+
+    // Restaurar textura original
+    if (!keepTexture) {
+        this.setTexture(this.originalTexture);
+    }
 
     // Destruir el timer visual
     this.productionTimer.destroy();
