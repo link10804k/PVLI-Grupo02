@@ -15,43 +15,36 @@ export default class Application {
         this.addToContainer();
         
 
-        // Estado del rectángulo: 'entering', 'staying', 'exiting'
-        this.state = 'entering';
-
-        // Activar el update para deslizarlo
-        this.scene.events.on('update', this.update, this);
+        // Lanzar animación de entrada con tween
+        this.playEnterTween();
     }
 
-     update(time, delta) {
-        const deltaSeconds = delta / 1000;
+    //TWEEN DE ENTRADA
+    playEnterTween() {
+        this.scene.tweens.add({
+            targets: this.container,
+            y: this.targetY,
+            duration: 1000,   // tiempo que tarda en entrar
+            ease: 'Power2', 
+            onComplete: () => {
+                // Después de entrar -> esperar -> salir
+                this.scene.time.delayedCall(this.lifeTime, () => this.playExitTween());
+            }
+        });
 
-        switch (this.state) {
-            case 'entering':
-                if (this.container.y > this.targetY) {
-                    this.container.y -= this.speed * deltaSeconds;
-                    if (this.container.y <= this.targetY) {
-                        this.container.y = this.targetY;
-                        this.state = 'staying';
-                        this.lifeTimer = 0;
-                    }
-                }
-                break;
+    }
 
-            case 'staying':
-                this.lifeTimer += delta;
-                if (this.lifeTimer >= this.lifeTime) {
-                    this.state = 'exiting';
-                }
-                break;
-
-            case 'exiting':
-                this.container.y += this.speed * deltaSeconds;
-                if (this.container.y - this.width / 2 > this.scene.cameras.main.width) {
-                    this.container.destroy();
-                    this.scene.events.off('update', this.update, this);
-                }
-                break;
-        }
+    //TWEEN DE SALIDA
+    playExitTween() {
+        this.scene.tweens.add({
+            targets: this.container,
+            y: this.scene.cameras.main.height + this.height,
+            duration: 1000,
+            ease: 'Power2',
+            onComplete: () => {
+                this.container.destroy();
+            }
+        });
     }
 
      setupDimensions() {
