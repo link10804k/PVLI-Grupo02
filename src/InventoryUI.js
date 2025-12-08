@@ -1,7 +1,7 @@
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 
-const SPACE_BETWEEN_PRODUCTS = 50;
+const SPACE_BETWEEN_PRODUCTS = 20;
 
 export default class InventoryUI {
     constructor(UIScene){
@@ -11,7 +11,7 @@ export default class InventoryUI {
             this.updateInventoryUI();
         });
         this.UIScene = UIScene;
-        this.rectangle = this.UIScene.add.rectangle(800, 600, 200, 400, 0x000000, 0.1).setOrigin(1, 1);
+        this.rectangle = this.UIScene.add.rectangle(800, 600, 200, 400, 0x000000, 0).setOrigin(1, 1);
 
         this.unprocessedProductsCoords = { x: this.rectangle.x - this.rectangle.width + 20, y: this.rectangle.y - this.rectangle.height + 20 };
         this.processedProductsCoords = { x: this.rectangle.x - this.rectangle.width + 20, y: this.rectangle.y - this.rectangle.height / 2 + 20 };
@@ -30,32 +30,59 @@ export default class InventoryUI {
 
         unprocessedKeys.forEach((key, index) => {
             let product = this.unprocessedProducts[key];
-            let x = this.unprocessedProductsCoords.x + (index % 4) * SPACE_BETWEEN_PRODUCTS;
-            let y = this.unprocessedProductsCoords.y + Math.floor(index / 4) * SPACE_BETWEEN_PRODUCTS;
 
-            if (product.texture) {
-                this.entities.push(this.UIScene.add.sprite(x, y, product.texture).setOrigin(0.5).setScale(0.1));
-            }
-            else {
-                this.entities.push(this.UIScene.add.text(x, y, product.name, { fontSize: '10px', fill: '#ffffff' }).setOrigin(0.5));
-            }
-            this.entities.push(this.UIScene.add.text(x + 10, y + 10, product.quantity, { fontSize: '10px', fill: '#ffffff' }).setOrigin(0.5));
-        });
+            const x = this.unprocessedProductsCoords.x;
+            const y = this.unprocessedProductsCoords.y + index * SPACE_BETWEEN_PRODUCTS;
 
+            this.drawProduct(product, x, y, "#ffffffff");
+    });
+
+        // Productos procesados----------------------------------
         processedKeys.forEach((key, index) => {
-            let product = this.processedProducts[key];
-            let x = this.processedProductsCoords.x + (index % 4) * SPACE_BETWEEN_PRODUCTS;
-            let y = this.processedProductsCoords.y + Math.floor(index / 4) * SPACE_BETWEEN_PRODUCTS;
+            const product = this.processedProducts[key];
+            const x = this.processedProductsCoords.x;
+            const y = this.processedProductsCoords.y + index * SPACE_BETWEEN_PRODUCTS;
 
-            if (product.texture) {
-                this.entities.push(this.UIScene.add.sprite(x, y, product.texture).setOrigin(0.5).setScale(0.1));
-            }
-            else {
-                this.entities.push(this.UIScene.add.text(x, y, product.name, { fontSize: '10px', fill: '#ff0000' }).setOrigin(0.5));
-            }
-            this.entities.push(this.UIScene.add.text(x + 10, y + 10, product.quantity, { fontSize: '10px', fill: '#ffffff' }).setOrigin(0.5));
-        });
+             this.drawProduct(product, x, y, );
+    });
     }
+
+    drawProduct(product, x, y, color = "#85008aff") {
+
+    let container = this.UIScene.add.container(x, y);
+    this.entities.push(container);
+
+    // ICONO
+    if (product.texture) {
+        let icon = this.UIScene.add.sprite(0, 0, product.texture)
+            .setOrigin(0, 0.5)
+            .setScale(0.15);
+
+        container.add(icon);
+    }
+
+    // NOMBRE
+    let nameText = this.UIScene.add.text(40, 0, product.name, {
+        fontFamily: "Arial",
+        fontSize: "14px",
+        color: color,
+        stroke: "#000000",
+        strokeThickness: 3
+    }).setOrigin(0, 0.5);
+    container.add(nameText);
+
+    // CANTIDAD
+    let qtyText = this.UIScene.add.text(150, 0, product.quantity, {
+        fontFamily: "Arial",
+        fontSize: "14px",
+        color: color,
+        stroke: "#000000",
+        strokeThickness: 3
+    }).setOrigin(0, 0.5);
+    container.add(qtyText);
+}
+
+
     ClearInventoryUI() {
         this.entities.forEach(entity => entity.destroy());
         this.entities = [];
