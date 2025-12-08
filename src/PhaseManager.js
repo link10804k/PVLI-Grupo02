@@ -7,28 +7,83 @@ const SELLING_TIME = 30000; // 30 segundos (variable)
 export default class PhaseManager {
     constructor(scene) {
         this.scene = scene;
+        this.countdownText = null;
+        this.countdownEvent = null;
+
+        this.createCountdownText();
+
         this.ProductionPhase();
+
+        
     }
+
+     //Crear texto del temporizador abajo en el centro
+    createCountdownText() {
+        const cam = this.scene.cameras.main;
+
+        this.countdownText = this.scene.add.text(
+            cam.width / 2,
+            cam.height - 10,                      // posición
+            "",                          // texto inicial vacío
+            {
+                fontSize: "22px",
+                color: "#ffffffff",
+                stroke: "#000000",
+                strokeThickness: 3
+            }
+        ) 
+    .setOrigin(0.5, 1)
+    .setScrollFactor(0)
+    .setDepth(9999);
+    }
+
+    //Iniciar un temporizador
+    startCountdown(label, timeMs, onFinish) {
+
+        // Si hay un timer anterior, lo borramos
+        if (this.countdownEvent) this.countdownEvent.remove(false);
+
+        let remaining = Math.ceil(timeMs / 1000);
+
+        this.countdownText.setText(`Próxima fase (${label}) en: ${remaining}s`);
+
+        // Timer de 1 segundo que actualiza el texto
+        this.countdownEvent = this.scene.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callback: () => {
+                remaining--;
+                this.countdownText.setText(`Próxima fase (${label}) en: ${remaining}s`);
+
+                if (remaining <= 0) {
+                    this.countdownEvent.remove(false);
+                    onFinish();
+                }
+            }
+        });
+    }
+
+     ///////////////// FASES /////////////////
 
     ProductionPhase() {
         EventBus.emit(events.PRODUCTION_PHASE);
         console.log("Fase de producción iniciada");
 
-        this.scene.time.addEvent({
-            callback: () => this.SellingPhase(),
-            delay: PRODUCTION_TIME,
-            loop: false
-        })
+         this.startCountdown(
+            "Venta",
+            PRODUCTION_TIME,
+            () => this.SellingPhase()
+        );
     }
 
     SellingPhase() {
         EventBus.emit(events.SELLING_PHASE);
         console.log("Fase de venta iniciada");
 
-        this.scene.time.addEvent({
-            callback: () => this.ProductionPhase(),
-            delay: SELLING_TIME,
-            loop: false
-        })
+         this.startCountdown(
+            "Producción",
+            SELLING_TIME,
+            () => this.ProductionPhase()
+        );
     }
 }
