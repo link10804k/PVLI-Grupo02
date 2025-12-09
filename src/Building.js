@@ -1,3 +1,4 @@
+import FloatingMessage from "./FloatingMessage.js";
 import ProductionTimer from "./Timer.js";
 export default class Building extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, texture = "building", name, description, products, productionSpeed = 1.0, isProcessor = false) {
@@ -15,6 +16,8 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.upgradeTier = 1;       // Nivel de mejora
         this.isProcessor = isProcessor; // Indica si el edificio es de producción o de procesado
         this.inventory = this.scene.playerInventory; // Referencia al inventario
+
+        this.ui = this.scene.scene.get("UIScene");
         
         this.setScale(0.4);
 
@@ -48,7 +51,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
 
    produce(product) {
     if (this.assignedWorkers <= 0) {
-        console.log("No hay ningun trabajador en este edificio");
+       new FloatingMessage(this.ui, "No hay ningun trabajador en este edificio");
         return;
     }
 
@@ -67,7 +70,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
 
     // Si es un edificio de procesado, comprobar materias primas
     if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product, this.assignedWorkers)) {
-        console.log(`No hay suficientes materias primas para producir ${product.name}`);
+        new FloatingMessage(this.ui, `No hay suficientes materias primas para producir ${product.name}`);
         return;
     }
 
@@ -102,7 +105,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
 
         // Si es un edificio de procesado, comprobar materias primas en el caso de que hayan cambiado
         if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product, this.assignedWorkers)) {
-            console.log(`No hay suficientes materias primas para producir ${product.name}`);
+            new FloatingMessage(this.ui, `No hay suficientes materias primas para producir ${product.name}`);
             return;
         }
 
@@ -146,7 +149,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
         }
     }
     else {
-        console.log("No tienes suficiente dinero para mejorar este edificio.");
+        new FloatingMessage(this.ui, "No tienes suficiente dinero para mejorar este edificio.");
     }
 }
     
@@ -161,12 +164,12 @@ export default class Building extends Phaser.GameObjects.Sprite{
 
     addWorker(text) {
         if (this.inventory.availableWorkers <= 0) {
-            console.log("No hay trabajadores disponibles en el inventario.");
+            new FloatingMessage(this.ui, "No hay trabajadores disponibles en el inventario.");
             return;
         }
         this.assignedWorkers++;
         this.inventory.availableWorkers--;
-        this.scene.workersUI.setText("☭" + this.inventory.availableWorkers + "/" + this.inventory.workers);
+        this.scene.workersUI.setText(this.inventory.availableWorkers + "/" + this.inventory.workers);
 
         text.setText(`Workers: ${this.assignedWorkers}`);
     }
@@ -175,7 +178,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
         if (this.assignedWorkers > 0) {
             this.assignedWorkers--;
             this.inventory.availableWorkers++;
-            this.scene.workersUI.setText("☭" + this.inventory.availableWorkers + "/" + this.inventory.workers);
+            this.scene.workersUI.setText(this.inventory.availableWorkers + "/" + this.inventory.workers);
             text.setText(`Workers: ${this.assignedWorkers}`);
 
             if (this.assignedWorkers === 0) {

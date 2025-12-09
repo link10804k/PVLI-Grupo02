@@ -35,7 +35,8 @@ export default class MainScene extends Phaser.Scene {
 
         this.load.image("coffeeOrder", "assets/gameAssets/coffeeOrder.png")
 
-        this.load.image("menos", "assets/gameAssets/Menos.jpg")
+        this.load.image("plus", "assets/gameAssets/PlusIcon.png")
+        this.load.image("menos", "assets/gameAssets/MinusIcon.png")
         this.load.image("panel", "assets/gameAssets/panel.jpg")
 
         this.load.image("Coffee_display", "assets/gameAssets/Coffe_display.png")
@@ -90,16 +91,16 @@ export default class MainScene extends Phaser.Scene {
         }).setScrollFactor(0);
 
             //Botón para comprar trabajadores
-        this.addWorkersBut = new Button(this.UIScene, 760, 85, "button", () => {
+        this.addWorkersBut = new Button(this.UIScene, 760, 85, "plus", () => {
             this.playerInventory.buyWorker();
-            this.workersUI.setText("☭" + this.playerInventory.availableWorkers + "/" + this.playerInventory.workers);
+            this.workersUI.setText(this.playerInventory.availableWorkers + "/" + this.playerInventory.workers);
             if(this.playerInventory.workers >= this.playerInventory.workersSlots){
                 this.addWorkersBut.setActive(false).setVisible(false);
             }
              EventBus.on(events.LEVEL_INCREASED, () => {
                    this.addWorkersBut.setActive(true).setVisible(true);
                     });
-        }).setScale(0.5);
+        }).setScale(1.5);
 
             //Texto del precio del siguiente trabajador
         this.workerPriceText = this.UIScene.add.text(730, 105, "$" + this.playerInventory.workerPrice, {

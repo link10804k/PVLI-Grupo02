@@ -1,6 +1,7 @@
 import Products from "./Resources/Products.json" with { type: "json"}
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
+import FloatingMessage from "./FloatingMessage.js";
 export default class Inventory{
     constructor(scene, money){
         this.unprocessedProducts = structuredClone(Products.unprocessedProducts.tier1);
@@ -18,6 +19,7 @@ export default class Inventory{
         this.workerPrice = this.workerBasePrice;
 
         this.mainScene = scene;
+        this.ui = this.mainScene.scene.get("UIScene");
 
         this.popularityLevel = 1;
         this.maxTier = Object.keys(Products.unprocessedProducts).length;
@@ -136,13 +138,13 @@ export default class Inventory{
     buyWorker() {
         // Verificar si hay espacio
         if (this.workers >= this.workersSlots) {
-            console.log("No puedes contratar más trabajadores. Límite alcanzado.");
+             new FloatingMessage(this.ui, "No puedes contratar más trabajadores. Límite alcanzado.");
             return false;
         }
 
         // Verificar si hay dinero
         if (!this.hasEnoughMoney(this.workerPrice)) {
-            console.log("No tienes suficiente dinero. Precio del trabajador:", this.workerPrice);
+             new FloatingMessage(this.ui, "No tienes suficiente dinero. Precio del trabajador: " + this.workerPrice + "$");
             return false;
         }
 
