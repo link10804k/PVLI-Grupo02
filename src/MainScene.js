@@ -39,8 +39,35 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("menos", "assets/gameAssets/MinusIcon.png")
         this.load.image("panel", "assets/gameAssets/panel.jpg")
 
-        this.load.image("Coffee_display", "assets/gameAssets/Coffe_display.png")
-        this.load.image("Tea_display", "assets/gameAssets/Tea_display.png")
+        // Productos no procesados
+        this.load.image("coffeeGrains_display", "assets/gameAssets/Coffee_display.png");
+        this.load.image("teaHerbs_display", "assets/gameAssets/TeaIcon.png");
+        this.load.image("cocoaBeans_display", "assets/gameAssets/cocoaBeans.png");
+        this.load.image("pumpkins_display", "assets/gameAssets/pumpkins.png");
+        this.load.image("dough_display", "assets/gameAssets/Dough.png");
+        this.load.image("sugar_display", "assets/gameAssets/sugar.png");
+        this.load.image("frozenBurgers_display", "assets/gameAssets/frozenBurgers.png");
+        this.load.image("frozenTacos_display", "assets/gameAssets/FrozenTaco.png");
+        this.load.image("frozenPizza_display", "assets/gameAssets/frozenPizza.png");
+        this.load.image("frozenPaella_display", "assets/gameAssets/frozenPaella.png");
+        // Productos procesados
+        this.load.image("Coffee_display", "assets/gameAssets/CoffeeIcon.png")
+        this.load.image("Tea_display", "assets/gameAssets/Tea.png")
+        this.load.image("HotChocolate_display", "assets/gameAssets/hotChocolate.png");
+        this.load.image("PumpkinLatte_display", "assets/gameAssets/pumpkinLatte.png");
+        this.load.image("Cookies_display", "assets/gameAssets/Cookies.png");
+        this.load.image("PumpkinPie_display", "assets/gameAssets/pumpkinCake.png");
+        this.load.image("Bread_display", "assets/gameAssets/bread.png");
+        this.load.image("Burger_display", "assets/gameAssets/Hamburguesa.png");
+        this.load.image("Taco_display", "assets/gameAssets/tacos.png");
+        this.load.image("Pizza_display", "assets/gameAssets/Pizza.png");
+        this.load.image("Paella_display", "assets/gameAssets/Paella.png");
+        // Edificios
+        this.load.image("building_CoffeeGrains_texture", "assets/gameAssets/CoffeeFarm.png");
+        this.load.image("building_TeaHerbs_texture", "assets/gameAssets/TeaFarm.png");
+        this.load.image("ExoticFarm_CocoaBeans_texture", "assets/gameAssets/CocoaFarm.png");
+        this.load.image("ExoticFarm_Pumpkins_texture", "assets/gameAssets/PumpkinFarm.png");
+        
 
         for (let i = 0; i < 16; i++) {
             this.load.image("customer" + i, "assets/gameAssets/customersSprites/" + i + ".png");

@@ -6,6 +6,7 @@
                 "description": "Simple grains of coffee. Used for making coffee.",
                 "quantity": 0,
                 "time": 5,
+                "texture": "CoffeeGrains_display",
                 "buildingTexture": "building_CoffeeGrains_texture"
             },
             "teaHerbs": {
@@ -13,6 +14,7 @@
                 "description": "Common herbs of tea. Used for making green tea.",
                 "quantity": 0,
                 "time": 6,
+                "texture": "TeaHerbs_display",
                 "buildingTexture": "building_TeaHerbs_texture"
             }
         },
@@ -22,6 +24,7 @@
                 "description": "Raw cocoa beans. Used for making hot chocolate.",
                 "quantity": 0,
                 "time": 10,
+                "texture": "CocoaBeans_display",
                 "buildingTexture": "ExoticFarm_CocoaBeans_texture"
             },
             "pumpkins": {
@@ -29,6 +32,7 @@
                 "description": "Fresh pumpkins. Used for making pumpkin latte.",
                 "quantity": 0,
                 "time": 12,
+                "texture": "Pumpkins_display",
                 "buildingTexture": "ExoticFarm_Pumpkins_texture"
             }
         },
@@ -37,13 +41,17 @@
                 "name": "Dough",
                 "description": "Basic dough used for making cookies.",
                 "quantity": 0,
-                "time": 15
+                "time": 15,
+                "texture": "Dough_display",
+                "buildingTexture": "Bakery_Dough_texture"
             },
             "sugar": {
                 "name": "Sugar",
                 "description": "Sweet sugar used in various recipes.",
                 "quantity": 0,
-                "time": 13
+                "time": 13,
+                "texture": "Sugar_display",
+                "buildingTexture": "Bakery_Sugar_texture"
             }     
         },    
         "tier4": {
@@ -51,25 +59,33 @@
                 "name": "Frozen Burgers",
                 "description": "Frozen burgers ready to be eaten when warmed.",
                 "quantity": 0,
-                "time": 30
+                "time": 30,
+                "texture": "FrozenBurgers_display",
+                "buildingTexture": "Microwave_frozenBurgers_texture"
             },
             "frozenTacos": {
                 "name": "Frozen Tacos",
                 "description": "Frozen tacos ready to be eaten when warmed.",
                 "quantity": 0,
-                "time": 25
+                "time": 25,
+                "texture": "FrozenTacos_display",
+                "buildingTexture": "Microwave_frozenTacos_texture"
             },
             "frozenPizza": {
                 "name": "Frozen Pizza",
                 "description": "Frozen pizza ready to be eaten when warmed.",
                 "quantity": 0,
-                "time": 20
+                "time": 20,
+                "texture": "FrozenPizza_display",
+                "buildingTexture": "Microwave_frozenPizza_texture"
             },
             "frozenPaella": {
                 "name": "Frozen Paella",
                 "description": "Frozen paella ready to be eaten when warmed.",
                 "quantity": 0,
-                "time": 35
+                "time": 35,
+                "texture": "FrozenPaella_display",
+                "buildingTexture": "Microwave_frozenPaella_texture"
             }
         }
     },

@@ -5,8 +5,7 @@ export default class GachaButton extends Phaser.GameObjects.Container {
 
         this.func = func;
 
-        this.add(scene.add.rectangle(0, 0, w, h, 0x888888).setOrigin(0.5));
-
+        this.add(scene.add.rectangle(0, 0, w, h, 0xFFFF00).setOrigin(0.5));
         this.add(scene.add.text(0, 0, labelText, labelStyle).setOrigin(0.5));
 
         this.setSize(w, h);
@@ -19,36 +18,30 @@ export default class GachaButton extends Phaser.GameObjects.Container {
     }
     onPointerOver() {
         this.getAll().forEach(item => {
-            console.log(item);
-            item.tint = 0xaaaaaa;
             item.setScale(1.1);
         });
     }
     onPointerOut() {
         this.getAll().forEach(item => {
-            item.tint = 0xffffff;
             item.setScale(1);
         });
     }
     onPointerDown() {
         this.getAll().forEach(item => {
-            item.tint = 0x777777;
-            item.setScale(1);
+            item.setScale(0.9);
         });
     }
     onPointerUp() {
         this.getAll().forEach(item => {
-            item.tint = 0xffffff;
+            item.setScale(1);
         });
         this.func();
     }
     disable() {
-        this.isActive = false;
         this.disableInteractive();
-        this.setAlpha(0);
+        this.setAlpha(0.75);
     }
     enable() {
-        this.isActive = true;
         this.setInteractive();
         this.setAlpha(1);
     }

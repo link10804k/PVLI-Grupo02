@@ -6,8 +6,6 @@ import GachaButton from "./GachaButton.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 
-const PHYSICS_FPS = 120;
-
 // Canvas
 const MID_POINT_X = 400;
 const MID_POINT_Y = 300;
@@ -42,6 +40,10 @@ const BUMPER_EVEN_GAP_X = (BUMPER_EVEN_END_X - BUMPER_EVEN_START_X) / (BUMPER_EV
 const BALL_NUMBER = 10;
 const BALL_START = { x: MID_POINT_X, y: 100 };
 
+// Columnas laterales
+const LEFT_COLUMN_X = (LEFT_BORDER_X - 30) / 2;
+const RIGHT_COLUMN_X = 800 - LEFT_COLUMN_X;
+
 export default class GachaScene extends Phaser.Scene {
     constructor() {
         super({ key: "GachaScene" });
@@ -49,10 +51,13 @@ export default class GachaScene extends Phaser.Scene {
         EventBus.on(events.BALL_CAUGHT, (ball) => this.onBallCaught(ball));
 
         this.caughtProduct = null;
+        this.poorText = null;
     }
 
     init(data){
         this.inventory = data.inventory;
+
+        this.gachaPrice = 10 * (2**this.inventory.popularityLevel);
     }
 
     create() {
@@ -67,9 +72,71 @@ export default class GachaScene extends Phaser.Scene {
         // Cesta
         this.gachaBasket = new GachaBasket(this, MID_POINT_X, 550);
         // Botón de inicio
-        this.startButton = new GachaButton(this, 110, 500, 100, 50, () => this.startGacha(), "Start", { fontSize: "20px", color: "#ffffff" });
+        this.startButton = new GachaButton(this, RIGHT_COLUMN_X, 520, 150, 75, () => this.startGacha(), "¡Prueba \n tu suerte!", { fontSize: "22px", color: "#000000", align: "center", fontStyle: "bold" });
         // Botón de cierre
-        this.closeButton = new GachaButton(this, 750, 100, 100, 50, () => this.closeScene(), "Close", { fontSize: "20px", color: "#ffffff" });
+        this.closeButton = new GachaButton(this, RIGHT_COLUMN_X, 80, 100, 50, () => this.closeScene(), "Salir", { fontSize: "22px", color: "#000000", fontStyle: "bold" });
+        // Decoración
+        this.createDecoration();
+    }
+    createDecoration() {
+        // Título
+        let title = this.add.text(LEFT_COLUMN_X, 100, "GACHA", { fontSize: "50px", color: "#ffff00", fontStyle: "bold" }).setOrigin(0.5);
+
+        let circles = [];
+        // Círculos horizontales y verticales
+        circles.push(this.add.circle(title.x, title.y - 50, 7, 0xFF0000).setOrigin(0.5));
+        circles.push(this.add.circle(title.x, title.y + 50, 7, 0xFF0000).setOrigin(0.5));
+        circles.push(this.add.circle(title.x - 95, title.y, 7, 0xFF0000).setOrigin(0.5));
+        circles.push(this.add.circle(title.x + 95, title.y, 7, 0xFF0000).setOrigin(0.5));
+        // Círculos diagonales
+        circles.push(this.add.circle(title.x - 95 * 0.707, title.y - 50 * 0.707, 7, 0xFF0000).setOrigin(0.5));
+        circles.push(this.add.circle(title.x - 95 * 0.707, title.y + 50 * 0.707, 7, 0xFF0000).setOrigin(0.5));
+        circles.push(this.add.circle(title.x + 95 * 0.707, title.y - 50 * 0.707, 7, 0xFF0000).setOrigin(0.5));
+        circles.push(this.add.circle(title.x + 95 * 0.707, title.y + 50 * 0.707, 7, 0xFF0000).setOrigin(0.5));
+        // Animación
+        function addAnimation(scene, circle) {
+            scene.tweens.add({
+                targets: circle,
+                duration: 200,
+                yoyo: true,
+                ease: Phaser.Math.Easing.Sine.InOut,
+                repeat: -1,
+                fillAlpha: 0.5
+            })
+        }
+        for(let i = 0; i < circles.length; i++) {
+            if (i < circles.length / 2) {
+                this.time.addEvent({
+                    delay: 200,
+                    callback: () => addAnimation(this, circles[i])
+                })
+            }
+            else {
+                addAnimation(this, circles[i])
+            }
+        }
+        
+        // Descripción
+        this.add.rectangle(LEFT_COLUMN_X, 205, 200, 4, 0xffffff).setOrigin(0.5);
+        this.add.text(LEFT_COLUMN_X, 275, "Minijuego \"habilidoso\"\npara conseguir productos\nde procedencia dudosa", { fontSize: "14px", color: "#ffffff", align: "center", lineSpacing: 10, fontStyle: "bold" }).setOrigin(0.5);
+        this.add.rectangle(LEFT_COLUMN_X, 345, 200, 4, 0xffffff).setOrigin(0.5);
+        this.add.text(LEFT_COLUMN_X, 450, "Utiliza el cursor del\nratón para mover la\ncesta e intentar atrapar\nuna de las bolas antes\nde que caiga al foso.\nSolo puedes atrapar una", { fontSize: "14px", color: "#ffffff", align: "center", fontStyle: "bold", lineSpacing: 10 }).setOrigin(0.5);
+        this.add.rectangle(LEFT_COLUMN_X, 555, 200, 4, 0xffffff).setOrigin(0.5);
+
+        // Pista
+        this.add.text(RIGHT_COLUMN_X, 225, "Pista (!)", { fontSize: "24px", color: "#ffff00", align: "center", fontStyle: "bold", lineSpacing: 10 }).setOrigin(0.5);
+        this.add.text(RIGHT_COLUMN_X, 280, "Los kanjis de las bolas\nrepresentan el producto\nque llevan dentro", { fontSize: "14px", color: "#ffffff", align: "center", fontStyle: "bold", lineSpacing: 10 }).setOrigin(0.5);
+
+        // Bouncer
+        this.add.text(RIGHT_COLUMN_X - 20, 350, "<-- ¡Rebota! (!!!)", { fontSize: "22px", color: "#ffff00", align: "center", fontStyle: "bold" }).setOrigin(0.5);
+
+        // Coste
+        this.add.text(RIGHT_COLUMN_X + 45, 425, "(Solo)", { fontSize: "16px", color: "#ffffff", align: "center", fontStyle: "bold" }).setOrigin(0.5);
+        this.add.text(RIGHT_COLUMN_X, 450, "Coste: " + this.gachaPrice + "$", { fontSize: "22px", color: "#00ff00", align: "center", fontStyle: "bold" }).setOrigin(0.5);
+
+        // Salida
+        this.add.text(RIGHT_COLUMN_X, 140, "¡NOOOOOO!", { fontSize: "32px", color: "#ff0000", align: "center", fontStyle: "bold" }).setOrigin(0.5);
+        this.add.text(RIGHT_COLUMN_X, 175, "(No estoy adicto)", { fontSize: "18px", color: "#ffffff", align: "center", fontStyle: "bold" }).setOrigin(0.5);
     }
     createBumpers() {
         for (let i = 0; i < BUMPER_ROWS; i++) {
@@ -151,25 +218,43 @@ export default class GachaScene extends Phaser.Scene {
     }
 
     startGacha() {
-        this.deactivateButton();
-        this.enableBasketControl();
-        let balls = [];
-        this.timeEvents = [];
+        if (this.inventory.hasEnoughMoney(this.gachaPrice)) {
+            this.inventory.removeMoney(this.gachaPrice); // Se descuenta el precio por jugar
 
-        for (let i = 0; i < BALL_NUMBER; i++) {
-            this.timeEvents.push(this.time.addEvent({
-                delay: i * 300,
-                callback: () => {
-                    let ball = this.ballPool.spawn(BALL_START.x, BALL_START.y);
-                    ball.setProduct(this.randomizeBallContent());
-                    
+            this.deactivateButton();
+            this.enableBasketControl();
+            this.timeEvents = [];
 
-                    let force = new Phaser.Math.Vector2(Phaser.Math.FloatBetween(-0.005, 0.005), Phaser.Math.FloatBetween(-0.005, -0.0075));
-                    ball.applyForce(force);
-                }
-            }));
+            for (let i = 0; i < BALL_NUMBER; i++) {
+                this.timeEvents.push(this.time.addEvent({
+                    delay: i * 300,
+                    callback: () => {
+                        let ball = this.ballPool.spawn(BALL_START.x, BALL_START.y);
+                        ball.setProduct(this.randomizeBallContent());
+
+
+                        let force = new Phaser.Math.Vector2(Phaser.Math.FloatBetween(-0.005, 0.005), Phaser.Math.FloatBetween(-0.005, -0.0075));
+                        ball.applyForce(force);
+                    }
+                }));
+            }
         }
-        
+        else {
+            if (this.poorText != null) {
+                this.tweens.getTweensOf(this.poorText).forEach(tween => tween.stop());
+                this.poorText.destroy();
+            }
+            this.poorText = this.add.text(MID_POINT_X, MID_POINT_Y, "No tienes suficiente dinero", { fontSize: '40px', fill: '#ff0000', fontStyle: 'bold' }).setOrigin(0.5);
+                this.tweens.add({
+                    targets: this.poorText,
+                    duration: 2000,
+                    alpha: 0,
+                    onComplete: () => {
+                        this.poorText.destroy();
+                        this.poorText = null;
+                    }
+                })
+        }
     }
     randomizeBallContent() { // Devuelve el contenido de la bola
         let maxTier = this.inventory.popularityLevel;
@@ -200,18 +285,12 @@ export default class GachaScene extends Phaser.Scene {
     }
 
     activateButton() {
-        this.startButton.setActive(true);
-        this.startButton.setVisible(true);
-
-        this.closeButton.setActive(true);
-        this.closeButton.setVisible(true);
+        this.startButton.enable();
+        this.closeButton.enable();
     }
     deactivateButton() {
-        this.startButton.setActive(false);
-        this.startButton.setVisible(false);
-
-        this.closeButton.setActive(false);
-        this.closeButton.setVisible(false);
+        this.startButton.disable();
+        this.closeButton.disable();
     }
 
     enableBasketControl() {
@@ -244,11 +323,13 @@ export default class GachaScene extends Phaser.Scene {
 
     showCaughtProduct() {
         let temporaryDisplay = [];
-        temporaryDisplay.push(this.add.star(MID_POINT_X, MID_POINT_Y, 10, 150, 200, 0xffff00, 1));
+        temporaryDisplay.push(this.add.star(MID_POINT_X, MID_POINT_Y, 10, 170, 220, 0xffff00, 1));
+
+        let productDisplay = null;
 
         if (this.caughtProduct != null) {
             temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y - 40, "¡Has conseguido " + this.caughtProduct.name + "!", { fontSize: '24px', fill: '#000' }).setOrigin(0.5));
-            temporaryDisplay.push(this.add.image(MID_POINT_X, MID_POINT_Y + 40, this.caughtProduct.texture).setOrigin(0.5).setScale(0.1));
+            productDisplay = this.add.image(MID_POINT_X, MID_POINT_Y + 40, this.caughtProduct.texture).setOrigin(0.5).setScale(4);
             this.caughtProduct.quantity += 1;
             this.caughtProduct = null;
         }
@@ -256,15 +337,33 @@ export default class GachaScene extends Phaser.Scene {
             temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y, "La bola estaba vacía", { fontSize: '24px', fill: '#000'}).setOrigin(0.5));
         }
 
+        const destroyDelay = 3000;
+        const tweenRepetitions = 3;
+
         this.tweens.add({
             targets: temporaryDisplay,
             scale: 1.3,
-            duration: 500,
+            duration: destroyDelay / (tweenRepetitions * 2), // *2 por el yoyó
             yoyo: true,
-            repeat: 3,
+            repeat: tweenRepetitions,
             ease: Phaser.Math.Easing.Sine.InOut,
+        })
+        if (productDisplay != null) {
+            this.tweens.add({
+                targets: productDisplay,
+                scale: 5.2,
+                duration: destroyDelay / (tweenRepetitions * 2), // *2 por el yoyó
+                yoyo: true,
+                repeat: tweenRepetitions,
+                ease: Phaser.Math.Easing.Sine.InOut,
+            })
+        }
+         this.time.addEvent({
+            delay: destroyDelay,
             callback: () => {
                 temporaryDisplay.forEach(display => display.destroy());
+                if (productDisplay != null)
+                    productDisplay.destroy();
                 this.activateButton();
             }
         })
