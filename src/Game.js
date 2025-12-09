@@ -22,7 +22,7 @@ let config = {
         default: 'matter',
         matter: {
             gravity: { y: 0.6 },
-            debug: false,
+            debug: true,
         },
     },
     scene: [

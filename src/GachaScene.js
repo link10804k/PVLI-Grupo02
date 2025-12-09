@@ -76,11 +76,11 @@ export default class GachaScene extends Phaser.Scene {
                 let bumper;
                 let border = false;
                 if (i % 2 == 0) {
-                    if (j == 0) {
+                    if (j == 0) { // Borde izquierdo
                         bumper = this.add.circle(BUMPER_EVEN_START_X + j * BUMPER_EVEN_GAP_X - BUMPER_RADIUS, BUMPER_START_Y + i * BUMPER_GAP_Y, BUMPER_RADIUS*2, 0x10FF10).setOrigin(0.5);
                         border = true;
                     }
-                    else if (j == BUMPER_EVEN_COLS -1) {
+                    else if (j == BUMPER_EVEN_COLS -1) { // Borde derecho
                         bumper = this.add.circle(BUMPER_EVEN_START_X + j * BUMPER_EVEN_GAP_X + BUMPER_RADIUS, BUMPER_START_Y + i * BUMPER_GAP_Y, BUMPER_RADIUS*2, 0x10FF10).setOrigin(0.5);
                         border = true;
                     }
@@ -129,8 +129,8 @@ export default class GachaScene extends Phaser.Scene {
             let obj = collisionData.bodyB.gameObject;
             this.ballPool.release(obj);
 
-            if (this.ballPool.getAliveCount() == 0) { // Si no quedan bolas activas, se reactiva el botón
-                this.endGame(false);
+            if (this.ballPool.getAliveCount() == 0) {
+                this.endGame(false);  // Se llama al fin de juego indicando que no se ha conseguido atrapar una bola
             }
         })
 
@@ -221,10 +221,10 @@ export default class GachaScene extends Phaser.Scene {
         this.gachaBasket.x = MID_POINT_X;
     }
 
-    onBallCaught(ball) {
+    onBallCaught(ball) { // Método que se ejecuta al capturar una bola
         this.caughtProduct = ball.product;
         this.ballPool.releaseAll();
-        this.endGame(true);
+        this.endGame(true); // Se llama al fin de juego indicando que se ha conseguido atrapar una bola
     }
 
     endGame(hasBall) {
@@ -243,17 +243,46 @@ export default class GachaScene extends Phaser.Scene {
     }
 
     showCaughtProduct() {
+        let temporaryDisplay = [];
+
+        let star = this.add.star(MID_POINT_X, MID_POINT_Y, 10, 150, 200, 0xffff00, 1)
+        this.tweens.add({
+            targets: star,
+            scale: 1.3,
+            duration: 500,
+            yoyo: true,
+            repeat: 3,
+            ease: Phaser.Math.Easing.Sine.InOut
+        })
+
+        temporaryDisplay.push(star);
+
         if (this.caughtProduct != null) {
-            console.log("¡Has conseguido: " + this.caughtProduct.name + "!");
+            temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y - 40, "¡Has conseguido: " + this.caughtProduct.name + "!", { fontSize: '28px', fill: '#000' }).setOrigin(0.5));
+            temporaryDisplay.push(this.add.image(MID_POINT_X, MID_POINT_Y + 40, this.caughtProduct.texture).setOrigin(0.5).setScale(0.1));
             this.caughtProduct.quantity += 1;
             this.caughtProduct = null;
         }
         else {
-            console.log("La bola estaba vacía.");
+            temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y, "La bola estaba vacía", { fontSize: '28px', fill: '#000'}).setOrigin(0.5));
         }
+
+        this.time.addEvent({
+            delay: 3000,
+            callback: () => {
+                temporaryDisplay.forEach(display => display.destroy());
+            }
+        })
     }
     pityThePlayer() {
-        console.log("No has conseguido atrapar ninguna bola.");
+        let pityText = this.add.text(MID_POINT_X, MID_POINT_Y, "No has conseguido atrapar ninguna bola.", { fontSize: '28px', fill: '#000'}).setOrigin(0.5);
+
+        this.time.addEvent({
+            delay: 3000,
+            callback: () => {
+                pityText.destroy();
+            }
+        })
     }
 
     closeScene() {

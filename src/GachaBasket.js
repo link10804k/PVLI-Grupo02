@@ -27,16 +27,22 @@ export default class GachaBasket extends Phaser.GameObjects.Container {
         this.enabled = false;
     }
     createShape() {
+        const floorValues = {x: 0, y: 20, w: 40, h: 10};
+        const leftWallValues = {x: -15, y: 0, w: 10, h: 30};
+        const rightWallValues = {x: 15, y: 0, w: 10, h: 30};
+
+
         let walls = [];
-        walls.push(this.scene.add.rectangle(0, 20, 40, 10, 0x654321).setOrigin(0.5));
-        walls.push(this.scene.add.rectangle(15, 0, 10, 30, 0x654321).setOrigin(0.5));
-        walls.push(this.scene.add.rectangle(-15, 0, 10, 30, 0x654321).setOrigin(0.5));
+        walls.push(this.scene.add.rectangle(floorValues.x, floorValues.y, floorValues.w, floorValues.h, 0x654321));
+        walls.push(this.scene.add.rectangle(rightWallValues.x, rightWallValues.y, rightWallValues.w, rightWallValues.h, 0x654321));
+        walls.push(this.scene.add.rectangle(leftWallValues.x, leftWallValues.y, leftWallValues.w, leftWallValues.h, 0x654321));
 
         this.add(walls);
 
-        let floor = Phaser.Physics.Matter.Matter.Bodies.rectangle(walls[0].x + this.x, walls[0].y + this.y, walls[0].width, walls[0].height, {label: 'floor'});
-        let rightWall = Phaser.Physics.Matter.Matter.Bodies.rectangle(walls[1].x + this.x, walls[1].y + this.y, walls[1].width, walls[1].height);
-        let leftWall = Phaser.Physics.Matter.Matter.Bodies.rectangle(walls[2].x + this.x, walls[2].y + this.y, walls[2].width, walls[2].height);
+        // Posiciones en coordenadas globales
+        let floor = Phaser.Physics.Matter.Matter.Bodies.rectangle(floorValues.x + this.x, floorValues.y + this.y, floorValues.w, floorValues.h, {label: 'floor'});
+        let rightWall = Phaser.Physics.Matter.Matter.Bodies.rectangle(rightWallValues.x + this.x, rightWallValues.y + this.y, rightWallValues.w, rightWallValues.h);
+        let leftWall = Phaser.Physics.Matter.Matter.Bodies.rectangle(leftWallValues.x + this.x, leftWallValues.y + this.y, leftWallValues.w, leftWallValues.h);
         
         let compundBody = Phaser.Physics.Matter.Matter.Body.create({
             parts: [floor, rightWall, leftWall],
@@ -44,10 +50,6 @@ export default class GachaBasket extends Phaser.GameObjects.Container {
         })
 
         this.scene.matter.add.gameObject(this, compundBody);
-
-        console.log(this.body.parts);
-
-        console.log(this.body.parts[1]);
     }
     ballCaught(ball) {
         EventBus.emit(events.BALL_CAUGHT, ball);
