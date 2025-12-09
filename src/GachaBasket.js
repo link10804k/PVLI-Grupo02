@@ -27,9 +27,9 @@ export default class GachaBasket extends Phaser.GameObjects.Container {
         this.enabled = false;
     }
     createShape() {
-        const floorValues = {x: 0, y: 20, w: 40, h: 10};
-        const leftWallValues = {x: -15, y: 0, w: 10, h: 30};
-        const rightWallValues = {x: 15, y: 0, w: 10, h: 30};
+        const floorValues = {x: 0, y: 10, w: 40, h: 10};
+        const leftWallValues = {x: -15, y: -10, w: 10, h: 30};
+        const rightWallValues = {x: 15, y: -10, w: 10, h: 30};
 
 
         let walls = [];
@@ -43,7 +43,7 @@ export default class GachaBasket extends Phaser.GameObjects.Container {
         let floor = Phaser.Physics.Matter.Matter.Bodies.rectangle(floorValues.x + this.x, floorValues.y + this.y, floorValues.w, floorValues.h, {label: 'floor'});
         let rightWall = Phaser.Physics.Matter.Matter.Bodies.rectangle(rightWallValues.x + this.x, rightWallValues.y + this.y, rightWallValues.w, rightWallValues.h);
         let leftWall = Phaser.Physics.Matter.Matter.Bodies.rectangle(leftWallValues.x + this.x, leftWallValues.y + this.y, leftWallValues.w, leftWallValues.h);
-        
+
         let compundBody = Phaser.Physics.Matter.Matter.Body.create({
             parts: [floor, rightWall, leftWall],
             isStatic: true

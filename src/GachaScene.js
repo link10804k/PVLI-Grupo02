@@ -2,6 +2,7 @@ import Button from "./Button.js";
 import Pool from "./Pool.js";
 import GachaBasket from "./GachaBasket.js"
 import GachaBall from "./GachaBall.js";
+import GachaButton from "./GachaButton.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 
@@ -66,9 +67,9 @@ export default class GachaScene extends Phaser.Scene {
         // Cesta
         this.gachaBasket = new GachaBasket(this, MID_POINT_X, 550);
         // Botón de inicio
-        this.startButton = new Button(this, 110, 500, "button", () => this.startGacha()).setOrigin(0.5);
+        this.startButton = new GachaButton(this, 110, 500, 100, 50, () => this.startGacha(), "Start", { fontSize: "20px", color: "#ffffff" });
         // Botón de cierre
-        this.closeButton = new Button(this, 750, 100, "button", () => this.closeScene()).setOrigin(0.5);
+        this.closeButton = new GachaButton(this, 750, 100, 100, 50, () => this.closeScene(), "Close", { fontSize: "20px", color: "#ffffff" });
     }
     createBumpers() {
         for (let i = 0; i < BUMPER_ROWS; i++) {
@@ -228,7 +229,6 @@ export default class GachaScene extends Phaser.Scene {
     }
 
     endGame(hasBall) {
-        this.activateButton();
         this.disableBasketControl();
 
         this.timeEvents.forEach(event => event.remove());
@@ -244,43 +244,41 @@ export default class GachaScene extends Phaser.Scene {
 
     showCaughtProduct() {
         let temporaryDisplay = [];
-
-        let star = this.add.star(MID_POINT_X, MID_POINT_Y, 10, 150, 200, 0xffff00, 1)
-        this.tweens.add({
-            targets: star,
-            scale: 1.3,
-            duration: 500,
-            yoyo: true,
-            repeat: 3,
-            ease: Phaser.Math.Easing.Sine.InOut
-        })
-
-        temporaryDisplay.push(star);
+        temporaryDisplay.push(this.add.star(MID_POINT_X, MID_POINT_Y, 10, 150, 200, 0xffff00, 1));
 
         if (this.caughtProduct != null) {
-            temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y - 40, "¡Has conseguido: " + this.caughtProduct.name + "!", { fontSize: '28px', fill: '#000' }).setOrigin(0.5));
+            temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y - 40, "¡Has conseguido " + this.caughtProduct.name + "!", { fontSize: '24px', fill: '#000' }).setOrigin(0.5));
             temporaryDisplay.push(this.add.image(MID_POINT_X, MID_POINT_Y + 40, this.caughtProduct.texture).setOrigin(0.5).setScale(0.1));
             this.caughtProduct.quantity += 1;
             this.caughtProduct = null;
         }
         else {
-            temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y, "La bola estaba vacía", { fontSize: '28px', fill: '#000'}).setOrigin(0.5));
+            temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y, "La bola estaba vacía", { fontSize: '24px', fill: '#000'}).setOrigin(0.5));
         }
+
+        this.tweens.add({
+            targets: temporaryDisplay,
+            scale: 1.3,
+            duration: 500,
+            yoyo: true,
+            repeat: 3,
+            ease: Phaser.Math.Easing.Sine.InOut,
+            callback: () => {
+                temporaryDisplay.forEach(display => display.destroy());
+                this.activateButton();
+            }
+        })
+    }
+    pityThePlayer() {
+        let temporaryDisplay = [];
+        temporaryDisplay.push(this.add.rectangle(MID_POINT_X, MID_POINT_Y, 400, 120, 0xffff00).setOrigin(0.5));
+        temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y, "No has conseguido atrapar\nninguna bola.", { fontSize: '24px', fill: '#000', align: 'center'}).setOrigin(0.5));
 
         this.time.addEvent({
             delay: 3000,
             callback: () => {
                 temporaryDisplay.forEach(display => display.destroy());
-            }
-        })
-    }
-    pityThePlayer() {
-        let pityText = this.add.text(MID_POINT_X, MID_POINT_Y, "No has conseguido atrapar ninguna bola.", { fontSize: '28px', fill: '#000'}).setOrigin(0.5);
-
-        this.time.addEvent({
-            delay: 3000,
-            callback: () => {
-                pityText.destroy();
+                this.activateButton();
             }
         })
     }
