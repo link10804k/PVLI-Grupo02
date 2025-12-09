@@ -10,6 +10,9 @@ export default class PhaseManager {
         this.countdownText = null;
         this.countdownEvent = null;
 
+        // Referencia a la UI
+        this.ui = scene.scene.get("UIScene");
+
         this.createCountdownText();
 
         this.ProductionPhase();
@@ -19,9 +22,9 @@ export default class PhaseManager {
 
      //Crear texto del temporizador abajo en el centro
     createCountdownText() {
-        const cam = this.scene.cameras.main;
+        const cam = this.ui.cameras.main;
 
-        this.countdownText = this.scene.add.text(
+        this.countdownText = this.ui.add.text(
             cam.width / 2,
             cam.height - 10,                      // posición
             "",                          // texto inicial vacío
@@ -29,11 +32,10 @@ export default class PhaseManager {
                 fontSize: "22px",
                 color: "#ffffffff",
                 stroke: "#000000",
-                strokeThickness: 3
+                strokeThickness: 5
             }
         ) 
     .setOrigin(0.5, 1)
-    .setScrollFactor(0)
     .setDepth(9999);
     }
 
