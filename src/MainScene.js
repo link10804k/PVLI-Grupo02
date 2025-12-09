@@ -31,6 +31,7 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("building", "assets/gameAssets/farm.jpg")
         this.load.image("pedidos", "assets/gameAssets/order.jpg")
         this.load.image("tile", "assets/gameAssets/tile.jpg")
+        this.load.image("worker", "assets/gameAssets/worker.png")
 
         this.load.image("coffeeOrder", "assets/gameAssets/coffeeOrder.png")
 
@@ -67,7 +68,7 @@ export default class MainScene extends Phaser.Scene {
         this.tiles[1][2].destructor();
         this.tiles[1][2] = null; 
 
-        // UI del dinero del jugador
+        // UI del dinero del jugador-------------------------------------------------------
         this.moneyUI = this.UIScene.add.text(620, 20, "$" + this.playerInventory.money, {
             font: "50px",
             color: "#007332",
@@ -75,13 +76,19 @@ export default class MainScene extends Phaser.Scene {
             strokeThickness: 6
         }).setScrollFactor(0);
 
-        //UI de workers
-        this.workersUI = this.UIScene.add.text(620, 65, "☭" + this.playerInventory.availableWorkers + "/" + this.playerInventory.workers, {
+        //UI de workers---------------------------------------------------------------
+        this.workersIconUI = this.UIScene.add.image(600, 90, "worker")
+        .setDisplaySize(40, 40)
+        .setOrigin(0.5)
+        .setScrollFactor(0);
+
+        this.workersUI = this.UIScene.add.text(620, 65, this.playerInventory.availableWorkers + "/" + this.playerInventory.workers, {
             font: "50px",
             color: "#ff0101ff",
             stroke: "#000000",  
             strokeThickness: 6
         }).setScrollFactor(0);
+
             //Botón para comprar trabajadores
         this.addWorkersBut = new Button(this.UIScene, 760, 85, "button", () => {
             this.playerInventory.buyWorker();
@@ -102,7 +109,7 @@ export default class MainScene extends Phaser.Scene {
             strokeThickness: 6
         });
 
-        //UI crear la barra de popularidad
+        //UI crear la barra de popularidad------------------------------------------------------------
         this.popularityBar = new PopularityBar(this.UIScene,this.playerInventory);
 
         this.inventoryUI = new InventoryUI(this.UIScene);

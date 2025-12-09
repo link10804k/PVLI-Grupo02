@@ -85,7 +85,10 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.x,
         this.y - 60, // un poco arriba del edificio
         duration,
-        product.texture   // icono del producto
+        product.texture,   // icono del producto
+        null,  //no mostrar tiempo en segundos
+        false, //change color
+        this  //building reference
     );
 
     this.productionTimer.start();

@@ -1,5 +1,5 @@
 export default class ProductionTimer extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, duration, textureKey, onCompleteCallback = null, changeColor = false) {
+    constructor(scene, x, y, duration, textureKey, onCompleteCallback = null, changeColor = false, building = null) {
         super(scene, x, y);
 
         this.scene = scene;
@@ -9,8 +9,10 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
         this.startTime = null;
         this.finished = false;
         this.destroyedFlag = false;
+
         this.onCompleteCallback = onCompleteCallback; // callback opcional
         this.changeColor= changeColor;
+        this.building = building;
 
         // Gráfico base (círculo gris)
         this.baseCircle = this.scene.add.graphics(); 
@@ -35,12 +37,36 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
             strokeThickness: 6
         }).setOrigin(0.5);
 
+        //Si hay edificio asociado (para mostrar trabajadores)
+         if (this.building) {
+            this.workerIcon = scene.add.image(35, 55, "worker")  // esquina inferior derecha
+                .setDisplaySize(22, 22)
+                .setOrigin(0.5)
+                .setDepth(20);
+
+            this.workerText = scene.add.text(40, 55, "0", {
+                fontFamily: "Arial",
+                fontSize: "20px",
+                color: "#ffffff",
+                stroke: "#000000",
+                strokeThickness: 5
+            }).setOrigin(0, 0.5);
+        }
+
         // Agregar los elementos al container
-        this.add([this.baseCircle, this.progressCircle, this.icon, this.timeText]);
+       const elements = ([this.baseCircle, this.progressCircle, this.icon, this.timeText]);
+
+        if (this.workerIcon) elements.push(this.workerIcon); 
+        if (this.workerText) elements.push(this.workerText);
+
+        this.add(elements);
 
         // Añadir el container a la escena
         scene.add.existing(this);
     }
+
+
+    
 
     start() {
         this.startTime = this.scene.time.now;
@@ -76,6 +102,11 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
 
         // Actualiza el tiempo en pantalla
         this.timeText.setText(Math.ceil(this.remaining) + "s"); // redondear hacia arriba
+
+        //Actualizar trabajadores si hay edificio asociado
+        if (this.building) {
+            this.workerText.setText("x" + this.building.assignedWorkers);
+        }
 
         // Dibujar el círculo de progreso
         const progress = (1 - this.remaining / this.duration) * Math.PI * 2;// Progreso en radianes, de 0 a 2π
