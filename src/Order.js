@@ -4,6 +4,7 @@ import { events } from "./EventBus.js";
 import ProductionTimer from "./Timer.js"; 
 import MainScene from "./MainScene.js";
 import Customer from "./Customer.js";
+import FloatingMessage from "./FloatingMessage.js";
 
 const POPULARITY_LOSS_ON_FAIL = 30; // Cantidad de popularidad que se pierde al fallar un pedido
 const POPULARITY_GAIN_ON_COMPLETE = 20; // Cantidad de popularidad que se gana al completar un pedido
@@ -17,6 +18,7 @@ export default class Order extends Phaser.GameObjects.Sprite {
         this.amounts = amounts;
         this.inventory = inventory;
         
+        this.ui = this.scene.scene.get("UIScene");
 
         scene.add.existing(this);
         this.completeOrderButton = new Button(scene, x+90, y+40, "button", () => this.TryCompleteOrder()).setScale(0.8).setOrigin(0.5);
@@ -95,7 +97,7 @@ export default class Order extends Phaser.GameObjects.Sprite {
         this.destructor();
     }
     FailCompleteOrder() {
-        console.log("No se pueden completar los requisitos del pedido"); // Feedback en la UI a futuro
+        new FloatingMessage(this.ui, "No se pueden completar los requisitos del pedido"); // Feedback en la UI a futuro
     }
     FailOrder() {
         EventBus.emit(events.ORDER_FAILED, this, this.id);

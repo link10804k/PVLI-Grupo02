@@ -47,10 +47,10 @@ export default class ProductionMenuScene extends Phaser.Scene {
             color: "#fff",
             }).setOrigin(0.5);
 
-            this.addButton = new Button(this, 520, 160 + 50 * i, "button", [
+            this.addButton = new Button(this, 520, 160 + 50 * i, "plus", [
                 () => this.building.produce(this.products[i]),
                 () => this.closeWindow(),
-            ]).setScale(0.5);
+            ]).setScale(2);
 
              
         //Mostrar ingredientes si el producto es procesado ------------------------
@@ -99,20 +99,20 @@ export default class ProductionMenuScene extends Phaser.Scene {
 
         //Menu de trabajadores
 
-                //this.add.image(400, 150, "panel").setScale(0.8).setOrigin(0.5).setScale(2);
+        //this.add.image(400, 150, "panel").setScale(0.8).setOrigin(0.5).setScale(2);
         
                 const text = this.add.text(400, 450, `Workers: ${this.building.assignedWorkers}`, {
                     fontSize: "20px",
                     color: "#fff",
                 }).setOrigin(0.5);
         
-                this.addWorkerButton = new Button(this, 350, 500, "button", () => 
+                this.addWorkerButton = new Button(this, 350, 500, "plus", () => 
                     this.building.addWorker(text))
-                    .setScale(0.5);
+                    .setScale(2);
         
                 this.removeButton = new Button(this, 450, 500, "menos", () => 
                     this.building.removeWorker(text))
-                    .setScale(0.05);
+                    .setScale(2);
         
 
 

@@ -42,8 +42,8 @@ export default class Tile extends Phaser.GameObjects.Sprite{
         });
     }
     else {
-        this.buildButton = new Button(this.scene, this.x, this.y, "button", () => this.displayBuildMenu());
-        this.buildButton.setOrigin(0.5);
+        this.buildButton = new Button(this.scene, this.x, this.y, "plus", () => this.displayBuildMenu());
+        this.buildButton.setOrigin(0.5).setScale(2);
         //this.buildButton.setDepth(10); // Evita que quede detrás de la parcela
     }
     

@@ -1,5 +1,6 @@
 import Button from "./Button.js";
 import Buildings from "./Resources/Buildings.json" with { type: "json"}
+import FloatingMessage from "./FloatingMessage.js";
 
 export default class BuildingMenuScene extends Phaser.Scene {
 
@@ -17,6 +18,8 @@ export default class BuildingMenuScene extends Phaser.Scene {
         this.tile = data.tile;
         this.inventory = data.inventory;
         this.isProcessor = data.isProcessor;
+
+        this.ui = this.mainScene.scene.get("UIScene");
     }
 
     create(){
@@ -111,19 +114,19 @@ export default class BuildingMenuScene extends Phaser.Scene {
        // Si es un puerto, solo permitir en tiles cerca del agua y nivel de popularidad 4
     if (building.name === "Harbor") {
         if (!this.tile.nearWater) {
-            console.log("Solo se puede construir el puerto en tiles cercanas al agua");
+            new FloatingMessage(this.ui, "Solo se puede construir el puerto en tiles cercanas al agua");
             return;
         }
 
             if (this.inventory.popularityLevel < 4) {
-                console.log("Necesitas ser nivel 4 de popularidad para construir el puerto");
+                new FloatingMessage(this.ui, "Necesitas ser nivel 4 de popularidad para construir el puerto");
                 return;
             }
 
         } else {
             // Si el nivel del jugador aún no desbloquea otros edificios, bloquearlos
             if (this.inventory.popularityLevel < building.requiredLevel) {
-                console.log("Aún no puedes construir este edificio");
+                 new FloatingMessage(this.ui, "Aún no puedes construir este edificio");
                 return;
             }
         }
@@ -137,7 +140,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 this.buildingCount++;
             }
         }
-        else console.log("No tienes suficiente dinero para construir ", building.name)
+        else new FloatingMessage(this.ui, "No tienes suficiente dinero para construir " + building.name)
 
         this.closeWindow();
     }
