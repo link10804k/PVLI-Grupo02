@@ -139,7 +139,8 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 this.mainScene.updateMoneyUI();
                 this.buildingCount++;
 
-                Buildings.processedProducts[`tier${building.tier}`].alreadyBuilt = true;
+                if (building.tier)
+                    Buildings.processedProducts[`tier${building.tier}`].alreadyBuilt = true;
             }
         }
         else new FloatingMessage(this.ui, "No tienes suficiente dinero para construir " + building.name)

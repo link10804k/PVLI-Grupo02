@@ -124,7 +124,7 @@
                 "time": 15,
                 "price": 20,
                 "neededProducts": {
-                    "dough": 1
+                    "cocoaBeans": 1
                 },
                 "texture": "HotChocolate_display",
                 "japaneseName": "水"

@@ -10,11 +10,12 @@ export default class ApplicationManager {
         this.UIScene = UIScene;
         this.inventory = inventory;
 
+        this.maxTier = this.inventory.maxTier;
         this.tier = 1;
 
         this.messages = structuredClone(Messages);
 
-        EventBus.on(events.LEVEL_INCREASED, (tier) => this.tier = tier);
+        EventBus.on(events.LEVEL_INCREASED, (tier) => this.tier = Math.min(tier, this.maxTier));
         EventBus.on(events.PRODUCTION_PHASE, () => this.createApplication());
     }
 
