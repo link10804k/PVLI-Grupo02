@@ -26,7 +26,7 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
         this.icon = scene.add.image(0, 0, textureKey);
         this.icon.setDisplaySize(40, 40);
         this.icon.setDepth(10);
-        if(!textureKey) this.icon.setAlpha(0);
+        console.log("Icono del timer:", textureKey);
 
         // Texto del tiempo restante
         this.timeText = scene.add.text(0, 60, duration + "s", {
