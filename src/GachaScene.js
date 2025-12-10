@@ -267,7 +267,7 @@ export default class GachaScene extends Phaser.Scene {
             let itemOdds = []; // Probabilidades de cada tier
             let totalOdds = 0; // Suma total de probabilidades
             for (let tier = 1; tier <= maxTier; tier++) {
-                itemOdds.push(100 / tier); // Los tiers más bajos tienen más probabilidad de salir
+                itemOdds.push((100 / tier) + totalOdds); // Los tiers más bajos tienen más probabilidad de salir
                 totalOdds += 100 / tier;
             }
             let randomNumber = Phaser.Math.Between(1, totalOdds);
