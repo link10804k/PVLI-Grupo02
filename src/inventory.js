@@ -49,6 +49,24 @@ export default class Inventory{
 
         this.updateInventoryUI();
     }
+
+    produceRandomProduct() {
+    // Obtener lista de productos del tier actual
+    const products = this.getUnprocessedProductsFromTier(this.popularityLevel);
+    
+
+    // Elegir uno aleatorio
+    const randomProduct = Phaser.Utils.Array.GetRandom(products);
+
+    // Producir 1 unidad
+    randomProduct.quantity++;
+
+    // Actualizar UI
+    this.updateInventoryUI();
+
+    return randomProduct;
+    }
+
     // Producir un producto procesado
     // PARA LOS EDIFICIOS DE PROCESADO
     processProduct(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad

@@ -11,6 +11,7 @@ import Button from "./Button.js";
 import ApplicationManager from "./ApplicationManager.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
+import Wally from "./Wally.js";
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -86,6 +87,8 @@ export default class MainScene extends Phaser.Scene {
         this.applicationManager = new ApplicationManager(this, this.playerInventory, this.UIScene);
 
         this.add.image(470, 300, "Background").setOrigin(0.5, 0.5);
+
+         this.wally = new Wally(this);
 
         this.createParcelas();
         
