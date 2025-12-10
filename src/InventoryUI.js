@@ -47,7 +47,7 @@ export default class InventoryUI {
     });
     }
 
-    drawProduct(product, x, y, color = "#85008aff") {
+    drawProduct(product, x, y, color = "#ffffffff") {
 
     let container = this.UIScene.add.container(x, y);
     this.entities.push(container);
@@ -56,7 +56,6 @@ export default class InventoryUI {
     if (product.texture) {
         let icon = this.UIScene.add.sprite(0, 0, product.texture)
             .setOrigin(0, 0.5)
-            .setScale(0.15);
 
         container.add(icon);
     }
