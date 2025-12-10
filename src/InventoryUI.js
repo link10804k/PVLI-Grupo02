@@ -54,15 +54,15 @@ export default class InventoryUI {
 
     // ICONO
     if (product.texture) {
-        let icon = this.UIScene.add.sprite(0, 0, product.texture)
+        let icon = this.UIScene.add.sprite(40, 0, product.texture)
             .setOrigin(0, 0.5)
-            .setScale(0.15);
+            .setScale(1);
 
         container.add(icon);
     }
 
     // NOMBRE
-    let nameText = this.UIScene.add.text(40, 0, product.name, {
+    let nameText = this.UIScene.add.text(60, 0, product.name, {
         fontFamily: "Arial",
         fontSize: "14px",
         color: color,
