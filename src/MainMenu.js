@@ -11,9 +11,23 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     create() { // Crear objetos del juego aquí
+        
         this.add.image(400, 300, "Background").setOrigin(0.5, 0.5);
-        const btn = new Button(this, 400, 400, "Wbutton", () => this.startMainScene()).setOrigin(0.5, 0.5).setScale(5);
-        this.add.text(btn.x, btn.y, "START GAME", {
+
+        const btnTutorial = new Button(this, 400, 525, "Wbutton", () => this.startMainScene());
+        btnTutorial.setOrigin(0.5).setScale(3);
+
+        const btnGame = new Button(this, 400, 400, "Wbutton", () => this.startTutorialScene());
+        btnGame.setOrigin(0.5).setScale(3);
+
+        this.add.text(btnGame.x, btnGame.y, "START GAME", {
+            fontSize: "44px",
+            color: "#b4570aff",
+            stroke: "#000000",
+            strokeThickness: 5
+        }).setOrigin(0.5);
+
+        this.add.text(btnTutorial.x, btnTutorial.y, "START TUTORIAL", {
             fontSize: "44px",
             color: "#b4570aff",
             stroke: "#000000",
@@ -22,5 +36,9 @@ export default class MainMenu extends Phaser.Scene {
     }
     startMainScene() {
         this.scene.start("MainScene");
+    }
+
+    startTutorialScene() {
+        this.scene.start("TutorialScene");
     }
 }

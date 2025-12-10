@@ -15,7 +15,6 @@ import { events } from "./EventBus.js";
 export default class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: "MainScene" });
-
         this.mapWidth = 1260;
         this.mapHeight = 945;
 
