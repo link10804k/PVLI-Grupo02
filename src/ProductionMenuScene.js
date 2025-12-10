@@ -71,7 +71,7 @@ export default class ProductionMenuScene extends Phaser.Scene {
 
                 // ICONO 
                 this.add.image(offsetX + offset, baseY, requiredProduct.texture)
-                    .setScale(0.4) // ajusta tamaño si quieres
+                    .setScale(1) // ajusta tamaño si quieres
                     .setOrigin(0.5);
 
                 // TEXTO DE CANTIDAD
