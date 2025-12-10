@@ -29,7 +29,7 @@ export default class Wally extends Phaser.GameObjects.Sprite {
         this.nextAppearance();
     }
 
-    // Genera un intervalo aleatorio entre 2 y 6 segundos
+    // Genera un intervalo aleatorio entre 10 y 20 segundos
     getRandomInterval() {
         return Phaser.Math.Between(10000, 20000);
     }

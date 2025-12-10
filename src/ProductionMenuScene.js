@@ -109,6 +109,8 @@ export default class ProductionMenuScene extends Phaser.Scene {
                 this.addWorkerButton = new Button(this, 350, 500, "plus", () => 
                     this.building.addWorker(text))
                     .setScale(2);
+
+                    this.add.image(400, 500, "worker");
         
                 this.removeButton = new Button(this, 450, 500, "menos", () => 
                     this.building.removeWorker(text))
