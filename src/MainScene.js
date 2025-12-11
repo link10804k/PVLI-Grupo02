@@ -29,7 +29,6 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("Background", "assets/gameAssets/Background.png");
         
         this.load.image("pedidos", "assets/gameAssets/order.jpg")
-        this.load.image("tile", "assets/gameAssets/tile.jpg")
         this.load.image("worker", "assets/gameAssets/worker.png")
 
         this.load.image("coffeeOrder", "assets/gameAssets/coffeeOrder.png")
@@ -122,7 +121,7 @@ export default class MainScene extends Phaser.Scene {
 
         this.createParcelas();
         
-        new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", this.playerInventory).setOrigin(0.5).setScale(0.4);
+        new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", this.playerInventory).setOrigin(0);
         this.tiles[1][1].destructor();
         this.tiles[1][1] = null;
         this.tiles[1][2].destructor();
@@ -194,7 +193,7 @@ export default class MainScene extends Phaser.Scene {
                 // Establecer nearWater a true si es la primera columna
                 const nearWater = col === 0;
 
-                this.tiles[row][col] = new Tile(this, x, y, 0, false, nearWater).setOrigin(0.5);
+                this.tiles[row][col] = new Tile(this, x, y, 0, false, nearWater).setOrigin(0);
             }
         }
     }    
