@@ -65,13 +65,13 @@ export default class Building extends Phaser.GameObjects.Sprite {
         this.productionTimer = new ProductionTimer(
             this.scene,
             this.x,
-            this.y - 60,
+            this.y - 40,
             duration,
             product.texture,
             null,
             false,
             this
-        ).setScale(0.7);
+        ).setScale(0.5);
 
         this.productionTimer.start();
 
