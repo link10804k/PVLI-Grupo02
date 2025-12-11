@@ -127,10 +127,10 @@ export default class MainScene extends Phaser.Scene {
 
         this.createParcelas();
         
-        new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", this.playerInventory).setOrigin(0.5);
-        this.tiles[1][1].disableInteractive();  
-        this.tiles[1][1].occupied = true; // Marcar el tile como ocupado
-
+        this.cafeteria = new Cafeteria(this, this.tiles[3][3].x, this.tiles[3][3].y, "cafeteria", this.playerInventory).setOrigin(0.5);
+        console.log("Cafetería en:", this.cafeteria.x, this.cafeteria.y);
+        this.tiles[3][3].disableInteractive();  
+        this.tiles[3][3].occupied = true; // Marcar el tile como ocupado
         // UI del dinero del jugador-------------------------------------------------------
         this.moneyUI = this.UIScene.add.text(620, 20, "$" + this.playerInventory.money, {
             font: "50px",
@@ -205,8 +205,6 @@ export default class MainScene extends Phaser.Scene {
                 const nearWater = col === 0;
 
                 this.tiles[row][col] = new Tile(this, x, y, 0, false, nearWater).setOrigin(0.5);
-                //this.tiles[row][col].x = x.toFixed(0);
-                //this.tiles[row][col].y = y.toFixed(0);
             }
         }
     }    
