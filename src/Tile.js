@@ -82,7 +82,14 @@ export default class Tile extends Phaser.GameObjects.Sprite{
             buildingData.productionSpeed ?? 1.0, // Velocidad de producción
             this.isProcessor, // Indica si el edificio es de producción o de procesado
             buildingData.audio // Sonido que hace el edificio al cambiar de producto
-            )
+            );
+        
+        if (this.nearWater) {
+          newBuilding.setOrigin(0.75, 0.6);
+        }
+        else {
+          newBuilding.setOrigin(0.5);
+        }
   
         // Guardar referencia
         this.currentBuilding = newBuilding;
@@ -96,6 +103,8 @@ export default class Tile extends Phaser.GameObjects.Sprite{
         this.occupied = true; // Marcar el tile como ocupado
 
         this.scene.sound.play("build", { volume: 0.2 }); // Sonido de construcción
+
+        this.alpha = 0; // Hacer invisible el tile de construcción
 
         return true;
     }

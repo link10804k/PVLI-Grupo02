@@ -45,7 +45,7 @@ export default class PhaseManager {
 
         let remaining = Math.ceil(timeMs / 1000);
 
-        this.countdownText.setText(`Próxima fase (${label}) en: ${remaining}s`);
+        this.countdownText.setText(`${label} en: ${remaining}s`);
 
         // Timer de 1 segundo que actualiza el texto
         this.countdownEvent = this.scene.time.addEvent({
@@ -53,7 +53,7 @@ export default class PhaseManager {
             loop: true,
             callback: () => {
                 remaining--;
-                this.countdownText.setText(`Próxima fase (${label}) en: ${remaining}s`);
+                this.countdownText.setText(`${label} en: ${remaining}s`);
 
                 if (remaining <= 0) {
                     this.countdownEvent.remove(false);
@@ -69,10 +69,8 @@ export default class PhaseManager {
         EventBus.emit(events.PRODUCTION_PHASE);
         this.scene.sound.play("phaseChange", { volume: 0.4 });
 
-        console.log("Fase de producción iniciada");
-
          this.startCountdown(
-            "Venta",
+            "Abrirá la cafetería",
             PRODUCTION_TIME,
             () => this.SellingPhase()
         );
@@ -82,10 +80,8 @@ export default class PhaseManager {
         EventBus.emit(events.SELLING_PHASE);
         this.scene.sound.play("phaseChange", { volume: 0.4 });
 
-        console.log("Fase de venta iniciada");
-
          this.startCountdown(
-            "Producción",
+            "Cerrará la cafetería",
             SELLING_TIME,
             () => this.ProductionPhase()
         );

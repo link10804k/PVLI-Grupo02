@@ -43,37 +43,76 @@ export default class TutorialManager {
                 waitFor: "BUILD_FARM"
             },
             {
-                text: "Peruanos",
+                text: "GOD, esto ya tiene mejor pinta y como parece que vas espabilando vamos con lo siguiente.",
                 characterKey: "K_talk"
             },
-            /*
             {
-                text: "Primero y antes de nada vamos a construir una granja para poder hacer cosas",
-                characterKey: "worker"
+                text: "Primero ves que ya tienes tu granja así, pim pam. ",
+                characterKey: "K_talk"
             },
             {
-                text: "Primero y antes de nada vamos a construir una granja para poder hacer cosas",
-                characterKey: "worker"
+                text: "Pero no te da nada porque no está trabajando nadie en ella tonto!!!.",
+                characterKey: "K_angry"
             },
             {
-                text: "Primero y antes de nada vamos a construir una granja para poder hacer cosas",
-                characterKey: "worker"
+                text: "Pues ya sabes, tienes un knekrer ahí sin hacer nada, pulsa en la granja y sumale un trabajador",
+                characterKey: "K_talk"
             },
             {
-                text: "Primero y antes de nada vamos a construir una granja para poder hacer cosas",
-                characterKey: "worker"
+                text: "Una vez este ahí trabajando, dale al botón de el producto que quieras hacer ",
+                characterKey: "K_talk"
             },
-
             {
-                text: "Ahora haz clic en la cafetería para continuar.",
-                characterKey: "worker",
+                text: "Muy importante que esté el knekrer (trabajador) asignado en la granja porque sino está no va a hacer nada ",
+                characterKey: "K_talk"
+            },
+            {
+                text: "Pues igual, cuando lo tengas mandame unos bits o unas subs y seguimos.  ",
+                characterKey: "K_talk",
+                waitFor: "PRODUCE_PRODUCT"
+            },
+            {
+                text: "Oye pues al final tan tonto tan tonto no eres, locurilla  ",
+                characterKey: "K_talk",
+            },
+            {
+                text: "Bueno pues vamos a hacer una cosa más, y así ya sabes producir todo.  ",
+                characterKey: "K_talk",
+            },
+            {
+                text: "Ves tu cafetería no? Y como se have el café?  ",
+                characterKey: "K_presente",
+            },
+            {
+                text: "Pues ala a constuir una cafetera y que tienes una cafeteria pero no una cafetera. ",
+                characterKey: "K_talk",
+            },
+            {
+                text: "Es que me tocan siempre los tontos macho.  ",
+                characterKey: "K_talk",
                 waitFor: "BUILD_CAFE"
             },
             {
-                text: "¡Perfecto! Has completado el primer objetivo.\n\nSeguiremos con más pasos.",
-                characterKey: "worker"
-            }
-                */
+                text: "LOCURILLA, pues ya sabes venga hazme una tazita de tu productito calentito, LETS'S GO ",
+                characterKey: "K_talk",
+            },
+            {
+                text: "EPAA, a dónde vas tan rápido tu!?!? ",
+                characterKey: "K_angry",
+            },
+            {
+                text: "Antes, contrata otro trabajador dando click al botón de arriba a la derecha y así ya dos knekres, GOD ",
+                characterKey: "K_talk",
+            },
+            {
+                text: "Ponlo a trabajar en la cafetera para que haga café y pim, pam, pum cafecito calentito ",
+                characterKey: "K_presente",
+                waitFor: "PROCESE_PRODUCT"
+            },
+            {
+                text: "PERUANOS ",
+                characterKey: "K_presente",
+            },
         ];
 
         this.currentDialogueIndex = 0;
@@ -289,11 +328,7 @@ export default class TutorialManager {
             this.hideUI();
             this.resumeWorld();
 
-            //// FIX >>>>>
-            // Esto permite que el jugador interactúe mientras el tutorial está oculto.
             this.scene.input.topOnly = false;
-            //// FIX <<<<<
-
             return;
         }
 
@@ -318,10 +353,7 @@ export default class TutorialManager {
             this.showUI();
             this.pauseWorld();
 
-            //// FIX >>>>>
-            // El tutorial vuelve a bloquear el input aquí.
             this.scene.input.topOnly = true;
-            //// FIX <<<<<
 
             this.goToNextDialogue();
         }
@@ -333,10 +365,7 @@ export default class TutorialManager {
         this.dialogText.destroy();
         this.nextButton.destroy();
 
-        //// FIX >>>>>
-        // Liberar completamente input del juego cuando termina
         this.scene.input.topOnly = false;
-        //// FIX <<<<<
 
         this.resumeWorld();
         this.scene.scene.stop("TutorialUIScene");

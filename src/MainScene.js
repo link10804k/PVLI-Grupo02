@@ -35,7 +35,11 @@ export default class MainScene extends Phaser.Scene {
 
         this.load.image("plus", "assets/gameAssets/PlusIcon.png")
         this.load.image("menos", "assets/gameAssets/MinusIcon.png")
-        this.load.image("panel", "assets/gameAssets/panel.jpg")
+        this.load.image("panel", "assets/gameAssets/WoodenButton.png")
+        this.load.image("upgradeButton", "assets/gameAssets/BuildIcon.png")
+        this.load.image("exit", "assets/gameAssets/ExitIcon.png")
+
+        this.load.image("wally", "assets/gameAssets/Wally.png")
 
         // Productos no procesados
         this.load.image("CoffeeGrains_display", "assets/gameAssets/CoffeeGrainIcon.png");
@@ -67,11 +71,11 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("Farm_CoffeeGrains_texture", "assets/gameAssets/CoffeeFarm.png");
         this.load.image("Farm_TeaHerbs_texture", "assets/gameAssets/TeaFarm.png");
 
-        this.load.image("ExoticFarm_building", "assets/gameAssets/Tier2Farm.png"); // No está subido aún
+        this.load.image("ExoticFarm_building", "assets/gameAssets/Exotic_Farm.png"); // No está subido aún
         this.load.image("ExoticFarm_CocoaBeans_texture", "assets/gameAssets/CocoaFarm.png");
         this.load.image("ExoticFarm_Pumpkins_texture", "assets/gameAssets/PumpkinFarm.png");
 
-        this.load.image("Bakery_building", "assets/gameAssets/Tier1Bakery.png"); // No está subido aún
+        this.load.image("Bakery_building", "assets/gameAssets/Bakery_Farm.png"); // No está subido aún
         this.load.image("Bakery_Dough_texture", "assets/gameAssets/DoughFarm.png");
         this.load.image("Bakery_Sugar_texture", "assets/gameAssets/SugarFarm.png");
 
@@ -80,6 +84,8 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("Harbor_FrozenTacos_texture", "assets/gameAssets/Tier4TacoFarm.png");
         this.load.image("Harbor_FrozenPizza_texture", "assets/gameAssets/Tier4PizzaFarm.png");
         this.load.image("Harbor_FrozenPaella_texture", "assets/gameAssets/Tier4PaellaFarm.png");
+        // Gacha
+        this.load.image("gachaIcon", "assets/gameAssets/GachaIcon.png");
 
         for (let i = 0; i < 16; i++) {
             this.load.image("customer" + i, "assets/gameAssets/customersSprites/" + i + ".png");
@@ -121,11 +127,9 @@ export default class MainScene extends Phaser.Scene {
 
         this.createParcelas();
         
-        new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", this.playerInventory).setOrigin(0);
-        this.tiles[1][1].destructor();
-        this.tiles[1][1] = null;
-        this.tiles[1][2].destructor();
-        this.tiles[1][2] = null; 
+        new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", this.playerInventory).setOrigin(0.5);
+        this.tiles[1][1].disableInteractive();  
+        this.tiles[1][1].occupied = true; // Marcar el tile como ocupado
 
         // UI del dinero del jugador-------------------------------------------------------
         this.moneyUI = this.UIScene.add.text(620, 20, "$" + this.playerInventory.money, {
@@ -172,6 +176,13 @@ export default class MainScene extends Phaser.Scene {
         this.popularityBar = new PopularityBar(this.UIScene,this.playerInventory);
 
         this.inventoryUI = new InventoryUI(this.UIScene);
+
+        this.gachaSceneButton = new Button(this.UIScene, 550, 60, "gachaIcon", () => this.displayGachaScene()).setScale(1).setVisible(false);
+        EventBus.on(events.LEVEL_INCREASED, (newLevel) => {
+            if (newLevel >= 2) {
+                this.gachaSceneButton.setVisible(true);
+            };
+        });
     }
 
     createParcelas(){ //Crea parcelas
@@ -193,7 +204,9 @@ export default class MainScene extends Phaser.Scene {
                 // Establecer nearWater a true si es la primera columna
                 const nearWater = col === 0;
 
-                this.tiles[row][col] = new Tile(this, x, y, 0, false, nearWater).setOrigin(0);
+                this.tiles[row][col] = new Tile(this, x, y, 0, false, nearWater).setOrigin(0.5);
+                //this.tiles[row][col].x = x.toFixed(0);
+                //this.tiles[row][col].y = y.toFixed(0);
             }
         }
     }    
@@ -207,5 +220,12 @@ export default class MainScene extends Phaser.Scene {
     updateMoneyUI() {
         this.moneyUI.setText("$" + this.playerInventory.money);
     }
+
+    displayGachaScene() {
+    this.scene.launch("GachaScene", { inventory: this.playerInventory });
+
+    this.scene.pause();
+    this.UIScene.scene.pause();
+  }
     
 }

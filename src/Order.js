@@ -27,7 +27,7 @@ export default class Order extends Phaser.GameObjects.Sprite {
         let k = 0;
         for (let i = 0; i < this.resources.length; i++) {
             for (let j = 0; j < this.amounts[i]; j++) {
-                this.productsImages.push(this.scene.add.image(this.x + 20 + k*30, this.y + 20, this.resources[i].texture).setScale(0.05));
+                this.productsImages.push(this.scene.add.image(this.x + 20 + k*30, this.y + 30, this.resources[i].texture).setScale(1));
                 k++;
             }
         }
@@ -35,8 +35,8 @@ export default class Order extends Phaser.GameObjects.Sprite {
         // Timer con ProductionTimer
        this.timer = new ProductionTimer(
             scene, 
-            this.x + 150, 
-            this.y + 20, 
+            this.x + this.width / 2 + 20, 
+            this.y + this.height / 2, 
             Math.ceil(time / 1000), 
             null,// <---icono si queremos aqui
             this.FailOrder.bind(this), // <-- callback al terminar
