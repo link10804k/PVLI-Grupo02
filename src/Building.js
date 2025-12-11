@@ -19,7 +19,7 @@ export default class Building extends Phaser.GameObjects.Sprite {
         this.assignedWorkers = 0;
         this.upgradeTier = 1;
 
-        this.setScale(0.4);
+        this.setScale(1);
 
         this.ui = this.scene.scene.get("UIScene");
 

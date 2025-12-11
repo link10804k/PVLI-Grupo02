@@ -203,7 +203,7 @@ closeWindow() {
     }
         //comportamineto normal
         let buildings = []
-        let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier);
+        let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier - 1);
         for (let i = 1; i <= tier; i++) {
             let currentTier = Buildings.unprocessedProducts[`tier${i}`];
             buildings.push({
