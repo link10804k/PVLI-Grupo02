@@ -186,7 +186,7 @@ closeWindow() {
             products: this.inventory.getUnprocessedProductsFromTier(4),
             price: 50 * Math.pow(2, this.buildingCount),
             texture: harbor.texture,
-            audio: currentTier.audio // Audio del edificio
+            audio: harbor.audio // Audio del edificio
         }];
     }
         //comportamineto normal

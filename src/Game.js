@@ -30,12 +30,12 @@ let config = {
     scene: [
         MainMenu, 
         MainScene,
+        UIScene,
         TutorialScene,
         BuildingWorkerScene, 
         ProductionMenuScene, 
         CoffeSelectionMenu, 
         BuildingMenuScene,
-        UIScene,
         TutorialUIScene,
         GachaScene]
 }

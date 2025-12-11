@@ -1,7 +1,7 @@
 import FloatingMessage from "./FloatingMessage.js";
 import ProductionTimer from "./Timer.js";
 export default class Building extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, texture = "building", name, description, products, productionSpeed = 1.0, isProcessor = false, audio) {
+  constructor(scene, x, y, texture, name, description, products, productionSpeed = 1.0, isProcessor = false, audio) {
         super(scene, x, y, texture);
 
         scene.add.existing(this);

@@ -12,18 +12,14 @@ export default class CameraManager {
         this.scene.events.on('preupdate', this.preUpdate.bind(this)) // Es necesario suscribirse al preupdate ya que la clase no extiende de Phaser
 
         this.scrollSpeed = 300; // Parámetro variable
-        this.zoomSpeed = 0.5; // Parámetro variable
+        this.zoomSpeed = 4; // Parámetro variable
         this.minZoom = this.camera.width / this.scene.mapWidth;
-        this.maxZoom = 1.75; // Parámetro variable
+        this.maxZoom = 16; // Parámetro variable
+        this.camera.zoom = 1; // Valor inicial
 
-        //console.log("Map width: " + this.scene.mapWidth);
-        //console.log("Camera width: " + this.camera.width);
-        //console.log("Max zoom: " + this.maxZoom);
 
-        this.camera.setBounds(-this.scene.tileWidth/2, -this.scene.tileHeight/2, this.scene.mapWidth, this.scene.mapHeight);
-        //this.camera.setViewport(0, 0, this.scene.mapWidth, this.scene.mapHeight);
-        this.camera.width = 800;
-        this.camera.height = 600;
+        //this.camera.setBounds(0, 0, this.scene.mapWidth, this.scene.mapHeight);
+        this.camera.setBounds(0, 0, 1600, 1600);
 
         this.moveUp = false;
         this.moveDown = false;
@@ -61,6 +57,7 @@ export default class CameraManager {
     cameraScroll(direction, dt) {
         this.camera.scrollX += direction.x * this.scrollSpeed * dt;
         this.camera.scrollY += direction.y * this.scrollSpeed * dt;
+        console.log("X: " + this.camera.scrollX + " Y: " + this.camera.scrollY);
     }
     cameraZoomIn(dt) {
         this.camera.zoom += this.zoomSpeed * dt;

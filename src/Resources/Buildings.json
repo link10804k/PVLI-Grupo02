@@ -3,7 +3,7 @@
         "tier1": {
             "name": "Farm",
             "description": "A building to produce coffee grains and tea herbs.",
-            "texture": "building",
+            "texture": "Farm_building",
             "audio": "dig"
         },
         "tier2": {
