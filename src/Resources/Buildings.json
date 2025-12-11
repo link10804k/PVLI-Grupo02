@@ -3,25 +3,29 @@
         "tier1": {
             "name": "Farm",
             "description": "A building to produce coffee grains and tea herbs.",
-            "texture": "building"
+            "texture": "building",
+            "audio": "dig"
         },
         "tier2": {
             "name": "Exotic Farm",
             "description": "A building to produce cocoa beans and pumpkins.",
-            "texture": "ExoticFarm_building"
+            "texture": "ExoticFarm_building",
+            "audio": "dig"
         },
         "tier3": 
         {
             "name": "Bakery",
             "description": "A building to produce dough and sugar.",
-            "texture": "Bakery_building"
+            "texture": "Bakery_building",
+            "audio": "furnace"
         },
         
         "tier4": 
         {
             "name": "Harbor",
             "description": "A building where ships arrive with frozen meals.",
-            "texture": "Harbor_building"
+            "texture": "Harbor_building",
+            "audio": "boat"
         }
     },
     "processedProducts": {
@@ -29,25 +33,29 @@
             "name": "Coffee Maker",
             "description": "A machine to make coffee and green tea.",
             "alreadyBuilt": false,
-            "texture": "CoffeeMaker_building"
+            "texture": "CoffeeMaker_building",
+            "audio": "coffeeMaker"
         },
         "tier2": {
             "name": "Expensive Coffee Maker",
             "description": "A machine to make hot chocolate and pumpkin latte.",
             "alreadyBuilt": false,
-            "texture": "ExpensiveCoffeeMaker_building"
+            "texture": "ExpensiveCoffeeMaker_building",
+            "audio": "coffeeMaker"
         },
         "tier3": {
             "name": "Oven",
             "description": "A machine to bake cookies, pumpkin pies and bread.",
             "alreadyBuilt": false,
-            "texture": "Oven_building"
+            "texture": "Oven_building",
+            "audio": "oven"
         },
         "tier4": {
             "name": "Microwave",
             "description": "A machine to warm frozen meals.",
             "alreadyBuilt": false,
-            "texture": "Microwave_building"
+            "texture": "Microwave_building",
+            "audio": "microwave"
         }
     }
 }

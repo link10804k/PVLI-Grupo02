@@ -1,7 +1,7 @@
 import FloatingMessage from "./FloatingMessage.js";
 import ProductionTimer from "./Timer.js";
 export default class Building extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, texture = "building", name, description, products, productionSpeed = 1.0, isProcessor = false) {
+  constructor(scene, x, y, texture = "building", name, description, products, productionSpeed = 1.0, isProcessor = false, audio) {
         super(scene, x, y, texture);
 
         scene.add.existing(this);
@@ -16,6 +16,7 @@ export default class Building extends Phaser.GameObjects.Sprite{
         this.upgradeTier = 1;       // Nivel de mejora
         this.isProcessor = isProcessor; // Indica si el edificio es de producción o de procesado
         this.inventory = this.scene.playerInventory; // Referencia al inventario
+        this.audio = audio; // Sonido que hace el edificio al empezar a producir un nuevo recurso
 
         this.ui = this.scene.scene.get("UIScene");
         
@@ -95,6 +96,9 @@ export default class Building extends Phaser.GameObjects.Sprite{
     );
 
     this.productionTimer.start();
+
+    // LOOPEA
+    this.scene.sound.play(this.audio); // Sonido de producir
 
     // Cuando termine → producir y reiniciar
     // Guardar el callback para poder desconectarlo después

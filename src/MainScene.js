@@ -73,7 +73,20 @@ export default class MainScene extends Phaser.Scene {
             this.load.image("customer" + i, "assets/gameAssets/customersSprites/" + i + ".png");
         }
         this.load.image("Angry", "assets/gameAssets/Angry.png");
+
+        // Musica
+
+
+        // Audios
         this.load.audio("customer_walk", "assets/gameAssets/audios/moving-stone.mp3");
+        this.load.audio("purchase", "assets/gameAssets/audios/PurchaseSFX.mp3");
+        this.load.audio("build", "assets/gameAssets/audios/BuildSFX.mp3");
+        this.load.audio("dig", "assets/gameAssets/audios/ShovelDigSFX.mp3");
+        this.load.audio('furnace', "assets/gameAssets/audios/FireWhooshSFX.mp3");
+        this.load.audio("boat", "assets/gameAssets/audios/BoatHornSFX.mp3");
+        this.load.audio("coffeeMaker", "assets/gameAssets/audios/CoffeeMakerSFX.mp3");
+        this.load.audio("oven", "assets/gameAssets/audios/OvenSFX.mp3");
+        this.load.audio("microwave", "assets/gameAssets/audios/MicrowaveSFX.mp3");
     }
     
     create() { // Crear objetos del juego aquí

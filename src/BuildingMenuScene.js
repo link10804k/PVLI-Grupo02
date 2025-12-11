@@ -170,7 +170,8 @@ export default class BuildingMenuScene extends Phaser.Scene {
             description: harbor.description,
             products: this.inventory.getUnprocessedProductsFromTier(4),
             price: 50 * Math.pow(2, this.buildingCount),
-            texture: harbor.texture
+            texture: harbor.texture,
+            audio: currentTier.audio // Audio del edificio
         }];
     }
         //comportamineto normal
@@ -183,11 +184,15 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 description: currentTier.description,
                 products: this.inventory.getUnprocessedProductsFromTier(i),
                 price: 50 * Math.pow(2, this.buildingCount),
-                texture: currentTier.texture // textura concreta del sprite
+                texture: currentTier.texture, // textura concreta del sprite
+                audio: currentTier.audio // Audio del edificio
             });
         }
         return buildings;
     }
+    
+    // NO SE LEE EL AUDIO DE LOS  BUILDINGS
+
     getProcessedBuildings() {
         let buildings = []
         let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier);
@@ -200,7 +205,8 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 products: this.inventory.getProcessedProductsFromTier(i),
                 price: 50 * Math.pow(2, this.buildingCount),
                 texture: currentTier.texture, // textura concreta del sprite
-                tier: i
+                audio: currentTier.audio, // Audio del edificio
+                tier: i,
             });
             }
         }

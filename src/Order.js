@@ -94,6 +94,8 @@ export default class Order extends Phaser.GameObjects.Sprite {
 
         EventBus.emit(events.ADD_POPULARITY, popularityGain);
 
+        this.scene.sound.play("purchase");
+
         this.destructor();
     }
     FailCompleteOrder() {
