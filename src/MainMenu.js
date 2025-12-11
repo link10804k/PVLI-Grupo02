@@ -8,6 +8,8 @@ export default class MainMenu extends Phaser.Scene {
         // usar rutas relativas al root del servidor (assets/ está en la raíz del proyecto)
         this.load.image("Background", "assets/gameAssets/Background.png");
         this.load.image("Wbutton", "assets/gameAssets/WoodenButton.png");
+
+        this.load.audio("popUp", "assets/gameAssets/audios/PopUpSFX.mp3"); // Sonido de botón
     }
 
     create() { // Crear objetos del juego aquí

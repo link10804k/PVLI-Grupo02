@@ -97,8 +97,8 @@ export default class Building extends Phaser.GameObjects.Sprite{
 
     this.productionTimer.start();
 
-    // LOOPEA
-    this.scene.sound.play(this.audio); // Sonido de producir
+    // LOOPEA EL SONIDO
+    this.scene.sound.play(this.audio, { volume: 0.25 }); // Sonido de producir
 
     // Cuando termine → producir y reiniciar
     // Guardar el callback para poder desconectarlo después

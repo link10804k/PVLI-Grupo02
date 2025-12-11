@@ -109,7 +109,7 @@ export default class Tile extends Phaser.GameObjects.Sprite{
         
         this.occupied = true; // Marcar el tile como ocupado
 
-        this.scene.sound.play("build", { volume: 0.4 }); // Sonido de construcción
+        this.scene.sound.play("build", { volume: 0.2 }); // Sonido de construcción
 
         return true;
     }

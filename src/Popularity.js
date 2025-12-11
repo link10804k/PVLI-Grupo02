@@ -116,12 +116,11 @@ export default class PopularityBar {
         this.inventory.workersSlots += 4; // Aumentar espacio para trabajadores al subir de nivel
         this.inventory.worckers += 1; // Aumentar número de trabajadores al subir de nivel
 
-
         this.levelText.setText(`${this.level}`);
-       
 
         EventBus.emit(events.LEVEL_INCREASED, this.level);
 
+        this.scene.sound.play("popularityUp", { volume: 0.5} ); // Sonido de subida de nivel de popularidad
     }
 
     updateBar() {
