@@ -1,5 +1,7 @@
 import Tile from "./Tile.js";
 import CustomersManager from "./CustomersManager.js";
+import { EventBus } from "./EventBus.js";
+import { events } from "./EventBus.js";
 
 export default class Cafeteria extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y, texture = "cafeteria", inventory) {
@@ -13,10 +15,22 @@ export default class Cafeteria extends Phaser.GameObjects.Sprite{
 
     this.customersManager = new CustomersManager(scene, this);
 
-    // Slots cafeteras
-    new Tile(this.scene, this.x + 80, this.y - 150, false, true).setScale(0.5);
-    new Tile(this.scene, this.x + 100, this.y - 150, false, true).setScale(0.5);
-    new Tile(this.scene, this.x + 120, this.y - 150, false, true).setScale(0.5);
-    new Tile(this.scene, this.x + 140, this.y - 150, false, true).setScale(0.5);
+    // Slots cafeterass
+    this.slots = [];
+    this.slots.push(new Tile(this.scene, this.x - 12, this.y - 28, false, true).setOrigin(0.5).setScale(0.5));
+    this.slots.push(new Tile(this.scene, this.x + 0, this.y - 28, false, true).setOrigin(0.5).setScale(0.5).setVisible(false));
+    this.slots.push(new Tile(this.scene, this.x + 12, this.y - 28, false, true).setOrigin(0.5).setScale(0.5).setVisible(false));
+    this.slots.push(new Tile(this.scene, this.x + 24, this.y - 28, false, true).setOrigin(0.5).setScale(0.5).setVisible(false));
+
+    console.log("Posiciones de los slots de la cafetería:");
+    this.slots.forEach((slot, index) => {
+      console.log(`Slot ${index + 1}: (${slot.x}, ${slot.y})`);
+    });
+
+    EventBus.on(events.LEVEL_INCREASED, (newLevel) => {
+      if (newLevel >= 1 && newLevel <= 4) {
+        this.slots[newLevel - 1].setVisible(true);
+      }
+    });
   }
 }

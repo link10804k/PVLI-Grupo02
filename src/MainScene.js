@@ -84,6 +84,11 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("Harbor_FrozenTacos_texture", "assets/gameAssets/Tier4TacoFarm.png");
         this.load.image("Harbor_FrozenPizza_texture", "assets/gameAssets/Tier4PizzaFarm.png");
         this.load.image("Harbor_FrozenPaella_texture", "assets/gameAssets/Tier4PaellaFarm.png");
+        //Cafeteras
+        this.load.image("CoffeeMaker_building", "assets/gameAssets/CoffeeMaker.png");
+        this.load.image("ExpensiveCoffeeMaker_building", "assets/gameAssets/ExpensiveCoffeeMaker.png");
+        this.load.image("Oven_building", "assets/gameAssets/Oven.png");
+        this.load.image("Microwave_building", "assets/gameAssets/Microwave.png");
         // Gacha
         this.load.image("gachaIcon", "assets/gameAssets/GachaIcon.png");
 
