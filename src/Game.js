@@ -31,11 +31,11 @@ let config = {
         MainMenu, 
         MainScene,
         TutorialScene,
-        UIScene,
         BuildingWorkerScene, 
         ProductionMenuScene, 
         CoffeSelectionMenu, 
         BuildingMenuScene,
+        UIScene,
         TutorialUIScene,
         GachaScene]
 }
