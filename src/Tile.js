@@ -4,8 +4,8 @@ import Button from "./Button.js";
 const ESCALADO_CONSTRUCCION = 0.4;
 
 export default class Tile extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, texture = null , occupied, isProcessor = false, nearWater = false) {
-    super(scene, x, y, texture = null)
+  constructor(scene, x, y, occupied, isProcessor = false, nearWater = false) {
+    super(scene, x, y, "plus")
     
     scene.add.existing(this);
 
@@ -17,39 +17,29 @@ export default class Tile extends Phaser.GameObjects.Sprite{
 
     this.inventory = this.scene.playerInventory;
   
+    //Hacer el sprite interactivo
+    this.setInteractive({ useHandCursor: true });
 
-    // Botón central
-    if (this.isProcessor) {
-        //Hacer el sprite interactivo
-        this.setInteractive({ useHandCursor: true });
+    //Efectos visuales (oscurecimiento)
+    this.on("pointerover", () => {
+      this.setTint(0x999999); // oscurece un poco
+    });
 
-        //Efectos visuales (oscurecimiento)
-        this.on("pointerover", () => {
-          this.setTint(0x999999); // oscurece un poco
-        });
+    this.on("pointerout", () => {
+      this.clearTint(); // vuelve al color original
+    });
 
-        this.on("pointerout", () => {
-          this.clearTint(); // vuelve al color original
-        });
+    this.on("pointerdown", () => {
+      this.setTint(0x666666); // más oscuro al hacer clic
+    });
 
-        this.on("pointerdown", () => {
-          this.setTint(0x666666); // más oscuro al hacer clic
-        });
-
-        this.on("pointerup", () => {
-          this.clearTint();
-          this.displayBuildMenu(); // abre el menú
-        });
-    }
-    else {
-        this.buildButton = new Button(this.scene, this.x, this.y, "plus", () => this.displayBuildMenu());
-        this.buildButton.setOrigin(0.5).setScale(2);
-        //this.buildButton.setDepth(10); // Evita que quede detrás de la parcela
-    }
+    this.on("pointerup", () => {
+      this.clearTint();
+      this.displayBuildMenu(); // abre el menú
+    });
     
     }
     destructor() {
-        this.buildButton.destroy();
         this.destroy();
     }
       displayBuildMenu() {
@@ -100,12 +90,8 @@ export default class Tile extends Phaser.GameObjects.Sprite{
         // Agregarlo a la lista global de edificios de la escena (si existe)
         // if (!this.scene.buildings) this.scene.buildings = [];
         //this.scene.buildings.push(newBuilding);
-        if (this.isProcessor) {
-            this.disableInteractive(); 
-        }
-        else {
-            this.buildButton.disable(); // Desactivar el botón de construcción
-        }
+
+        this.disableInteractive(); 
         
         this.occupied = true; // Marcar el tile como ocupado
 

@@ -8,7 +8,7 @@ import BuildingMenuScene from "./BuildingMenuScene.js";
 import UIScene from "./UIScene.js";
 import GachaScene from "./GachaScene.js";
 import TutorialScene from "./TutorialScene.js";
-import TutorialUIScene from "./TutorialUiScene.js";
+import TutorialUIScene from "./TutorialUIScene.js";
 
 let config = {
     type: Phaser.AUTO,
@@ -30,12 +30,12 @@ let config = {
     scene: [
         MainMenu, 
         MainScene,
+        UIScene,
         TutorialScene,
         BuildingWorkerScene, 
         ProductionMenuScene, 
         CoffeSelectionMenu, 
         BuildingMenuScene,
-        UIScene,
         TutorialUIScene,
         GachaScene]
 }

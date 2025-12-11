@@ -7,7 +7,7 @@
                 "quantity": 0,
                 "time": 5,
                 "texture": "CoffeeGrains_display",
-                "buildingTexture": "building_CoffeeGrains_texture"
+                "buildingTexture": "Farm_CoffeeGrains_texture"
             },
             "teaHerbs": {
                 "name": "Tea herbs",
@@ -15,7 +15,7 @@
                 "quantity": 0,
                 "time": 6,
                 "texture": "TeaHerbs_display",
-                "buildingTexture": "building_TeaHerbs_texture"
+                "buildingTexture": "Farm_TeaHerbs_texture"
             }
         },
         "tier2": {

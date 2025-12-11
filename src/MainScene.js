@@ -16,19 +16,18 @@ import Wally from "./Wally.js";
 export default class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: "MainScene" });
-        this.mapWidth = 1260;
-        this.mapHeight = 945;
+        this.mapWidth = 704;
+        this.mapHeight = 544;
 
-        this.tileWidth = 315;   // ancho de cada parcela
-        this.tileHeight = 315;  // alto de cada parcela
+        this.tileWidth = 64;   // ancho de cada parcela
+        this.tileHeight = 64;  // alto de cada parcela
 
         this.tiles = [[]];
     }
 
     preload() { // Cargar recursos aquí
         this.load.image("Background", "assets/gameAssets/Background.png");
-        this.load.image("cafeteria", "assets/gameAssets/Cafeteria.jpg")
-        this.load.image("building", "assets/gameAssets/farm.jpg")
+        
         this.load.image("pedidos", "assets/gameAssets/order.jpg")
         this.load.image("tile", "assets/gameAssets/tile.jpg")
         this.load.image("worker", "assets/gameAssets/worker.png")
@@ -63,11 +62,25 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("Pizza_display", "assets/gameAssets/Pizza.png");
         this.load.image("Paella_display", "assets/gameAssets/Paella.png");
         // Edificios
-        this.load.image("building_CoffeeGrains_texture", "assets/gameAssets/CoffeeFarm.png");
-        this.load.image("building_TeaHerbs_texture", "assets/gameAssets/TeaFarm.png");
+        this.load.image("cafeteria", "assets/gameAssets/cafeteria.png")
+
+        this.load.image("Farm_building", "assets/gameAssets/Tier1Farm.png");
+        this.load.image("Farm_CoffeeGrains_texture", "assets/gameAssets/CoffeeFarm.png");
+        this.load.image("Farm_TeaHerbs_texture", "assets/gameAssets/TeaFarm.png");
+
+        this.load.image("ExoticFarm_building", "assets/gameAssets/Tier2Farm.png"); // No está subido aún
         this.load.image("ExoticFarm_CocoaBeans_texture", "assets/gameAssets/CocoaFarm.png");
         this.load.image("ExoticFarm_Pumpkins_texture", "assets/gameAssets/PumpkinFarm.png");
-        
+
+        this.load.image("Bakery_building", "assets/gameAssets/Tier1Bakery.png"); // No está subido aún
+        this.load.image("Bakery_Dough_texture", "assets/gameAssets/DoughFarm.png");
+        this.load.image("Bakery_Sugar_texture", "assets/gameAssets/SugarFarm.png");
+
+        this.load.image("Harbor_building", "assets/gameAssets/Tier4FarmBase.png"); // No está subido aún
+        this.load.image("Harbor_FrozenBurgers_texture", "assets/gameAssets/Tier4BurgerFarm.png");
+        this.load.image("Harbor_FrozenTacos_texture", "assets/gameAssets/Tier4TacoFarm.png");
+        this.load.image("Harbor_FrozenPizza_texture", "assets/gameAssets/Tier4PizzaFarm.png");
+        this.load.image("Harbor_FrozenPaella_texture", "assets/gameAssets/Tier4PaellaFarm.png");
 
         for (let i = 0; i < 16; i++) {
             this.load.image("customer" + i, "assets/gameAssets/customersSprites/" + i + ".png");
@@ -99,13 +112,13 @@ export default class MainScene extends Phaser.Scene {
         this.ordersManager = new OrdersManager(this, this.playerInventory);
         this.applicationManager = new ApplicationManager(this, this.playerInventory, this.UIScene);
 
-        this.add.image(470, 300, "Background").setOrigin(0.5, 0.5);
+        this.add.image(0, 0, "Background").setOrigin(0);
 
          this.wally = new Wally(this);
 
         this.createParcelas();
         
-        new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", 0, 0, this.playerInventory, [], 0).setOrigin(0.5).setScale(0.4);
+        new Cafeteria(this, this.tiles[1][1].x, this.tiles[1][1].y, "cafeteria", this.playerInventory).setOrigin(0.5).setScale(0.4);
         this.tiles[1][1].destructor();
         this.tiles[1][1] = null;
         this.tiles[1][2].destructor();
@@ -161,21 +174,23 @@ export default class MainScene extends Phaser.Scene {
     createParcelas(){ //Crea parcelas
 
         // Crear una cuadrícula de Parcelas (rectángulos ordenados)     
-        const cols = this.mapWidth / this.tileWidth;         // columnas
-        const rows = this.mapHeight / this.tileHeight;       // filas
-        const startX = 0;      // posición inicial X
-        const startY = 0;      // posición inicial Y
+        const cols = 6;         // columnas
+        const rows = 4;       // filas
+        const startX = 64 + 32;      // posición inicial X
+        const startY = 64*2;      // posición inicial Y
+        const spacingX = 64 + 32;   // espacio entre parcelas en X
+        const spacingY = 64 + 32;   // espacio entre parcelas en Y
        
         for (let row = 0; row < rows; row++) {
             this.tiles[row] = [];
             for (let col = 0; col < cols; col++) {
-                const x = startX + col * (this.tileWidth);
-                const y = startY + row * (this.tileHeight);
+                const x = startX + col * spacingX;
+                const y = startY + row * spacingY;
 
                 // Establecer nearWater a true si es la primera columna
                 const nearWater = col === 0;
 
-                this.tiles[row][col] = new Tile(this, x, y, "tile", 0, false, nearWater).setOrigin(0.5).setScale(0.4);
+                this.tiles[row][col] = new Tile(this, x, y, 0, false, nearWater).setOrigin(0.5);
             }
         }
     }    
