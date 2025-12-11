@@ -37,6 +37,8 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("menos", "assets/gameAssets/MinusIcon.png")
         this.load.image("panel", "assets/gameAssets/panel.jpg")
 
+        this.load.image("wally", "assets/gameAssets/Wally.png")
+
         // Productos no procesados
         this.load.image("CoffeeGrains_display", "assets/gameAssets/CoffeeGrainIcon.png");
         this.load.image("TeaHerbs_display", "assets/gameAssets/TeaIcon.png");

@@ -1,16 +1,17 @@
 export default class Wally extends Phaser.GameObjects.Sprite {
     constructor(scene) {
-        super(scene, 0, 0, "customer1");
+        super(scene, 0, 0, "wally");
 
         this.scene = scene;
         this.inventory = scene.playerInventory;
+        this.setScale(0.02);
 
         this.positions = [
-            { x: 100, y: 150 },
-            { x: 200, y: 250 },
-            { x: 300, y: 350 },
-            { x: 400, y: 450 },
-            { x: 500, y: 550 }
+            { x: 100, y: 175 },
+            { x: 150, y: 300 },
+            { x: 350, y: 175 },
+            { x: 525, y: 450 },
+            { x: 525, y: 250 }
 
         ];
 
