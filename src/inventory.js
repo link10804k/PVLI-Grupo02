@@ -1,75 +1,73 @@
-import Products from "./Resources/Products.json" with { type: "json"}
+import Products from "./Resources/Products.json" with { type: "json" }
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 import FloatingMessage from "./FloatingMessage.js";
-export default class Inventory{
-    constructor(scene, money){
+
+export default class Inventory {
+    constructor(mainScene, money) {
+
+        this.mainScene = mainScene;  
+        this.ui = this.mainScene.scene.get("UIScene");
+
         this.unprocessedProducts = structuredClone(Products.unprocessedProducts.tier1);
         this.processedProducts = structuredClone(Products.processedProducts.tier1);
 
         EventBus.on(events.LEVEL_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
-        
-        this.money = money + 1000;
 
+        // Dinero
+        this.money = money + 1000;   
+
+        // Trabajadores
         this.workers = 1;
         this.availableWorkers = 1;
-        this.workersSlots = 4; // Número máximo de trabajadores disponibles. 1 de regalo por nivel + 3 que puedes comprar por nivel
-        this.workerBasePrice = 250;  // precio base del primer trabajador
-        this.workerGrowthRate = 1.25; // multiplicador (+25% cada compra)
+        this.workersSlots = 4;
+        this.workerBasePrice = 250;
+        this.workerGrowthRate = 1.25;
         this.workerPrice = this.workerBasePrice;
 
-        this.mainScene = scene;
-        this.ui = this.mainScene.scene.get("UIScene");
-
+        // Popularidad
         this.popularityLevel = 1;
         this.maxTier = Object.keys(Products.unprocessedProducts).length;
 
-    //////////////////////////////////////////////////////////////
-    //TRUQUITOS/////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////
-    this.mKey = this.mainScene.input.keyboard.addKey('M');
-        this.mKey.on("down", () => {
-            this.addMoney(25);
-    }   );
-
+        // Truco para test
+        this.mKey = this.mainScene.input.keyboard.addKey('M');
+        this.mKey.on("down", () => { this.addMoney(25); });
     }
 
     inventoryChange(popularityLevel) {
-        // Cambia la cantidad de productos en función del nivel de popularidad
         Object.assign(this.unprocessedProducts, Products.unprocessedProducts[`tier${popularityLevel}`]);
         Object.assign(this.processedProducts, Products.processedProducts[`tier${popularityLevel}`]);
         this.popularityLevel = popularityLevel;
-
-        console.log(this.popularityLevel)
     }
-    // Producir un producto no procesado
-    // PARA LOS EDIFICIOS DE PRODUCCIÓN
-    produceProduct(product, amount = 1) { // Producto que se quiere producir y su cantidad
+
+    // -------------------------------------------------------
+    // PRODUCCIÓN DE PRODUCTOS NO PROCESADOS
+    // -------------------------------------------------------
+    produceProduct(product, amount = 1) {
         product.quantity += amount;
 
         this.updateInventoryUI();
+
+        // NOTIFICAR AL TUTORIAL
+        const tutoUI = this.mainScene.scene.get("TutorialUIScene");
+        if (tutoUI && tutoUI.tutorial) {
+            tutoUI.tutorial.notify("PRODUCE_PRODUCT");
+        }
     }
 
     produceRandomProduct() {
-    // Obtener lista de productos del tier actual
-    const products = this.getUnprocessedProductsFromTier(this.popularityLevel);
-    
-
-    // Elegir uno aleatorio
-    const randomProduct = Phaser.Utils.Array.GetRandom(products);
-
-    // Producir 1 unidad
-    randomProduct.quantity++;
-
-    // Actualizar UI
-    this.updateInventoryUI();
-
-    return randomProduct;
+        const products = this.getUnprocessedProductsFromTier(this.popularityLevel);
+        const randomProduct = Phaser.Utils.Array.GetRandom(products);
+        randomProduct.quantity++;
+        this.updateInventoryUI();
+        return randomProduct;
     }
 
-    // Producir un producto procesado
-    // PARA LOS EDIFICIOS DE PROCESADO
-    processProduct(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad
+    // -------------------------------------------------------
+    // PRODUCCIÓN DE PRODUCTOS PROCESADOS
+    // -------------------------------------------------------
+    processProduct(productWanted, amount = 1) {
+
         Object.entries(productWanted.neededProducts).forEach(([key, value]) => {
             this.unprocessedProducts[key].quantity -= value * amount;
         });
@@ -77,25 +75,34 @@ export default class Inventory{
         productWanted.quantity += amount;
 
         this.updateInventoryUI();
+
+        // NOTIFICAR AL TUTORIAL (antes mal escrito)
+        const tutoUI = this.mainScene.scene.get("TutorialUIScene");
+        if (tutoUI && tutoUI.tutorial) {
+            tutoUI.tutorial.notify("PROCESE_PRODUCT");
+        }
     }
-    // Vender productos
-    // PARA LOS PEDIDOS
-    sellProducts(products, amounts) { // Array de productos que se quieren vender y array de cantidades
-       
+
+    // -------------------------------------------------------
+    // VENDER PRODUCTOS
+    // -------------------------------------------------------
+    sellProducts(products, amounts) {
         let totalMoney = 0;
 
         products.forEach((element, index) => {
-           let earnedMoney = element.price * amounts[index];
-           totalMoney += earnedMoney;
+            let earnedMoney = element.price * amounts[index];
+            totalMoney += earnedMoney;
             element.quantity -= amounts[index];
         });
 
         this.addMoney(totalMoney);
         this.updateInventoryUI();
     }
-    // Comprueba si hay suficientes productos no procesados
-    // PARA LOS EDIFICIOS DE PROCESADO
-    checkUnprocessedProducts(productWanted, amount = 1) { // Producto que se quiere producir y su cantidad
+
+    // -------------------------------------------------------
+    // COMPROBACIONES
+    // -------------------------------------------------------
+    checkUnprocessedProducts(productWanted, amount = 1) {
         let canProduce = true;
         Object.entries(productWanted.neededProducts).forEach(([key, value]) => {
             if (this.unprocessedProducts[key].quantity < value * amount) {
@@ -104,9 +111,8 @@ export default class Inventory{
         });
         return canProduce;
     }
-    // Comprueba si hay suficientes productos procesados
-    // PARA LOS PEDIDOS
-    checkProcessedProducts(productsWanted, quantities) { // Array de productos requeridos y array de cantidades requeridas
+
+    checkProcessedProducts(productsWanted, quantities) {
         let canSell = true;
         productsWanted.forEach((element, index) => {
             if (element.quantity < quantities[index]) {
@@ -116,109 +122,83 @@ export default class Inventory{
         return canSell;
     }
 
-    // Comprueba si hay suficiente dinero
-    // PARA COMPRAS
     hasEnoughMoney(amount) {
         return this.money >= amount;
     }
-    // Quita dinero
-    // PARA COMPRAS
+
     removeMoney(amount) {
-       
-        this.addMoney(-amount)
+        this.addMoney(-amount);
     }
 
     getUnprocessedProductsFromTier(tier) {
         let productKeys = Object.keys(Products.unprocessedProducts[`tier${tier}`]);
-        let list = [];
-
-        productKeys.forEach((key) => {
-            list.push(this.unprocessedProducts[key]);
-        });
-
-        return list;
+        return productKeys.map(key => this.unprocessedProducts[key]);
     }
+
     getProcessedProductsFromTier(tier) {
         let productKeys = Object.keys(Products.processedProducts[`tier${tier}`]);
-        let list = [];
-
-        productKeys.forEach((key) => {
-            list.push(this.processedProducts[key]);
-        });
-
-        return list;
+        return productKeys.map(key => this.processedProducts[key]);
     }
 
     updateInventoryUI() {
         EventBus.emit(events.INVENTORY_UPDATE, this.unprocessedProducts, this.processedProducts);
     }
 
+    // -------------------------------------------------------
+    // TRABAJADORES
+    // -------------------------------------------------------
     buyWorker() {
-        // Verificar si hay espacio
         if (this.workers >= this.workersSlots) {
-             new FloatingMessage(this.ui, "No puedes contratar más trabajadores. Límite alcanzado.");
+            new FloatingMessage(this.ui, "No puedes contratar más trabajadores.");
             return false;
         }
 
-        // Verificar si hay dinero
         if (!this.hasEnoughMoney(this.workerPrice)) {
-             new FloatingMessage(this.ui, "No tienes suficiente dinero. Precio del trabajador: " + this.workerPrice + "$");
+            new FloatingMessage(this.ui, "No tienes suficiente dinero.");
             return false;
         }
 
-        // Cobrar y añadir trabajador
         this.removeMoney(this.workerPrice);
         this.workers++;
         this.availableWorkers++;
-
-        // Aumentar el precio para el siguiente trabajador
         this.workerPrice = Math.floor(this.workerPrice * this.workerGrowthRate);
 
-        console.log(`Trabajador comprado. Ahora tienes ${this.workers}. Próximo vale: ${this.workerPrice}`);
-
-        // Actualizar UI del dinero
         this.mainScene.updateMoneyUI();
         this.mainScene.workerPriceText.setText("$" + this.workerPrice);
 
         return true;
-    }  
+    }
 
     addMoney(amount) {
-    this.money += amount;
+        this.money += amount;
+        this.mainScene.updateMoneyUI();
+        this.showFloatingMoney(amount);
+    }
 
-    // Actualizar UI
-    this.mainScene.updateMoneyUI();
+    showFloatingMoney(amount) {
+        const isPositive = amount >= 0;
 
-    // Crear texto flotante igual que la popularidad
-    this.showFloatingMoney(amount);
+        const floatText = this.mainScene.UIScene.add.text(
+            this.mainScene.moneyUI.x - 10,
+            this.mainScene.moneyUI.y + 30,
+            `${isPositive ? "+" : ""}${amount}$`,
+            {
+                fontSize: "26px",
+                fill: isPositive ? "#00cc44" : "#ff0000",
+                stroke: "#000",
+                strokeThickness: 6
+            }
+        ).setOrigin(1, 0.5);
+
+        floatText.setScrollFactor(0);
+
+        this.mainScene.tweens.add({
+            targets: floatText,
+            y: floatText.y - 40,
+            alpha: 0,
+            duration: 3000,
+            ease: "Cubic.easeOut",
+            onComplete: () => floatText.destroy()
+        });
+    }
 }
-
-showFloatingMoney(amount) {
-
-    const isPositive = amount >= 0;
-
-    const floatText = this.mainScene.UIScene.add.text(
-        this.mainScene.moneyUI.x - 10,   // a la izquierda del UI del dinero
-        this.mainScene.moneyUI.y + 30,
-        `${isPositive ? "+" : ""}${amount}$`,
-        {
-            fontSize: "26px",
-            fill: isPositive ? "#00cc44" : "#ff0000", // verde si sube, rojo si baja
-            stroke: "#000000",
-            strokeThickness: 6
-        }
-    ).setOrigin(1, 0.5);
-
-    floatText.setScrollFactor(0);
-
-    this.mainScene.tweens.add({
-        targets: floatText,
-        y: floatText.y - 40,
-        alpha: 0,
-        duration: 3000,
-        ease: "Cubic.easeOut",
-        onComplete: () => floatText.destroy()
-    });
-}
-
-}   
