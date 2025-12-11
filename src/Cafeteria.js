@@ -18,7 +18,13 @@ export default class Cafeteria extends Phaser.GameObjects.Sprite{
     this.workers = 0;
 
     this.customersManager = new CustomersManager(scene, this);
-    this.cafetera = new Tile(this.scene, this.x +100, this.y - 150, "button", false, true).setScale(0.5);
+
+    // Slots cafeteras
+    new Tile(this.scene, this.x + 80, this.y - 150, "button", false, true).setScale(0.5);
+    new Tile(this.scene, this.x + 100, this.y - 150, "button", false, true).setScale(0.5);
+    new Tile(this.scene, this.x + 120, this.y - 150, "button", false, true).setScale(0.5);
+    new Tile(this.scene, this.x + 140, this.y - 150, "button", false, true).setScale(0.5);
+
 
     this.gacha = new Button(this.scene, this.x + 100, this.y, "button", () => this.displayGachaScene()).setScale(0.5);
   }

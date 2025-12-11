@@ -11,11 +11,11 @@ import Button from "./Button.js";
 import ApplicationManager from "./ApplicationManager.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
+import Wally from "./Wally.js";
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: "MainScene" });
-
         this.mapWidth = 1260;
         this.mapHeight = 945;
 
@@ -40,16 +40,16 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("panel", "assets/gameAssets/panel.jpg")
 
         // Productos no procesados
-        this.load.image("coffeeGrains_display", "assets/gameAssets/Coffee_display.png");
-        this.load.image("teaHerbs_display", "assets/gameAssets/TeaIcon.png");
-        this.load.image("cocoaBeans_display", "assets/gameAssets/cocoaBeans.png");
-        this.load.image("pumpkins_display", "assets/gameAssets/pumpkins.png");
-        this.load.image("dough_display", "assets/gameAssets/Dough.png");
-        this.load.image("sugar_display", "assets/gameAssets/sugar.png");
-        this.load.image("frozenBurgers_display", "assets/gameAssets/frozenBurgers.png");
-        this.load.image("frozenTacos_display", "assets/gameAssets/FrozenTaco.png");
-        this.load.image("frozenPizza_display", "assets/gameAssets/frozenPizza.png");
-        this.load.image("frozenPaella_display", "assets/gameAssets/frozenPaella.png");
+        this.load.image("CoffeeGrains_display", "assets/gameAssets/CoffeeGrainIcon.png");
+        this.load.image("TeaHerbs_display", "assets/gameAssets/TeaIcon.png");
+        this.load.image("CocoaBeans_display", "assets/gameAssets/cocoaBeans.png");
+        this.load.image("Pumpkins_display", "assets/gameAssets/pumpkins.png");
+        this.load.image("Dough_display", "assets/gameAssets/Dough.png");
+        this.load.image("Sugar_display", "assets/gameAssets/sugar.png");
+        this.load.image("FrozenBurgers_display", "assets/gameAssets/frozenBurgers.png");
+        this.load.image("FrozenTacos_display", "assets/gameAssets/FrozenTaco.png");
+        this.load.image("FrozenPizza_display", "assets/gameAssets/frozenPizza.png");
+        this.load.image("FrozenPaella_display", "assets/gameAssets/frozenPaella.png");
         // Productos procesados
         this.load.image("Coffee_display", "assets/gameAssets/CoffeeIcon.png")
         this.load.image("Tea_display", "assets/gameAssets/Tea.png")
@@ -87,6 +87,8 @@ export default class MainScene extends Phaser.Scene {
         this.applicationManager = new ApplicationManager(this, this.playerInventory, this.UIScene);
 
         this.add.image(470, 300, "Background").setOrigin(0.5, 0.5);
+
+         this.wally = new Wally(this);
 
         this.createParcelas();
         

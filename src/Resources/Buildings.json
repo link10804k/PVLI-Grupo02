@@ -28,21 +28,25 @@
         "tier1": {
             "name": "Coffee Maker",
             "description": "A machine to make coffee and green tea.",
+            "alreadyBuilt": false,
             "texture": "CoffeeMaker_building"
         },
         "tier2": {
             "name": "Expensive Coffee Maker",
             "description": "A machine to make hot chocolate and pumpkin latte.",
+            "alreadyBuilt": false,
             "texture": "ExpensiveCoffeeMaker_building"
         },
         "tier3": {
             "name": "Oven",
             "description": "A machine to bake cookies, pumpkin pies and bread.",
+            "alreadyBuilt": false,
             "texture": "Oven_building"
         },
         "tier4": {
             "name": "Microwave",
             "description": "A machine to warm frozen meals.",
+            "alreadyBuilt": false,
             "texture": "Microwave_building"
         }
     }

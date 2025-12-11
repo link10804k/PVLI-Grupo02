@@ -138,6 +138,9 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 this.mainScene.playerInventory.removeMoney(building.price);
                 this.mainScene.updateMoneyUI();
                 this.buildingCount++;
+
+                if (building.tier)
+                    Buildings.processedProducts[`tier${building.tier}`].alreadyBuilt = true;
             }
         }
         else new FloatingMessage(this.ui, "No tienes suficiente dinero para construir " + building.name)
@@ -190,13 +193,16 @@ export default class BuildingMenuScene extends Phaser.Scene {
         let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier);
         for (let i = 1; i <= tier; i++) {
             let currentTier = Buildings.processedProducts[`tier${i}`];
-            buildings.push({
+            if (!currentTier.alreadyBuilt) {
+                buildings.push({
                 name: currentTier.name,
                 description: currentTier.description,
                 products: this.inventory.getProcessedProductsFromTier(i),
                 price: 50 * Math.pow(2, this.buildingCount),
-                texture: currentTier.texture // textura concreta del sprite
+                texture: currentTier.texture, // textura concreta del sprite
+                tier: i
             });
+            }
         }
         return buildings;
     }
