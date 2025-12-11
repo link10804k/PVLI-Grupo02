@@ -8,6 +8,7 @@ import BuildingMenuScene from "./BuildingMenuScene.js";
 import UIScene from "./UIScene.js";
 import GachaScene from "./GachaScene.js";
 import TutorialScene from "./TutorialScene.js";
+import TutorialUIScene from "./TutorialUiScene.js";
 
 let config = {
     type: Phaser.AUTO,
@@ -28,14 +29,15 @@ let config = {
     },
     scene: [
         MainMenu, 
-        MainScene, 
+        MainScene,
+        TutorialScene,
         BuildingWorkerScene, 
         ProductionMenuScene, 
         CoffeSelectionMenu, 
-        BuildingMenuScene, 
+        BuildingMenuScene,
         UIScene,
-        GachaScene,
-        TutorialScene]
+        TutorialUIScene,
+        GachaScene]
 }
 
 new Phaser.Game(config);

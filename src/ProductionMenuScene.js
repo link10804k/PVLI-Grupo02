@@ -135,16 +135,30 @@ export default class ProductionMenuScene extends Phaser.Scene {
     }
 
     closeWindow() {
-    // Esperamos un poco antes de cerrar y reactivar input
-    this.time.delayedCall(100, () => {
-        if (this.mainScene && this.mainScene.input) {
-            this.mainScene.input.enabled = true;
-        }
-        this.scene.resume("MainScene");
-        this.scene.resume("UIScene");
-        this.scene.stop(); // ahora sí detenemos el menú
-    });
-}
+        // Esperamos un poco antes de cerrar y reactivar input
+        this.time.delayedCall(100, () => {
+            // Reactivar input de la escena del juego
+            if (this.mainScene && this.mainScene.input) {
+                this.mainScene.input.enabled = true;
+            }
+
+            // Reanudar la escena correcta (puede ser MainScene o TutorialScene)
+            if (this.mainScene) {
+                const key = this.mainScene.scene.key;
+                if (this.scene.isPaused(key)) {
+                    this.scene.resume(key);
+                }
+            }
+
+            // Reanudar la UIScene si estaba pausada
+            if (this.scene.isPaused("UIScene")) {
+                this.scene.resume("UIScene");
+            }
+
+            // Cerrar este menú
+            this.scene.stop();
+        });
+    }
 
 findProductByKey(key) {
     for (const tier in Products.unprocessedProducts) {

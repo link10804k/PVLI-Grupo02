@@ -22,61 +22,72 @@ export default class TutorialScene extends Phaser.Scene {
         this.tileWidth = 315;
         this.tileHeight = 315;
 
-        this.tiles = [];
+        this.tiles = [[]];
     }
 
     preload() {
         this.load.image("Background", "assets/gameAssets/Background.png");
         this.load.image("cafeteria", "assets/gameAssets/Cafeteria.jpg");
+        this.load.image("building", "assets/gameAssets/farm.jpg");
+        this.load.image("pedidos", "assets/gameAssets/order.jpg");
         this.load.image("tile", "assets/gameAssets/tile.jpg");
         this.load.image("worker", "assets/gameAssets/worker.png");
 
+        this.load.image("coffeeOrder", "assets/gameAssets/coffeeOrder.png");
         this.load.image("plus", "assets/gameAssets/PlusIcon.png");
         this.load.image("menos", "assets/gameAssets/MinusIcon.png");
         this.load.image("panel", "assets/gameAssets/panel.jpg");
 
-        // Productos no procesados (necesarios para managers/UI)
         this.load.image("coffeeGrains_display", "assets/gameAssets/Coffee_display.png");
         this.load.image("teaHerbs_display", "assets/gameAssets/TeaIcon.png");
         this.load.image("cocoaBeans_display", "assets/gameAssets/cocoaBeans.png");
         this.load.image("pumpkins_display", "assets/gameAssets/pumpkins.png");
         this.load.image("dough_display", "assets/gameAssets/Dough.png");
         this.load.image("sugar_display", "assets/gameAssets/sugar.png");
+        this.load.image("frozenBurgers_display", "assets/gameAssets/frozenBurgers.png");
+        this.load.image("frozenTacos_display", "assets/gameAssets/FrozenTaco.png");
+        this.load.image("frozenPizza_display", "assets/gameAssets/frozenPizza.png");
+        this.load.image("frozenPaella_display", "assets/gameAssets/frozenPaella.png");
 
-        // Productos procesados
         this.load.image("Coffee_display", "assets/gameAssets/CoffeeIcon.png");
         this.load.image("Tea_display", "assets/gameAssets/Tea.png");
+        this.load.image("HotChocolate_display", "assets/gameAssets/hotChocolate.png");
+        this.load.image("PumpkinLatte_display", "assets/gameAssets/pumpkinLatte.png");
+        this.load.image("Cookies_display", "assets/gameAssets/Cookies.png");
+        this.load.image("PumpkinPie_display", "assets/gameAssets/pumpkinCake.png");
+        this.load.image("Bread_display", "assets/gameAssets/bread.png");
+        this.load.image("Burger_display", "assets/gameAssets/Hamburguesa.png");
+        this.load.image("Taco_display", "assets/gameAssets/tacos.png");
+        this.load.image("Pizza_display", "assets/gameAssets/Pizza.png");
+        this.load.image("Paella_display", "assets/gameAssets/Paella.png");
 
-        // Edificios necesarios
-        this.load.image("building_CoffeeGrains_texture", "assets/gameAssets/CoffeeFarm.png");
-        this.load.image("building_TeaHerbs_texture", "assets/gameAssets/TeaFarm.png");
-        this.load.image("ExoticFarm_CocoaBeans_texture", "assets/gameAssets/CocoaFarm.png");
-        this.load.image("ExoticFarm_Pumpkins_texture", "assets/gameAssets/PumpkinFarm.png");
+        for (let i = 0; i < 16; i++) {
+            this.load.image("customer" + i, "assets/gameAssets/customersSprites/" + i + ".png");
+        }
+
+        this.load.image("Angry", "assets/gameAssets/Angry.png");
+        this.load.audio("customer_walk", "assets/gameAssets/audios/moving-stone.mp3");
     }
 
     create() {
+        // Lanzar UI general
         this.scene.launch("UIScene");
-        this.scene.bringToTop("UIScene");
         this.UIScene = this.scene.get("UIScene");
 
         this.cameraManager = new CameraManager(this, this.cameras.main);
-        this.playerInventory = new Inventory(this, 50.00);
+        this.playerInventory = new Inventory(this, 50.0);
         this.phaseManager = new PhaseManager(this);
         this.ordersManager = new OrdersManager(this, this.playerInventory);
         this.applicationManager = new ApplicationManager(this, this.playerInventory, this.UIScene);
 
-        this.add.image(470, 300, "Background").setOrigin(0.5);
+        this.add.image(470, 300, "Background").setOrigin(0.5, 0.5);
 
-        // Crear tablero 2x2
         this.createParcelas();
-
-        // Ubicar cafetería en tiles[1][1]
-        const cafeTile = this.tiles[1][1];
 
         new Cafeteria(
             this,
-            cafeTile.x,
-            cafeTile.y,
+            this.tiles[1][1].x,
+            this.tiles[1][1].y,
             "cafeteria",
             0,
             0,
@@ -84,14 +95,15 @@ export default class TutorialScene extends Phaser.Scene {
             [],
             0
         )
-        .setOrigin(0.5)
-        .setScale(0.4);
+            .setOrigin(0.5)
+            .setScale(0.4);
 
-        // Eliminar solo la tile usada
         this.tiles[1][1].destructor();
         this.tiles[1][1] = null;
+        this.tiles[1][2].destructor();
+        this.tiles[1][2] = null;
 
-        // --- UI ---
+        // UI dinero
         this.moneyUI = this.UIScene.add.text(620, 20, "$" + this.playerInventory.money, {
             font: "50px",
             color: "#007332",
@@ -99,6 +111,7 @@ export default class TutorialScene extends Phaser.Scene {
             strokeThickness: 6
         }).setScrollFactor(0);
 
+        // Workers
         this.workersIconUI = this.UIScene.add.image(600, 90, "worker")
             .setDisplaySize(40, 40)
             .setOrigin(0.5)
@@ -108,16 +121,20 @@ export default class TutorialScene extends Phaser.Scene {
             620,
             65,
             this.playerInventory.availableWorkers + "/" + this.playerInventory.workers,
-        {
-            font: "50px",
-            color: "#ff0101ff",
-            stroke: "#000000",
-            strokeThickness: 6
-        }).setScrollFactor(0);
+            {
+                font: "50px",
+                color: "#ff0101ff",
+                stroke: "#000000",
+                strokeThickness: 6
+            }
+        ).setScrollFactor(0);
 
+        // Botón para contratar trabajadores
         this.addWorkersBut = new Button(this.UIScene, 760, 85, "plus", () => {
             this.playerInventory.buyWorker();
-            this.workersUI.setText(this.playerInventory.availableWorkers + "/" + this.playerInventory.workers);
+            this.workersUI.setText(
+                this.playerInventory.availableWorkers + "/" + this.playerInventory.workers
+            );
 
             if (this.playerInventory.workers >= this.playerInventory.workersSlots) {
                 this.addWorkersBut.setActive(false).setVisible(false);
@@ -128,9 +145,7 @@ export default class TutorialScene extends Phaser.Scene {
             });
         }).setScale(1.5);
 
-        this.workerPriceText = this.UIScene.add.text(730, 105,
-            "$" + this.playerInventory.workerPrice,
-        {
+        this.workerPriceText = this.UIScene.add.text(730, 105, "$" + this.playerInventory.workerPrice, {
             font: "20px",
             color: "#326d02ff",
             stroke: "#000000",
@@ -138,35 +153,50 @@ export default class TutorialScene extends Phaser.Scene {
         });
 
         this.popularityBar = new PopularityBar(this.UIScene, this.playerInventory);
+
         this.inventoryUI = new InventoryUI(this.UIScene);
+
+        // -----------------------------------------
+        // LANZAR EL TUTORIAL (ya arreglado)
+        // -----------------------------------------
+        this.time.delayedCall(10, () => {
+            this.scene.launch("TutorialUIScene");
+            this.scene.bringToTop("TutorialUIScene");
+        });
     }
 
     createParcelas() {
-
-        const rows = 2;   // 2 filas
-        const cols = 2;   // 2 columnas
-
-        this.tiles = [];
+        const cols = this.mapWidth / this.tileWidth;
+        const rows = this.mapHeight / this.tileHeight;
 
         for (let row = 0; row < rows; row++) {
             this.tiles[row] = [];
             for (let col = 0; col < cols; col++) {
-
                 const x = col * this.tileWidth;
                 const y = row * this.tileHeight;
 
                 const nearWater = col === 0;
 
-                this.tiles[row][col] =
-                    new Tile(this, x, y, "tile", 0, false, nearWater)
-                        .setOrigin(0.5)
-                        .setScale(0.4);
+                this.tiles[row][col] = new Tile(
+                    this,
+                    x,
+                    y,
+                    "tile",
+                    0,
+                    false,
+                    nearWater
+                )
+                    .setOrigin(0.5)
+                    .setScale(0.4);
             }
         }
     }
 
     showInventory() {
-        this.scene.launch("InventoryScene", { mainScene: this.scene, inventory: this.playerInventory });
+        this.scene.launch("InventoryScene", {
+            mainScene: this.scene,
+            inventory: this.playerInventory
+        });
         this.scene.pause();
     }
 

@@ -141,6 +141,13 @@ export default class BuildingMenuScene extends Phaser.Scene {
 
                 if (building.tier)
                     Buildings.processedProducts[`tier${building.tier}`].alreadyBuilt = true;
+
+                if (building.name === "Farm") {
+                    const tutoUI = this.mainScene.scene.get("TutorialUIScene");
+                    if (tutoUI && tutoUI.tutorial) {
+                        tutoUI.tutorial.notify("BUILD_FARM");
+                    }
+                }
             }
         }
         else new FloatingMessage(this.ui, "No tienes suficiente dinero para construir " + building.name)
@@ -148,17 +155,25 @@ export default class BuildingMenuScene extends Phaser.Scene {
         this.closeWindow();
     }
 
-   closeWindow() {
-        // Esperamos un poco antes de cerrar y reactivar input
-        this.time.delayedCall(100, () => {
-            if (this.mainScene && this.mainScene.input) {
-                this.mainScene.input.enabled = true;
-            }
-            this.scene.resume("MainScene");
-            this.scene.resume("UIScene");
-            this.scene.stop(); // ahora sí detenemos el menú
-        });
-    }
+closeWindow() {
+    this.time.delayedCall(50, () => {
+
+        // Reactivar input del mundo (MUY IMPORTANTE)
+        if (this.mainScene && this.mainScene.input) {
+            this.mainScene.input.enabled = true;
+        }
+
+        // Reanudar escenas importantes si estaban pausadas
+        if (this.scene.isPaused("MainScene")) this.scene.resume("MainScene");
+        if (this.scene.isPaused("TutorialScene")) this.scene.resume("TutorialScene");
+        if (this.scene.isPaused("UIScene")) this.scene.resume("UIScene");
+
+        // Cerrar este menú
+        this.scene.stop();
+    });
+
+}
+
 
     getUnprocessedBuildings() {
         

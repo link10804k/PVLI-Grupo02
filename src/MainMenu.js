@@ -20,14 +20,14 @@ export default class MainMenu extends Phaser.Scene {
         const btnGame = new Button(this, 400, 400, "Wbutton", () => this.startTutorialScene());
         btnGame.setOrigin(0.5).setScale(3);
 
-        this.add.text(btnGame.x, btnGame.y, "START GAME", {
+        this.add.text(btnGame.x, btnGame.y, "TUTORIAL", {
             fontSize: "44px",
             color: "#b4570aff",
             stroke: "#000000",
             strokeThickness: 5
         }).setOrigin(0.5);
 
-        this.add.text(btnTutorial.x, btnTutorial.y, "START TUTORIAL", {
+        this.add.text(btnTutorial.x, btnTutorial.y, "START", {
             fontSize: "44px",
             color: "#b4570aff",
             stroke: "#000000",
