@@ -62,7 +62,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
              // Botón principal del edificio
             const button = new Button(this, 250, y, building.texture, () => {
                 this.selectBuilding(building);
-            }).setScale(0.1);
+            }).setScale(1);
 
             if(this.isProcessor) button.setScale(1.5)
 
