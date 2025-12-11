@@ -4,9 +4,11 @@ import Application from "./Application.js";
 import MainScene from "./MainScene.js";
 
 export default class PopularityBar {
-    constructor(scene, playerInventory) {
+    constructor(scene, playerInventory, workersUI) {
         this.scene = scene;
         this.inventory = playerInventory
+        this.workersUI = workersUI;
+       
 
         //Dimensiones
         this.width = 200;
@@ -114,7 +116,10 @@ export default class PopularityBar {
         this.popularityNeeded = Math.floor(this.popularityNeeded * 1.25);
 
         this.inventory.workersSlots += 4; // Aumentar espacio para trabajadores al subir de nivel
-        this.inventory.worckers += 1; // Aumentar número de trabajadores al subir de nivel
+        this.inventory.workers += 1; // Aumentar número de trabajadores al subir de nivel
+        this.inventory.availableWorkers += 1; // Aumentar trabajadores disponibles
+        
+        this.workersUI.setText(this.inventory.availableWorkers + "/" + this.inventory.workers);
 
         this.levelText.setText(`${this.level}`);
 

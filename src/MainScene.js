@@ -153,7 +153,7 @@ export default class MainScene extends Phaser.Scene {
         }).setScrollFactor(0);
 
             //Botón para comprar trabajadores
-        this.addWorkersBut = new Button(this.UIScene, 760, 85, "plus", () => {
+        this.addWorkersBut = new Button(this.UIScene, 780, 85, "plus", () => {
             this.playerInventory.buyWorker();
             this.workersUI.setText(this.playerInventory.availableWorkers + "/" + this.playerInventory.workers);
             if(this.playerInventory.workers >= this.playerInventory.workersSlots){
@@ -173,7 +173,7 @@ export default class MainScene extends Phaser.Scene {
         });
 
         //UI crear la barra de popularidad------------------------------------------------------------
-        this.popularityBar = new PopularityBar(this.UIScene,this.playerInventory);
+        this.popularityBar = new PopularityBar(this.UIScene,this.playerInventory, this.workersUI);
 
         this.inventoryUI = new InventoryUI(this.UIScene);
 
