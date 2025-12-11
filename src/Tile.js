@@ -97,6 +97,8 @@ export default class Tile extends Phaser.GameObjects.Sprite{
 
         this.scene.sound.play("build", { volume: 0.2 }); // Sonido de construcción
 
+        this.alpha = 0; // Hacer invisible el tile de construcción
+
         return true;
     }
 }

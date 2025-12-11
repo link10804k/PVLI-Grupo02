@@ -1,3 +1,5 @@
+import Button from "./Button.js";
+
 export default class Application {
     constructor(scene, userId = null, imageKey = null, captionText = "Pie de imagen") {
         this.scene = scene;
@@ -10,6 +12,7 @@ export default class Application {
         this.createUsernameText();
         this.createImage(imageKey);
         this.adjustImageSize();
+        this.createExitButton();
         this.createCaptionText(captionText);
 
         this.addToContainer();
@@ -117,6 +120,25 @@ export default class Application {
         });
         this.text.setOrigin(0.5, 0);
     }
+
+createExitButton() {
+    this.exitButton = new Button(
+        this.scene,
+        this.container.x + this.width / 2 - 10,
+        this.container.y - this.height / 2 + 10,
+        'exit',
+        () => this.playExitTween()
+    );
+
+    this.exitButton.setOrigin(0.5, 0.5);
+    this.exitButton.setDepth(100); // siempre encima
+
+    // Hacer que siga al container
+    this.scene.events.on('update', () => {
+        this.exitButton.x = this.container.x + this.width / 2 - 10;
+        this.exitButton.y = this.container.y - this.height / 2 + 10;
+    });
+}
 
     addToContainer() {
         this.container.add([this.rect, this.usernameText, this.image, this.text]);

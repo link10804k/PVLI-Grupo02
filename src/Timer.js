@@ -22,11 +22,12 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
        this.progressCircle = scene.make.graphics({});
 
         // Icono del producto
-
+        if (textureKey) {
         this.icon = scene.add.image(0, 0, textureKey);
         this.icon.setDisplaySize(40, 40);
         this.icon.setDepth(10);
         console.log("Icono del timer:", textureKey);
+        }
 
         // Texto del tiempo restante
         this.timeText = scene.add.text(0, 60, duration + "s", {
@@ -54,8 +55,8 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
         }
 
         // Agregar los elementos al container
-       const elements = ([this.baseCircle, this.progressCircle, this.icon, this.timeText]);
-
+       const elements = ([this.baseCircle, this.progressCircle, this.timeText]);
+        if (this.icon) elements.push(this.icon);
         if (this.workerIcon) elements.push(this.workerIcon); 
         if (this.workerText) elements.push(this.workerText);
 

@@ -87,9 +87,9 @@ export default class BuildingMenuScene extends Phaser.Scene {
         });
 
         // Botón para cerrar el menú
-        const closeButton = new Button(this, 400, 520, "button", () => {
+        const closeButton = new Button(this, 400, 520, "exit", () => {
             this.closeWindow();
-        });
+        }).setScale(2);
         this.add.existing(closeButton);
 
         //cerrar el menú al hacer clic fuera de él

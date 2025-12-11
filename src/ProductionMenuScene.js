@@ -59,7 +59,7 @@ export default class ProductionMenuScene extends Phaser.Scene {
         if (product.neededProducts) {
 
             const productTextBounds = productText.getBounds();
-            let offsetX = productTextBounds.right + productText.width + 10; // al lado del texto
+            let offsetX = productTextBounds.right + 15; // al lado del texto
             const baseY = productTextBounds.centerY; // misma altura que el texto del producto
 
             let offset = 0;
@@ -82,7 +82,7 @@ export default class ProductionMenuScene extends Phaser.Scene {
                     color: "#fff",
                 }).setOrigin(0.5);
 
-                offset += 50; // separa los iconos entre sí
+                offset += 20; // separa los iconos entre sí
         }
     }
             

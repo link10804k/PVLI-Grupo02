@@ -36,6 +36,8 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("plus", "assets/gameAssets/PlusIcon.png")
         this.load.image("menos", "assets/gameAssets/MinusIcon.png")
         this.load.image("panel", "assets/gameAssets/panel.jpg")
+        this.load.image("upgradeButton", "assets/gameAssets/BuildIcon.png")
+        this.load.image("exit", "assets/gameAssets/ExitIcon.png")
 
         this.load.image("wally", "assets/gameAssets/Wally.png")
 
