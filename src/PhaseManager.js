@@ -1,8 +1,8 @@
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 
-const PRODUCTION_TIME = 60000; // 60 segundos (variable)
-const SELLING_TIME = 60000; // 60 segundos (variable)
+const PRODUCTION_TIME = 90000; // 90 segundos (variable)
+const SELLING_TIME = 90000; // 90 segundos (variable)
 
 export default class PhaseManager {
     constructor(scene) {
