@@ -182,7 +182,7 @@ export default class MainScene extends Phaser.Scene {
 
         this.inventoryUI = new InventoryUI(this.UIScene);
 
-        this.gachaSceneButton = new Button(this.UIScene, 550, 60, "gachaIcon", () => this.displayGachaScene()).setScale(1).setVisible(false);
+        this.gachaSceneButton = new Button(this.UIScene, 545, 60, "gachaIcon", () => this.displayGachaScene()).setScale(2).setVisible(false);
         EventBus.on(events.LEVEL_INCREASED, (newLevel) => {
             if (newLevel >= 2) {
                 this.gachaSceneButton.setVisible(true);

@@ -64,7 +64,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 this.selectBuilding(building);
             }).setScale(1);
 
-            if(this.isProcessor) button.setScale(1.5)
+            if(this.isProcessor) button.setScale(6);
 
             this.add.existing(button);
 

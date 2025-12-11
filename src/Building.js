@@ -71,7 +71,15 @@ export default class Building extends Phaser.GameObjects.Sprite {
             null,
             false,
             this
-        ).setScale(0.5);
+        );
+
+        if (this.isProcessor) {
+            this.productionTimer.setScale(0.2);
+            this.productionTimer.y += 20;
+        }
+        else {
+            this.productionTimer.setScale(0.5);
+        }
 
         this.productionTimer.start();
 

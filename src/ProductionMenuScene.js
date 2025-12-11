@@ -62,7 +62,7 @@ export default class ProductionMenuScene extends Phaser.Scene {
             let offsetX = productTextBounds.right + 15; // al lado del texto
             const baseY = productTextBounds.centerY; // misma altura que el texto del producto
 
-            let offset = 0;
+            let offset = 15;
 
             for (const requiredKey in product.neededProducts) {
 
@@ -73,7 +73,7 @@ export default class ProductionMenuScene extends Phaser.Scene {
 
                 // ICONO 
                 this.add.image(offsetX + offset, baseY, requiredProduct.texture)
-                    .setScale(1) // ajusta tamaño si quieres
+                    .setScale(2) // ajusta tamaño si quieres
                     .setOrigin(0.5);
 
                 // TEXTO DE CANTIDAD

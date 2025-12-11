@@ -1,8 +1,6 @@
 import MainMenu from "./MainMenu.js";
 import MainScene from "./MainScene.js";
-import BuildingWorkerScene from "./BuildingWorkerScene.js";
 import ProductionMenuScene from "./ProductionMenuScene.js";
-import InventoryScene from "./InventoryUI.js"
 import CoffeSelectionMenu from "./CoffeSelectionMenu.js";
 import BuildingMenuScene from "./BuildingMenuScene.js";
 import UIScene from "./UIScene.js";
@@ -30,8 +28,7 @@ let config = {
     scene: [
         MainMenu, 
         MainScene,
-        TutorialScene,
-        BuildingWorkerScene, 
+        TutorialScene, 
         ProductionMenuScene, 
         CoffeSelectionMenu, 
         BuildingMenuScene,
