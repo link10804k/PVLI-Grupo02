@@ -13,17 +13,19 @@ export default class Building extends Phaser.GameObjects.Sprite {
         this.products = products;
         this.productionSpeed = productionSpeed;
         this.isProcessor = isProcessor;
-        this.audio = audio;
         this.inventory = this.scene.playerInventory;
+        this.audio = audio;
 
+        this.currentResource = null;
         this.assignedWorkers = 0;
         this.upgradeTier = 1;
 
+        // RESTAURADO
         this.setScale(1);
 
         this.ui = this.scene.scene.get("UIScene");
 
-        // Hacerlo interactivo
+        // ------- INTERACTIVO COMPLETO RESTAURADO -------
         this.setInteractive({ useHandCursor: true });
 
         this.on("pointerover", () => this.setTint(0x999999));
@@ -33,18 +35,22 @@ export default class Building extends Phaser.GameObjects.Sprite {
             this.clearTint();
             this.showProductionMenu();
         });
+
+        this.timerRunning = false;
+        this.timeLeft = 0;
     }
 
     // -------------------------------------------------------
-    // PRODUCCIÓN
+    // PRODUCCIÓN COMPLETA (VERSIÓN RESTAURADA + notify)
     // -------------------------------------------------------
     produce(product) {
 
         if (this.assignedWorkers <= 0) {
-            new FloatingMessage(this.ui, "No hay trabajadores asignados.");
+            new FloatingMessage(this.ui, "No hay ningun trabajador en este edificio");
             return;
         }
 
+        // Evitar timers dobles
         if (this.productionTimer) {
             this.cancelProduction(true);
         }
@@ -55,8 +61,9 @@ export default class Building extends Phaser.GameObjects.Sprite {
 
         this.productionCancelled = false;
 
+        // Check de materia prima RESTAURADO
         if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product, this.assignedWorkers)) {
-            new FloatingMessage(this.ui, `No hay suficientes recursos para ${product.name}`);
+            new FloatingMessage(this.ui, `No hay suficientes materias primas para producir ${product.name}`);
             return;
         }
 
@@ -65,13 +72,13 @@ export default class Building extends Phaser.GameObjects.Sprite {
         this.productionTimer = new ProductionTimer(
             this.scene,
             this.x,
-            this.y - 40,
+            this.y - 60,
             duration,
             product.texture,
             null,
             false,
             this
-        ).setScale(0.5);
+        );
 
         this.productionTimer.start();
 
@@ -80,17 +87,20 @@ export default class Building extends Phaser.GameObjects.Sprite {
             this.scene.sound.play(this.audio, { volume: 0.25 });
         }
 
+        // ---------- CALLBACK RESTAURADO ----------
         this.productionUpdateCallback = () => {
 
             if (this.productionCancelled) return;
 
+            // Rechequeo de materia prima para procesados
             if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product, this.assignedWorkers)) {
-                new FloatingMessage(this.ui, "Faltan recursos.");
+                new FloatingMessage(this.ui, `No hay suficientes materias primas para producir ${product.name}`);
                 return;
             }
 
             if (this.productionTimer && this.productionTimer.finished) {
 
+                // producir
                 if (this.isProcessor) {
                     this.inventory.processProduct(product, this.assignedWorkers);
                 } else {
@@ -98,12 +108,6 @@ export default class Building extends Phaser.GameObjects.Sprite {
                 }
 
                 console.log(`${this.name} produjo ${product.name}`);
-
-                // 🔥 Notificar al tutorial
-                const tutoUI = this.scene.scene.get("TutorialUIScene");
-                if (tutoUI && tutoUI.tutorial) {
-                    tutoUI.tutorial.notify("PRODUCE_PRODUCT");
-                }
 
                 this.productionTimer.destroy();
                 this.productionTimer = null;
@@ -119,7 +123,7 @@ export default class Building extends Phaser.GameObjects.Sprite {
     }
 
     // -------------------------------------------------------
-    // MENÚ DE PRODUCCIÓN
+    // MENÚ RESTAURADO
     // -------------------------------------------------------
     showProductionMenu() {
         this.scene.scene.launch("ProductionMenuScene", {
@@ -128,12 +132,14 @@ export default class Building extends Phaser.GameObjects.Sprite {
             products: this.products
         });
 
+        this.activeMenu = this.scene.scene.get("ProductionMenuScene");
+
         this.scene.scene.pause();
         this.scene.UIScene.scene.pause();
     }
 
     // -------------------------------------------------------
-    // CANCELAR PRODUCCIÓN
+    // CANCELAR RESTAURADO
     // -------------------------------------------------------
     cancelProduction(keepTexture = false) {
 
@@ -141,7 +147,9 @@ export default class Building extends Phaser.GameObjects.Sprite {
 
         this.productionCancelled = true;
 
-        if (!keepTexture) this.setTexture(this.originalTexture);
+        if (!keepTexture) {
+            this.setTexture(this.originalTexture);
+        }
 
         this.productionTimer.destroy();
         this.productionTimer = null;
@@ -153,7 +161,7 @@ export default class Building extends Phaser.GameObjects.Sprite {
     }
 
     // -------------------------------------------------------
-    // TRABAJADORES
+    // TRABAJADORES (REST) 
     // -------------------------------------------------------
     addWorker(textObj) {
         if (this.inventory.availableWorkers <= 0) {
@@ -163,6 +171,7 @@ export default class Building extends Phaser.GameObjects.Sprite {
 
         this.assignedWorkers++;
         this.inventory.availableWorkers--;
+
         this.scene.workersUI.setText(`${this.inventory.availableWorkers}/${this.inventory.workers}`);
         textObj.setText(`Workers: ${this.assignedWorkers}`);
     }
@@ -173,10 +182,33 @@ export default class Building extends Phaser.GameObjects.Sprite {
 
         this.assignedWorkers--;
         this.inventory.availableWorkers++;
+
         this.scene.workersUI.setText(`${this.inventory.availableWorkers}/${this.inventory.workers}`);
         textObj.setText(`Workers: ${this.assignedWorkers}`);
 
-        if (this.assignedWorkers === 0) this.cancelProduction(false);
+        if (this.assignedWorkers === 0) {
+            this.cancelProduction(false);
+        }
+    }
+
+    // -------------------------------------------------------
+    // UPGRADE RESTAURADO
+    // -------------------------------------------------------
+    upgrade() {
+        if (this.inventory.hasEnoughMoney(500 * (this.upgradeTier))) {
+
+            this.upgradeTier++;
+            this.productionSpeed += 0.5;
+            this.inventory.removeMoney(500 * (this.upgradeTier));
+
+            if (this.tierText) {
+                this.tierText.setText(`Tier: ${this.upgradeTier}`);
+            }
+
+        } else {
+            new FloatingMessage(this.ui, "No tienes suficiente dinero para mejorar este edificio.");
+        }
     }
 }
+
 

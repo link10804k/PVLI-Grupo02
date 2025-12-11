@@ -143,14 +143,14 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 if (building.tier)
                     Buildings.processedProducts[`tier${building.tier}`].alreadyBuilt = true;
 
-                if (building.name === "Farm") {
+                if (building.name === "Granja") {
                     const tutoUI = this.mainScene.scene.get("TutorialUIScene");
                     if (tutoUI && tutoUI.tutorial) {
                         tutoUI.tutorial.notify("BUILD_FARM");
                     }
                 }
 
-                if (building.name === "Coffee Maker") {
+                if (building.name === "Cafetera") {
                     const tutoUI = this.mainScene.scene.get("TutorialUIScene");
                     if (tutoUI && tutoUI.tutorial) {
                         tutoUI.tutorial.notify("BUILD_CAFE");
