@@ -20,6 +20,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
         this.isProcessor = data.isProcessor;
 
         this.ui = this.mainScene.scene.get("UIScene");
+        this.mainScene.sound.play("popUp", { volume: 0.2 }); // Sonido de aparición de menú
     }
 
     create(){

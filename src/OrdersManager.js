@@ -63,6 +63,8 @@ export default class OrdersManager {
         this.orders.push(order);
 
         EventBus.emit(events.ORDER_ADDED, order); // Para los clientes
+
+        this.scene.sound.play("newCustomer", { volume: 0.5 });
     }
     RemoveOrder(order, orderId) {
         //console.log("BORRANDO PEDIDO")

@@ -82,6 +82,8 @@ export default class TutorialScene extends Phaser.Scene {
         this.load.audio("microwave", "assets/gameAssets/audios/MicrowaveSFX.mp3");
         this.load.audio("popularityUp", "assets/gameAssets/audios/LevelUpSFX.mp3");
         this.load.audio("popUp", "assets/gameAssets/audios/PopUpSFX.mp3");
+        this.load.audio("newCustomer", "assets/gameAssets/audios/DoorBellSFX.mp3");
+        this.load.audio("phaseChange", "assets/gameAssets/audios/GongSFX.mp3");
     }
 
     create() {

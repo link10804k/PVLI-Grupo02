@@ -16,8 +16,6 @@ export default class PhaseManager {
         this.createCountdownText();
 
         this.ProductionPhase();
-
-        
     }
 
      //Crear texto del temporizador abajo en el centro
@@ -69,6 +67,8 @@ export default class PhaseManager {
 
     ProductionPhase() {
         EventBus.emit(events.PRODUCTION_PHASE);
+        this.scene.sound.play("phaseChange", { volume: 0.4 });
+
         console.log("Fase de producción iniciada");
 
          this.startCountdown(
@@ -80,6 +80,8 @@ export default class PhaseManager {
 
     SellingPhase() {
         EventBus.emit(events.SELLING_PHASE);
+        this.scene.sound.play("phaseChange", { volume: 0.4 });
+
         console.log("Fase de venta iniciada");
 
          this.startCountdown(

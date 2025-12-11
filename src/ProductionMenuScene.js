@@ -10,6 +10,8 @@ export default class ProductionMenuScene extends Phaser.Scene {
         this.building = data.building;
         this.mainScene = data.mainScene;
         this.products = data.products;
+        
+        this.mainScene.sound.play("popUp", { volume: 0.2 }); // Sonido de aparición de menú
     }
 
     create(){
