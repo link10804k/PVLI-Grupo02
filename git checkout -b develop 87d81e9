@@ -1,0 +1,41 @@
+[33mf38817c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: checkout: moving from Prueba to main
+[33m6a36a63[m[33m ([m[1;31morigin/Prueba[m[33m, [m[1;32mPrueba[m[33m)[m HEAD@{1}: checkout: moving from main to Prueba
+[33mf38817c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{2}: checkout: moving from Prueba to main
+[33m6a36a63[m[33m ([m[1;31morigin/Prueba[m[33m, [m[1;32mPrueba[m[33m)[m HEAD@{3}: checkout: moving from develop to Prueba
+[33me63ba06[m HEAD@{4}: checkout: moving from Prueba to develop
+[33m6a36a63[m[33m ([m[1;31morigin/Prueba[m[33m, [m[1;32mPrueba[m[33m)[m HEAD@{5}: checkout: moving from develop to Prueba
+[33me63ba06[m HEAD@{6}: commit: Tuto
+[33m1a1cead[m HEAD@{7}: commit: Tuto
+[33m87d81e9[m HEAD@{8}: checkout: moving from main to develop
+[33mf38817c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{9}: checkout: moving from cosas to main
+[33m87d81e9[m HEAD@{10}: checkout: moving from develop to cosas
+[33m87d81e9[m HEAD@{11}: reset: moving to HEAD
+[33m87d81e9[m HEAD@{12}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33mbfef7f8[m HEAD@{13}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m8bbfab1[m HEAD@{14}: commit: Tutorial me quedan cosas :)
+[33md13c1da[m HEAD@{15}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33ma4f9263[m HEAD@{16}: reset: moving to HEAD
+[33ma4f9263[m HEAD@{17}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33md154d74[m HEAD@{18}: reset: moving to HEAD
+[33md154d74[m HEAD@{19}: commit: Sprites granjas sin cultivos
+[33m6a36a63[m[33m ([m[1;31morigin/Prueba[m[33m, [m[1;32mPrueba[m[33m)[m HEAD@{20}: commit: Tutorial (quedan cosas por cambiar)
+[33m10c4063[m HEAD@{21}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33mac4339e[m HEAD@{22}: reset: moving to HEAD
+[33mac4339e[m HEAD@{23}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m87c2feb[m HEAD@{24}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m8a71e07[m HEAD@{25}: commit: Todos los sprites de inventario+granjas
+[33m0efaa33[m HEAD@{26}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33mff9bbb3[m HEAD@{27}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m699dbf2[m HEAD@{28}: checkout: moving from main to develop
+[33m3fabc05[m HEAD@{29}: checkout: moving from develop to main
+[33md13bb2d[m HEAD@{30}: checkout: moving from main to develop
+[33m3fabc05[m HEAD@{31}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33mbfe2eaa[m HEAD@{32}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m60c8e3b[m HEAD@{33}: checkout: moving from develop to main
+[33m3f3acdf[m HEAD@{34}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m1ee9a88[m HEAD@{35}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33mabab1b9[m HEAD@{36}: commit: Commit para tabajar en PC
+[33m69f4cde[m HEAD@{37}: checkout: moving from main to develop
+[33m7d48542[m HEAD@{38}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33mc9035dd[m HEAD@{39}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m9a50ce8[m HEAD@{40}: clone: from https://github.com/link10804k/PVLI-Grupo02.git
