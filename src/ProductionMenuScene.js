@@ -24,7 +24,8 @@ export default class ProductionMenuScene extends Phaser.Scene {
         //Menu de Producción
         //
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
-       const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
+       //const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
+       const menuRect = this.add.image(400, 300, "menuBackground").setOrigin(0.5).setScale(1.6, 1.4);
 
         //Guardamos sus límites
     const menuBounds = {
@@ -34,35 +35,36 @@ export default class ProductionMenuScene extends Phaser.Scene {
         height: menuRect.height
     };
 
-        //this.add.image(400, 150, "order").setScale(0.8).setOrigin(0.5).setScale(2);
-
-        this.add.text(410, 90, `PRODUCTION MENU`, {
-            fontSize: "40px",
+        this.add.text(410, 90, `Menú de Producción`, {
+            fontSize: "28px",
             color: "#fff",
         }).setOrigin(0.5);
 
         for(let i = 0; i < this.products.length; i++)
         {
             const product = this.products[i];
-           const productText = this.add.text(320, 160 + 50 * i, this.products[i].name.toUpperCase(), {
-            fontSize: "30px",
+           const productText = this.add.text(400, 160 + 80 * i, this.products[i].name + ": " + this.products[i].description, {
+            fontSize: "16px",
             color: "#fff",
+            fontFamily: "Arial",
+            align: "center",
+            wordWrap: { width: 200 },
             }).setOrigin(0.5);
 
-            this.addButton = new Button(this, 520, 160 + 50 * i, "plus", [
+            this.addButton = new Button(this, 250, 160 + 80 * i, this.products[i].texture, [
                 () => this.building.produce(this.products[i]),
                 () => this.closeWindow(),
-            ]).setScale(2);
+            ]).setScale(4);
 
              
         //Mostrar ingredientes si el producto es procesado ------------------------
         if (product.neededProducts) {
 
             const productTextBounds = productText.getBounds();
-            let offsetX = productTextBounds.right + 15; // al lado del texto
+            let offsetX = productTextBounds.right + 30; // al lado del texto
             const baseY = productTextBounds.centerY; // misma altura que el texto del producto
 
-            let offset = 15;
+            let offset = 0;
 
             for (const requiredKey in product.neededProducts) {
 
@@ -77,12 +79,12 @@ export default class ProductionMenuScene extends Phaser.Scene {
                     .setOrigin(0.5);
 
                 // TEXTO DE CANTIDAD
-                this.add.text(offsetX + offset, baseY + 10, "x" + amount, {
+                this.add.text(offsetX + offset, baseY + 25, "x" + amount, {
                     fontSize: "18px",
                     color: "#fff",
                 }).setOrigin(0.5);
 
-                offset += 20; // separa los iconos entre sí
+                offset += 30; // separa los iconos entre sí
         }
     }
             

@@ -39,7 +39,9 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("upgradeButton", "assets/gameAssets/BuildIcon.png")
         this.load.image("exit", "assets/gameAssets/ExitIcon.png")
 
-        this.load.image("wally", "assets/gameAssets/Wally.png")
+        this.load.image("wally", "assets/gameAssets/Wally.png");
+
+        this.load.image("menuBackground", "assets/gameAssets/ProductionBackground.png");
 
         // Productos no procesados
         this.load.image("CoffeeGrains_display", "assets/gameAssets/CoffeeGrainIcon.png");

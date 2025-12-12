@@ -30,7 +30,8 @@ export default class BuildingMenuScene extends Phaser.Scene {
         }
 
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
-        const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1); //lo guardo para sacar sus límites
+        //const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1); //lo guardo para sacar sus límites
+        const menuRect = this.add.image(400, 300, "menuBackground").setOrigin(0.5).setScale(1.6, 1.4);
 
         //Guardamos sus límites
         const menuBounds = {
@@ -70,14 +71,14 @@ export default class BuildingMenuScene extends Phaser.Scene {
 
              // Descripción
             this.add.text(450, y , building.name + ": " + building.description, {
-                fontSize: "14px",
-                color: "#cccccc",
+                fontSize: "16px",
+                color: "#fff",
                 fontFamily: "Arial",
                 align: "center",
                 wordWrap: { width: 250 },
             }).setOrigin(0.5);
 
-            this.add.text(450, y + 30, "$" + building.price, {
+            this.add.text(450, y + 40, "$" + building.price, {
                 fontSize: "20px",
                 color: "#007332",
                 fontFamily: "Arial",
