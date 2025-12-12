@@ -119,6 +119,8 @@ export default class Application {
             wordWrap: { width: this.width * 0.9 }
         });
         this.text.setOrigin(0.5, 0);
+
+        this.fitCaptionInsideBox();
     }
 
 createExitButton() {
@@ -138,6 +140,37 @@ createExitButton() {
         this.exitButton.x = this.container.x + this.width / 2 - 10;
         this.exitButton.y = this.container.y - this.height / 2 + 10;
     });
+}
+
+fitCaptionInsideBox() {
+    const maxHeight = this.height * 0.25; // Altura disponible debajo de la imagen
+    const minFont = 10;
+    let fontSize = 14;
+
+    do {
+        this.text.setStyle({ fontSize: `${fontSize}px` });
+        this.text.setWordWrapWidth(this.width * 0.9);
+
+        // Phaser necesita un paso de actualización
+        this.text.updateText();
+        this.text.updateDisplayOrigin();
+
+        if (this.text.height <= maxHeight) break;
+
+        fontSize--;
+    } while (fontSize >= minFont);
+
+    // Si aún no cabe, forzar truncado con "..."
+    if (this.text.height > maxHeight) {
+        const original = this.text.text;
+        let truncated = original;
+
+        while (this.text.height > maxHeight && truncated.length > 0) {
+            truncated = truncated.substring(0, truncated.length - 1);
+            this.text.setText(truncated + "...");
+            this.text.updateText();
+        }
+    }
 }
 
     addToContainer() {
