@@ -1,18 +1,18 @@
 import Button from "./Button.js";
 
 export default class Application {
-    constructor(scene, userId = null, imageKey = null, captionText = "Pie de imagen", lifeTime = 5000) {
+    constructor(scene, userId = null, imageKey = "Smartphone", captionText = "Pie de imagen", lifeTime = 5000) {
         this.scene = scene;
         this.userId = userId;
         this.lifeTime = lifeTime;
 
+        console.log("textura: " + imageKey);
+
         this.setupDimensions();
         this.createContainer();
-        this.createRectangle();
+        this.createRectangle(imageKey);
         this.setupMovement();
         this.createUsernameText();
-        this.createImage(imageKey);
-        this.adjustImageSize();
         this.createExitButton();
         this.createCaptionText(captionText);
 
@@ -62,8 +62,8 @@ export default class Application {
         this.container = this.scene.add.container(xStart, yPos);
     }
 
-     createRectangle() {
-        this.rect = this.scene.add.rectangle(0, 0, this.width, this.height, 0x734F96)
+     createRectangle(imageKey) {
+        this.rect = this.scene.add.image(0, 0, imageKey)
             .setOrigin(0.5);
     }
 
@@ -76,8 +76,8 @@ export default class Application {
 
     createUsernameText() {
         this.usernameText = this.scene.add.text(
-            -this.width / 2 + 20,
-            0,
+            -this.width / 2 + 40,
+            -25,
             this.userId || "Usuario",
             {
                 fontSize: '14px',
@@ -90,27 +90,8 @@ export default class Application {
         this.usernameText.setOrigin(0, 0);
     }
 
-    createImage(imageKey) {
-        if (imageKey) {
-            this.image = this.scene.add.image(0, -this.height * 0.25, imageKey);
-        } else {
-            this.image = this.scene.add.rectangle(
-                0,
-                -this.height * 0.25,
-                this.width * 0.8,
-                this.height * 0.5,
-                0xffffff
-            );
-        }
-    }
-
-     adjustImageSize() {
-        this.image.displayWidth = this.width * 0.8 * 0.75;
-        this.image.displayHeight = this.height * 0.5 * 0.75;
-    }
-
      createCaptionText(captionText) {
-        this.text = this.scene.add.text(0, 20, captionText, {
+        this.text = this.scene.add.text(0, 5, captionText, {
             fontSize: '14px',
             color: '#000',
             align: 'center',
@@ -143,13 +124,13 @@ createExitButton() {
 }
 
 fitCaptionInsideBox() {
-    const maxHeight = this.height * 0.40; // Altura disponible debajo de la imagen
-    const minFont = 10;
+    const maxHeight = this.height * 0.30; // Altura disponible debajo de la imagen
+    const minFont = 8;
     let fontSize = 14;
 
     do {
         this.text.setStyle({ fontSize: `${fontSize}px` });
-        this.text.setWordWrapWidth(this.width * 0.9);
+        this.text.setWordWrapWidth(this.width * 0.8);
 
         // Phaser necesita un paso de actualización
         this.text.updateText();
@@ -174,7 +155,7 @@ fitCaptionInsideBox() {
 }
 
     addToContainer() {
-        this.container.add([this.rect, this.usernameText, this.image, this.text]);
+        this.container.add([this.rect, this.usernameText, this.text]);
     }
 
 }

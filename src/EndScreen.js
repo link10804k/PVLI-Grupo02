@@ -18,7 +18,7 @@ export default class EndScreen extends Phaser.Scene {
             this.scene.resume("MainScene");
             this.scene.resume("UIScene");
             this.scene.stop("EndScreen");
-        }).setOrigin(0.5).setScale(1.5);
+        }).setOrigin(0.5).setScale(2);
     }
     createApplication() {
         let image;
@@ -28,6 +28,6 @@ export default class EndScreen extends Phaser.Scene {
 
         let user = "WallyButChinese";
 
-        new Application(this, user, null /*image*/, text, 100000);
+        new Application(this, user, "Smartphone", text, 100000);
     }
 }

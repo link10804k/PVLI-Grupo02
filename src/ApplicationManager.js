@@ -20,13 +20,13 @@ export default class ApplicationManager {
     }
 
     createApplication() {
-        let image;
+        let image = "Smartphone";
 
         let message = this.produceAppText();
         
         let text = message.text;
         let user = message.user;
-        new Application(this.UIScene, user, null /*image*/, text);
+        new Application(this.UIScene, user, image, text);
     }
 
     getRandomProcessedProduct() { // Devuelve un producto procesado aleatorio del tier actual
