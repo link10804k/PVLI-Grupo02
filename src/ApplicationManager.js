@@ -49,7 +49,7 @@ export default class ApplicationManager {
         let product = this.getRandomProcessedProduct();
 
         
-        message.text = message.text.replace("[producto]", product.name);
+        message.text = message.text.replaceAll("[producto]", product.name);
         return message;
     }
 }
