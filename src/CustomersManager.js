@@ -2,7 +2,7 @@ import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 import Customer from "./Customer.js";
 
-const CUSTOMER_IMAGE_SIZE = 30; // Tamaño en píxeles del sprite del cliente
+const CUSTOMER_IMAGE_SIZE = 10; // Tamaño en píxeles del sprite del cliente
 const Direction = {
     UP: { x: 0, y: -1 },
     DOWN: { x: 0, y: 1 },
@@ -24,7 +24,7 @@ export default class CustomersManager {
 
     AddCustomer(order) {
         let customerImage = "customer" + Phaser.Math.Between(0, 15);
-        let customer = new Customer(this.scene, this.cafeteria.x+30, this.cafeteria.y-80 + this.customers.length * (CUSTOMER_IMAGE_SIZE+10), customerImage).setOrigin(0.5).setScale(0.1);
+        let customer = new Customer(this.scene, this.cafeteria.x+10, this.cafeteria.y + this.customers.length * (CUSTOMER_IMAGE_SIZE+10), customerImage).setOrigin(0.5).setScale(0.05);
         this.customers.push(customer);
     }
 
@@ -44,14 +44,14 @@ export default class CustomersManager {
     RemoveAllCustomers() {
         let customersLength = this.customers.length;
         for (let i = 0; i < customersLength; i++) {
-            this.customers[i].GetOut(50, Direction.LEFT);
+            this.customers[i].GetOut(30, Direction.LEFT);
         }
 
         this.customers = [];
     }
 
     AngryCustomer(order, orderId) {
-        this.customers[orderId].GetOutAngry(50, Direction.LEFT);
+        this.customers[orderId].GetOutAngry(30, Direction.LEFT);
         this.RemoveCustomer(order, orderId);
     }
 }
