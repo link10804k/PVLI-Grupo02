@@ -6,7 +6,7 @@ export default class MainMenu extends Phaser.Scene {
     }
     preload() { // Cargar recursos aquí
         // usar rutas relativas al root del servidor (assets/ está en la raíz del proyecto)
-        this.load.image("Background", "assets/gameAssets/MenuBackground.png");
+        this.load.image("MainMenuBackground", "assets/gameAssets/MenuBackground.png");
         this.load.image("Wbutton", "assets/gameAssets/WoodenButton.png");
         this.load.image("Logo", "assets/gameAssets/FarAwayFromTeaName.png");
 
@@ -15,7 +15,7 @@ export default class MainMenu extends Phaser.Scene {
 
     create() { // Crear objetos del juego aquí
         
-        this.add.image(400, 300, "Background").setOrigin(0.5, 0.5);
+        this.add.image(400, 300, "MainMenuBackground").setOrigin(0.5, 0.5);
         this.add.image(400, 200, "Logo").setOrigin(0.5, 0.5).setScale(4);
 
         const btnTutorial = new Button(this, 400, 525, "Wbutton", () => this.startMainScene());
