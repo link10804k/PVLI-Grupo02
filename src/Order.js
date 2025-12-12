@@ -25,7 +25,7 @@ export default class Order extends Phaser.GameObjects.Sprite {
         let k = 0;
         for (let i = 0; i < this.resources.length; i++) {
             for (let j = 0; j < this.amounts[i]; j++) {
-                this.productsImages.push(this.scene.add.image(this.x + 20 + k*30, this.y + 30, this.resources[i].texture).setScale(1));
+                this.productsImages.push(this.scene.add.image(this.x + 20 + k*30, this.y + 30, this.resources[i].texture).setScale(2));
                 k++;
             }
         }

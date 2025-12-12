@@ -23,11 +23,11 @@ export default class EndScreen extends Phaser.Scene {
     createApplication() {
         let image;
             
-        let text = "¡Wow! ¡Qué popular es esta cafetería! ¿Se podría decir que se ha pasado el juego del capitalismo?" + 
-        "Parece que no hay botón de salir (por lo que sea) así que supongo que podrás seguir jugando";
+        let text = "¡Wow! ¡Qué popular es esta cafetería! ¿Se podría decir que se ha pasado el juego del capitalismo? " + 
+        "Parece que no hay botón de salir así que supongo que podrás seguir jugando";
 
         let user = "WallyButChinese";
 
-        new Application(this, user, null /*image*/, text);
+        new Application(this, user, null /*image*/, text, 100000);
     }
 }
