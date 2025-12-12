@@ -43,7 +43,9 @@ export default class Customer extends Phaser.GameObjects.Sprite {
             },
             onComplete: () => {
                 if (this.isFinished) {
+                
                     this.fadeOutAndDestroy(duration);
+                    
                 }
             }
         });
