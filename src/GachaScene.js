@@ -55,6 +55,7 @@ export default class GachaScene extends Phaser.Scene {
 
     init(data){
         this.inventory = data.inventory;
+        this.returnScene = data.returnScene;
 
         this.gachaPrice = 10 * (2**this.inventory.popularityLevel);
     }
@@ -382,7 +383,9 @@ export default class GachaScene extends Phaser.Scene {
     }
 
     closeScene() {
-        this.scene.resume("MainScene");
+        if(this.returnScene) {
+            this.scene.resume(this.returnScene);
+        }
         this.scene.resume("UIScene");
         this.scene.stop();
     }

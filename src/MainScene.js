@@ -232,10 +232,12 @@ export default class MainScene extends Phaser.Scene {
     }
 
     displayGachaScene() {
-    this.scene.launch("GachaScene", { inventory: this.playerInventory });
-
-    this.scene.pause();
-    this.UIScene.scene.pause();
-  }
+        this.scene.launch("GachaScene", { 
+            inventory: this.playerInventory,
+            returnScene: this.scene.key
+        });
+        this.scene.pause();
+        this.UIScene.scene.pause();
+    }
     
 }

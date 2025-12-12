@@ -208,7 +208,10 @@ export default class TutorialScene extends Phaser.Scene {
     }
 
     displayGachaScene() {
-        this.scene.launch("GachaScene", { inventory: this.playerInventory });
+        this.scene.launch("GachaScene", { 
+            inventory: this.playerInventory,
+            returnScene: this.scene.key
+        });
         this.scene.pause();
         this.UIScene.scene.pause();
     }
