@@ -39,6 +39,9 @@ export default class CameraManager {
         this.iKey = this.scene.input.keyboard.addKey('I');
         this.oKey = this.scene.input.keyboard.addKey('O');
     }
+    setPosition(x, y) {
+        this.camera.centerOn(x, y);
+    }
     cameraScroll(direction, dt) {
         this.camera.scrollX += direction.x * this.scrollSpeed * dt;
         this.camera.scrollY += direction.y * this.scrollSpeed * dt;
