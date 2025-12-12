@@ -97,7 +97,7 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("gachaIcon", "assets/gameAssets/GachaIcon.png");
 
         this.load.image("Angry", "assets/gameAssets/Angry.png");
-        this.load.image("SoulsArena", "assets/gameAssets/SoulsArenaEasterEgg.png");
+        this.load.image("Smartphone", "assets/gameAssets/Smartphone.png");
 
         // Musica
         this.load.audio("MainSceneMusic", "assets/gameAssets/audios/MainSceneOST.mp3");

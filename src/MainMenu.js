@@ -11,6 +11,8 @@ export default class MainMenu extends Phaser.Scene {
         this.load.image("Logo", "assets/gameAssets/FarAwayFromTeaName.png");
 
         this.load.audio("popUp", "assets/gameAssets/audios/PopUpSFX.mp3"); // Sonido de botón
+
+        this.load.audio("MainMenuMusic", "assets/gameAssets/audios/MainMenuOST.mp3"); // Música de fondo del menú
     }
 
     create() { // Crear objetos del juego aquí
@@ -25,7 +27,7 @@ export default class MainMenu extends Phaser.Scene {
         btnGame.setOrigin(0.5).setScale(3);
 
         this.add.text(btnGame.x, btnGame.y, "TUTORIAL", {
-            fontSize: "44px",
+            fontSize: "34px",
             color: "#b4570aff",
             stroke: "#000000",
             strokeThickness: 5
@@ -37,12 +39,16 @@ export default class MainMenu extends Phaser.Scene {
             stroke: "#000000",
             strokeThickness: 5
         }).setOrigin(0.5);
+
+        this.sound.play("MainMenuMusic", { volume: 0.5 }); // Música de fondo del menú
     }
     startMainScene() {
         this.scene.start("MainScene");
+        this.sound.stopAll();
     }
 
     startTutorialScene() {
         this.scene.start("TutorialScene");
+        this.sound.stopAll();
     }
 }
