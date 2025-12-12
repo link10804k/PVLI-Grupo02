@@ -41,16 +41,17 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
             color: "#fff",
         }).setOrigin(0.25).setScale(1.5);
 
-        this.add.image(250, 200, "Coffe_display").setScale(0.1);
+        this.add.image(250, 200, "Coffee_display").setScale(0.1);
         this.add.image(250, 300, "Tea_display").setScale(0.1);
 
         if (this.inventory.processedProducts) {
-            const products = Object.values(this.inventory.processedProducts);
+            const products = Object.keys(this.inventory.processedProducts);
 
             let i = 0;
             products.forEach((product) => {
             new Button(this, 550, 200 + 100*i, "button", () => {
-                this.cafetera.CookingTime(product.time, product);
+                let realProduct = this.inventory.processedProducts[product];
+                this.cafetera.CookingTime(realProduct.time, realProduct);
                 this.closeWindow();
                 }).setScale(0.4);
                 i++;
@@ -96,6 +97,7 @@ export default class CoffeSelectionMenu extends Phaser.Scene {
             this.mainScene.input.enabled = true;
         }
         this.scene.resume("MainScene");
+        this.scene.resume("UIScene");
         this.scene.stop(); // ahora sí detenemos el menú
     });
 

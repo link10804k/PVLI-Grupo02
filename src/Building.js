@@ -1,98 +1,225 @@
-export default class Building extends Phaser.GameObjects.Sprite{
-  constructor(scene, x, y, texture = "building", name, description, products, productionSpeed = 1.0) {
-        super(scene, x, y, texture);
+import FloatingMessage from "./FloatingMessage.js";
+import ProductionTimer from "./Timer.js";
 
+export default class Building extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, texture, name, description, products, productionSpeed = 1.0, isProcessor = false, audio) {
+
+        super(scene, x, y, texture);
         scene.add.existing(this);
 
         this.name = name;
+        this.originalTexture = texture;
         this.description = description;
-        this.products = products; // Array de recursos
-        this.productionSpeed = productionSpeed; // Ratio de velocidad
-        this.currentResource = null; // Recurso actual
-        this.assignedWorkers = 0;     // Número de trabajadores
-        this.upgradeTier = 0;       // Nivel de mejora
-        
-        this.setScale(0.4);
+        this.products = products;
+        this.productionSpeed = productionSpeed;
+        this.isProcessor = isProcessor;
+        this.inventory = this.scene.playerInventory;
+        this.audio = audio;
 
-    //Hacer el sprite interactivo
-    this.setInteractive({ useHandCursor: true });
+        this.currentResource = null;
+        this.assignedWorkers = 0;
+        this.upgradeTier = 1;
 
-    //Efectos visuales (oscurecimiento)
-    this.on("pointerover", () => {
-      this.setTint(0x999999); // oscurece un poco
-    });
+        // RESTAURADO
+        this.setScale(1);
 
-    this.on("pointerout", () => {
-      this.clearTint(); // vuelve al color original
-    });
+        this.ui = this.scene.scene.get("UIScene");
 
-    this.on("pointerdown", () => {
-      this.setTint(0x666666); // más oscuro al hacer clic
-    });
+        // ------- INTERACTIVO COMPLETO RESTAURADO -------
+        this.setInteractive({ useHandCursor: true });
 
-    this.on("pointerup", () => {
-      this.clearTint();
-      this.showProductionMenu(); // abre el menú
-    });
+        this.on("pointerover", () => this.setTint(0x999999));
+        this.on("pointerout", () => this.clearTint());
+        this.on("pointerdown", () => this.setTint(0x666666));
+        this.on("pointerup", () => {
+            this.clearTint();
+            this.showProductionMenu();
+        });
 
-        // Variables para el temporizador manual
         this.timerRunning = false;
         this.timeLeft = 0;
     }
 
+    // -------------------------------------------------------
+    // PRODUCCIÓN COMPLETA (VERSIÓN RESTAURADA + notify)
+    // -------------------------------------------------------
     produce(product) {
-        if(this.assignedWorkers > 0)
-        {
-            new Phaser.Time.TimerEvent({
-            callback: this.scene.playerInventory.produceProduct(product),
-            delay: product.time * 1000,
-            loop: true
-            });
 
-            console.log(`${this.name} está produciendo ${product.name}...`);
+        if (this.assignedWorkers <= 0) {
+            new FloatingMessage(this.ui, "No hay ningun trabajador en este edificio");
+            return;
         }
-        
-        else console.log("No hay ningun trabajador en este edificio");
+
+        // Evitar timers dobles
+        if (this.productionTimer) {
+            this.cancelProduction(true);
+        }
+
+        if (product.buildingTexture) {
+            this.setTexture(product.buildingTexture);
+        }
+
+        this.productionCancelled = false;
+
+        // Check de materia prima RESTAURADO
+        if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product, this.assignedWorkers)) {
+            new FloatingMessage(this.ui, `No hay suficientes materias primas para producir ${product.name}`);
+            return;
+        }
+
+        const duration = product.time * this.productionSpeed;
+
+        this.productionTimer = new ProductionTimer(
+            this.scene,
+            this.x,
+            this.y - 60,
+            duration,
+            product.texture,
+            null,
+            false,
+            this
+        );
+
+        if (this.isProcessor) {
+            this.productionTimer.setScale(0.2);
+            this.productionTimer.y += 35;
+        }
+        else {
+            this.productionTimer.setScale(0.5);
+        }
+
+        this.productionTimer.start();
+
+        // sonido
+        if (this.audio) {
+            this.scene.sound.play(this.audio, { volume: 0.25 });
+        }
+
+        // ---------- CALLBACK RESTAURADO ----------
+        this.productionUpdateCallback = () => {
+
+            if (this.productionCancelled) return;
+
+            // Rechequeo de materia prima para procesados
+            if (this.isProcessor && !this.inventory.checkUnprocessedProducts(product, this.assignedWorkers)) {
+                new FloatingMessage(this.ui, `No hay suficientes materias primas para producir ${product.name}`);
+                return;
+            }
+
+            if (this.productionTimer && this.productionTimer.finished) {
+
+                // producir
+                if (this.isProcessor) {
+                    this.inventory.processProduct(product, this.assignedWorkers);
+                } else {
+                    this.inventory.produceProduct(product, this.assignedWorkers);
+                }
+
+                console.log(`${this.name} produjo ${product.name}`);
+
+                this.productionTimer.destroy();
+                this.productionTimer = null;
+
+                this.scene.events.off("update", this.productionUpdateCallback);
+                this.productionUpdateCallback = null;
+
+                this.produce(product);
+            }
+        };
+
+        this.scene.events.on("update", this.productionUpdateCallback);
+    }
+
+    // -------------------------------------------------------
+    // MENÚ RESTAURADO
+    // -------------------------------------------------------
+    showProductionMenu() {
+        this.scene.scene.launch("ProductionMenuScene", {
+            building: this,
+            mainScene: this.scene,
+            products: this.products
+        });
+
+        this.activeMenu = this.scene.scene.get("ProductionMenuScene");
+
+        this.scene.scene.pause();
+        this.scene.UIScene.scene.pause();
+    }
+
+    // -------------------------------------------------------
+    // CANCELAR RESTAURADO
+    // -------------------------------------------------------
+    cancelProduction(keepTexture = false) {
+
+        if (!this.productionTimer) return;
+
+        this.productionCancelled = true;
+
+        if (!keepTexture) {
+            this.setTexture(this.originalTexture);
+        }
+
+        this.productionTimer.destroy();
+        this.productionTimer = null;
+
+        if (this.productionUpdateCallback) {
+            this.scene.events.off("update", this.productionUpdateCallback);
+            this.productionUpdateCallback = null;
+        }
+    }
+
+    // -------------------------------------------------------
+    // TRABAJADORES (REST) 
+    // -------------------------------------------------------
+    addWorker(textObj) {
+        if (this.inventory.availableWorkers <= 0) {
+            new FloatingMessage(this.ui, "No hay trabajadores disponibles.");
+            return;
+        }
+
+        this.assignedWorkers++;
+        this.inventory.availableWorkers--;
+
+        this.scene.workersUI.setText(`${this.inventory.availableWorkers}/${this.inventory.workers}`);
+        textObj.setText(`Workers: ${this.assignedWorkers}`);
+    }
+
+    removeWorker(textObj) {
+
+        if (this.assignedWorkers <= 0) return;
+
+        this.assignedWorkers--;
+        this.inventory.availableWorkers++;
+
+        this.scene.workersUI.setText(`${this.inventory.availableWorkers}/${this.inventory.workers}`);
+        textObj.setText(`Workers: ${this.assignedWorkers}`);
+
+        if (this.assignedWorkers === 0) {
+            this.cancelProduction(false);
+        }
     }
 
     upgrade() {
-        // Lógica de mejora
-        this.upgradeTier++;
-        console.log(`${this.name} ha sido mejorado al nivel ${this.upgradeTier}`);
-    }
-    
-    addWorker(text) {
-        this.assignedWorkers++;
-        text.setText(`Workers: ${this.assignedWorkers}`);
-    }
+        if (this.inventory.hasEnoughMoney(500 * (this.upgradeTier))) {
 
-    getName() {
-        return this.name;
-    }
+            this.upgradeTier++;
+            this.productionSpeed += 0.5;
+            this.inventory.removeMoney(500 * (this.upgradeTier));
 
-    getDescription() {
-        return this.description;
-    }
+            if (this.tierText) {
+                this.tierText.setText(`Tier: ${this.upgradeTier}`);
+            }
 
-    addWorker(text) {
-        this.assignedWorkers++;
-        text.setText(`Workers: ${this.assignedWorkers}`);
-    }
+            // NOTIFICAR AL TUTORIAL
+            const tutoUI = this.mainScene.scene.get("TutorialUIScene");
+            if (tutoUI && tutoUI.tutorial) {
+                tutoUI.tutorial.notify("UPGRADE_TIER");
+            }
 
-    removeWorker(text){
-        if (this.assignedWorkers > 0) {
-            this.assignedWorkers--;
-            text.setText(`Workers: ${this.assignedWorkers}`);
+        } else {
+            new FloatingMessage(this.ui, "No tienes suficiente dinero para mejorar este edificio.");
         }
     }
-
-    showWorkerMenu() {
-        this.scene.scene.launch("BuildingWorkerScene", { building: this, mainScene: this.scene });
-        this.scene.scene.pause();
-    }
-
-    showProductionMenu() {
-        this.scene.scene.launch("ProductionMenuScene", { building: this, mainScene: this.scene, products: this.products });
-        this.scene.scene.pause();
-    }
 }
+
+

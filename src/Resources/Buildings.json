@@ -1,0 +1,61 @@
+{
+    "unprocessedProducts": {
+        "tier1": {
+            "name": "Granja",
+            "description": "Un edificio para producir granos de café y hierbas de té.",
+            "texture": "Farm_building",
+            "audio": "dig"
+        },
+        "tier2": {
+            "name": "Granja exótica",
+            "description": "Un edificio para producir granos de cacao y calabazas.",
+            "texture": "ExoticFarm_building",
+            "audio": "dig"
+        },
+        "tier3": 
+        {
+            "name": "Panadería",
+            "description": "Un edificio para producir masa y azúcar.",
+            "texture": "Bakery_building",
+            "audio": "furnace"
+        },
+        
+        "tier4": 
+        {
+            "name": "Puerto",
+            "description": "Un edificio donde llegan barcos con alimentos congelados.",
+            "texture": "Harbor_building",
+            "audio": "boat"
+        }
+    },
+    "processedProducts": {
+        "tier1": {
+            "name": "Cafetera",
+            "description": "Un electrodoméstico para hacer café y té verde.",
+            "alreadyBuilt": false,
+            "texture": "CoffeeMaker_building",
+            "audio": "coffeeMaker"
+        },
+        "tier2": {
+            "name": "Cafetera pija",
+            "description": "Un electrodoméstico para hacer chocolate caliente y latte de calabaza.",
+            "alreadyBuilt": false,
+            "texture": "ExpensiveCoffeeMaker_building",
+            "audio": "coffeeMaker"
+        },
+        "tier3": {
+            "name": "Horno",
+            "description": "Un electrodoméstico para hornear galletas, tartas de calabaza y pan.",
+            "alreadyBuilt": false,
+            "texture": "Oven_building",
+            "audio": "oven"
+        },
+        "tier4": {
+            "name": "Microondas",
+            "description": "Un electrodoméstico para calentar comidas congeladas.",
+            "alreadyBuilt": false,
+            "texture": "Microwave_building",
+            "audio": "microwave"
+        }
+    }
+}
