@@ -198,6 +198,8 @@ export default class MainScene extends Phaser.Scene {
                 this.scene.launch("EndScreen");
             }
         });
+
+        this.cameraManager.setPosition(this.cafeteria.x, this.cafeteria.y);
     }
 
     createParcelas(){ //Crea parcelas

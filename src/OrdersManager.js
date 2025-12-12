@@ -13,7 +13,12 @@ export default class OrdersManager {
         this.orders = [];
         this.inventory = inventory;
         this.waitingCustomers = [];
+
+        this.orderInterval = ORDER_INTERVAL;
         
+        EventBus.on(events.LEVEL_INCREASED, (tier) => {
+            this.orderInterval = Math.max(1000, ORDER_INTERVAL - (tier*1.5*1000)); // Disminuye el intervalo entre pedidos al subir de nivel
+        });
          
         EventBus.on(events.SELLING_PHASE, () => this.StartOrders());
         EventBus.on(events.PRODUCTION_PHASE, () => this.StopOrders());
@@ -32,7 +37,7 @@ export default class OrdersManager {
         this.AddOrder();
         this.timerEvent = this.scene.time.addEvent({
             callback: () => this.AddOrder(),
-            delay: ORDER_INTERVAL,
+            delay: this.orderInterval,
             loop: true
         });
     }
@@ -49,14 +54,16 @@ export default class OrdersManager {
         this.popularProduct = null;
     }
     AddOrder() {     
-        let {products, amounts} = this.RandomizeOrder();
+        if (this.orders.length < 8) {
+            let {products, amounts} = this.RandomizeOrder();
     
-        let order = new Order(this.scene.UIScene, 0, this.orders.length*ORDER_IMAGE_SIZE, "panel", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(2);
-        this.orders.push(order);
+            let order = new Order(this.scene.UIScene, 0, this.orders.length*ORDER_IMAGE_SIZE, "panel", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(2);
+            this.orders.push(order);
 
-        EventBus.emit(events.ORDER_ADDED, order); // Para los clientes
+            EventBus.emit(events.ORDER_ADDED, order); // Para los clientes
 
-        this.scene.sound.play("newCustomer", { volume: 0.5 });
+            this.scene.sound.play("newCustomer", { volume: 0.5 });
+        }
     }
     RemoveOrder(order, orderId) {
         for (let i = orderId; i < this.orders.length; i++)  {

@@ -14,12 +14,9 @@ export default class Customer extends Phaser.GameObjects.Sprite {
     Walk(distance, direction) {
         let duration = (distance / this.speed) * 1000; // duración en ms
         
-
         let angle = Math.atan2(direction.y, direction.x); // Ángulo a partir de la dirección RIGHT
         this.setRotation(angle - Math.PI / 2); // Offset para que la dirección de partida sea DOWN 
-        // (No debería ser + PI/2?? Funciona así por alguna razon)
 
-    
         const targetX = this.x + direction.x * distance;
         const targetY = this.y + direction.y * distance;
 
@@ -40,26 +37,33 @@ export default class Customer extends Phaser.GameObjects.Sprite {
                     this.angryIcon.x = this.x + offsetX;
                     this.angryIcon.y = this.y + offsetY;
                 }
-            },
-            onComplete: () => {
-                if (this.isFinished) {
-                
-                    this.fadeOutAndDestroy(duration);
-                    
-                }
             }
         });
-    }
-
-
-    fadeOutAndDestroy(duration) {
-        this.scene.tweens.add({
+        if (this.isFinished) {
+            this.scene.tweens.add({
             targets: this,
             alpha: 0,
             duration: duration,
             ease: "Linear",
             onComplete: () => {
                 this.destroy();
+            }
+        });
+        }
+    }
+
+
+    fadeOutAndDestroy(duration) {
+        console.log("Esto: " + this);
+        console.log("Escena: " + this.scene);
+        console.log("Tweens: " + this.scene.tweens);
+        this.scene.tweens.add({
+            targets: this,
+            alpha: 0,
+            duration: duration,
+            ease: "Linear",
+            onComplete: () => {
+                
             }
         });
 
