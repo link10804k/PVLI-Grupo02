@@ -30,6 +30,7 @@ export default class TutorialScene extends Phaser.Scene {
 
         preload() { // Cargar recursos aquí
         this.load.image("Background", "assets/gameAssets/Background.png");
+        this.load.image("SunsetFilter", "assets/gameAssets/SunsetFilter.png");
         
         this.load.image("pedidos", "assets/gameAssets/order.jpg")
         this.load.image("worker", "assets/gameAssets/worker.png")
@@ -103,10 +104,9 @@ export default class TutorialScene extends Phaser.Scene {
         this.load.image("Angry", "assets/gameAssets/Angry.png");
 
         // Musica
-
+        this.load.audio("MainSceneMusic", "assets/gameAssets/audios/MainSceneOST.mp3");
 
         // Audios
-        this.load.audio("customer_walk", "assets/gameAssets/audios/moving-stone.mp3");
         this.load.audio("purchase", "assets/gameAssets/audios/PurchaseSFX.mp3");
         this.load.audio("build", "assets/gameAssets/audios/BuildSFX.mp3");
         this.load.audio("dig", "assets/gameAssets/audios/ShovelDigSFX.mp3");
@@ -195,6 +195,14 @@ export default class TutorialScene extends Phaser.Scene {
                         this.gachaSceneButton.setVisible(true);
                     };
                 });
+                        EventBus.on(events.LEVEL_INCREASED, (level) => {
+        if (level == 5) {
+                this.scene.pause();
+                this.scene.pause("UIScene");
+                this.scene.launch("EndScreen");
+            }
+        });
+
         this.time.delayedCall(200, () => {
             this.scene.launch("TutorialUIScene");
             this.scene.bringToTop("TutorialUIScene");

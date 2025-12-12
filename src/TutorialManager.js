@@ -135,16 +135,20 @@ export default class TutorialManager {
                 characterKey: "K_presente"
             },
             { 
-                text: "Pues eso es tu barra de popularidad, la cual irá ssubiendo a medida que entregas pedidos a tiempo. ", 
+                text: "Pues eso es tu barra de popularidad, la cual irá subiendo a medida que entregas pedidos a tiempo. ", 
                 characterKey: "K_happy"
             },
             { 
-                text: "Si no lo haces está bajara y a medida que consigas subir de nivel conseguiras nuevos productos y cultivos. ", 
+                text: "Si no lo haces está bajara y a medida que consigas subir de nivel conseguiras nuevos productos cultivos. ", 
                 characterKey: "K_presente"
             },
             { 
-                text: "Los cuales podrás cultivar y producir de la misma forma que te explique antes", 
+                text: "Los cuales podrás cultivar y producir de la misma forma que te explique antes, y más importante aún, los clientes te los van a pedir. ", 
                 characterKey: "K_presente"
+            },
+            { 
+                text: "Tu objetivo será hacer que esa barra suba al máximo para poder ganar el juego osea que sabes. ", 
+                characterKey: "K_happy"
             },
             { 
                 text: "Pero bueno, antes te voy a enseñar a mejorar un poco tus edificios para que vayan más rápido que mi tarjeta en un juego gacha. ", 
@@ -163,7 +167,7 @@ export default class TutorialManager {
                 characterKey: "K_presente",
             },
             { 
-                text: "Bueno última cosa, al subir a nivel 2 de popularidad desbloqueas...", 
+                text: "Bueno y lo más guapo, al subir a nivel 2 de popularidad desbloqueas...", 
                 characterKey: "K_happy"
             },
             { 
@@ -177,6 +181,18 @@ export default class TutorialManager {
             },
             { 
                 text: "Si quieres jugar dale click y te viene todo muy bien esplicado y a disfrutar", 
+                characterKey: "K_happy"
+            },
+            { 
+                text: "Y lo más importante de todo, el día tiene dos fases, la fase de preparación donde puedes gestionar recursos, y no llegan pedidos", 
+                characterKey: "K_talk"
+            },
+            { 
+                text: "Y la fase de servicio, donde llegan los clientes y debes de estar atento a sus pedidos para no perder popularidad", 
+                characterKey: "K_prtesente"
+            },
+            { 
+                text: "Y con esto ya si que es todo, ya sabes manejarte por el juego y no tener problemas osea que a jugar!!!. ", 
                 characterKey: "K_happy"
             },
             { 
