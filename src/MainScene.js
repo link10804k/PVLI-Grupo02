@@ -16,6 +16,7 @@ import Wally from "./Wally.js";
 export default class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: "MainScene" });
+        
         this.mapWidth = 704;
         this.mapHeight = 544;
 
@@ -191,6 +192,14 @@ export default class MainScene extends Phaser.Scene {
                 this.gachaSceneButton.setVisible(true);
             };
         });
+
+        EventBus.on(events.LEVEL_INCREASED, (level) => {
+            if (level == 5) {
+                this.scene.pause();
+                this.scene.pause("UIScene");
+                this.scene.launch("EndScreen");
+            }
+        });
     }
 
     createParcelas(){ //Crea parcelas
@@ -216,11 +225,6 @@ export default class MainScene extends Phaser.Scene {
             }
         }
     }    
-
-    showInventory() {
-        this.scene.launch("InventoryScene", { mainScene: this.scene, inventory: this.playerInventory });
-        this.scene.pause();
-    }
 
     // Actualiza la cantidad de dinero en pantalla
     updateMoneyUI() {
