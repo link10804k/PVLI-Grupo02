@@ -47,21 +47,22 @@ export default class InventoryUI {
     });
     }
 
-    drawProduct(product, x, y, color = "#ffffffff") {
+    drawProduct(product, x, y, color = "#85008aff") {
 
     let container = this.UIScene.add.container(x, y);
     this.entities.push(container);
 
     // ICONO
     if (product.texture) {
-        let icon = this.UIScene.add.sprite(0, 0, product.texture)
+        let icon = this.UIScene.add.sprite(40, 0, product.texture)
             .setOrigin(0, 0.5)
+            .setScale(1);
 
         container.add(icon);
     }
 
     // NOMBRE
-    let nameText = this.UIScene.add.text(40, 0, product.name, {
+    let nameText = this.UIScene.add.text(60, 0, product.name, {
         fontFamily: "Arial",
         fontSize: "14px",
         color: color,
