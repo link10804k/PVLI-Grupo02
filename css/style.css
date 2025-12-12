@@ -210,7 +210,7 @@ button {
   font-weight: 900;
   line-height: 1;
   margin-bottom: 1.5rem;
-  color: #344d05;
+  color: #000;
 }
 
 .homedes {
@@ -223,7 +223,7 @@ button {
   line-height: 1.6;
   text-align: center;
   backdrop-filter: blur(8px);
-  color: #007e00;
+  color: #000;
 }
 
 .homegroup {
@@ -344,7 +344,7 @@ button {
   line-height: 1.6;
   text-align: center;
   backdrop-filter: blur(8px);
-  color: #007e00;
+  color: #000;
 }
 .aboutimg {
     width: 200px;
@@ -795,8 +795,6 @@ button {
     }
 }
 
-/*HOME MODIFIED FILES*/
-
 
 #canvas {
   margin-top: 3rem;
@@ -846,10 +844,10 @@ button {
 }
 
 .fullscreenButton.fullscreen {
-  position: fixed !important;
-  top: 15px !important;
-  right: 15px !important;
-  bottom: auto !important;
-  left: auto !important;
-  transform: none !important;
+  position: fixed ;
+  top: 15px ;
+  right: 15px ;
+  bottom: auto ;
+  left: auto ;
+  transform: none ;
 }
