@@ -2,34 +2,34 @@
     "unprocessedProducts": {
         "tier1": {
             "coffeeGrains": {
-                "name": "Coffee grains", 
-                "description": "Simple grains of coffee. Used for making coffee.",
+                "name": "Granos de café", 
+                "description": "Granos simples de café. Usados para preparar café.",
                 "quantity": 0,
                 "time": 5,
                 "texture": "CoffeeGrains_display",
-                "buildingTexture": "building_CoffeeGrains_texture"
+                "buildingTexture": "Farm_CoffeeGrains_texture"
             },
             "teaHerbs": {
-                "name": "Tea herbs",
-                "description": "Common herbs of tea. Used for making green tea.",
+                "name": "Hierbas de té",
+                "description": "Hierbas comunes de té. Usadas para preparar té verde.",
                 "quantity": 0,
                 "time": 6,
                 "texture": "TeaHerbs_display",
-                "buildingTexture": "building_TeaHerbs_texture"
+                "buildingTexture": "Farm_TeaHerbs_texture"
             }
         },
         "tier2": {
             "cocoaBeans": {
-                "name": "Cocoa beans",
-                "description": "Raw cocoa beans. Used for making hot chocolate.",
+                "name": "Granos de cacao",
+                "description": "Granos de cacao. Usados para preparar chocolate caliente.",
                 "quantity": 0,
                 "time": 10,
                 "texture": "CocoaBeans_display",
                 "buildingTexture": "ExoticFarm_CocoaBeans_texture"
             },
             "pumpkins": {
-                "name": "Pumpkins",
-                "description": "Fresh pumpkins. Used for making pumpkin latte.",
+                "name": "Calabazas",
+                "description": "Calabazas frescas. Usadas para preparar latte de calabaza.",
                 "quantity": 0,
                 "time": 12,
                 "texture": "Pumpkins_display",
@@ -38,16 +38,16 @@
         },
         "tier3": {
             "dough": {
-                "name": "Dough",
-                "description": "Basic dough used for making cookies.",
+                "name": "Masa",
+                "description": "Masa básica usada en repostería.",
                 "quantity": 0,
                 "time": 15,
                 "texture": "Dough_display",
                 "buildingTexture": "Bakery_Dough_texture"
             },
             "sugar": {
-                "name": "Sugar",
-                "description": "Sweet sugar used in various recipes.",
+                "name": "Azúcar",
+                "description": "Azúcar usado en repostería.",
                 "quantity": 0,
                 "time": 13,
                 "texture": "Sugar_display",
@@ -56,44 +56,44 @@
         },    
         "tier4": {
             "frozenBurgers": {
-                "name": "Frozen Burgers",
-                "description": "Frozen burgers ready to be eaten when warmed.",
+                "name": "Hamburguesas congeladas",
+                "description": "Hamburguesas congeladas listas para comer tras calentarlas.",
                 "quantity": 0,
                 "time": 30,
                 "texture": "FrozenBurgers_display",
-                "buildingTexture": "Microwave_frozenBurgers_texture"
+                "buildingTexture": "Harbor_FrozenBurgers_texture"
             },
             "frozenTacos": {
-                "name": "Frozen Tacos",
-                "description": "Frozen tacos ready to be eaten when warmed.",
+                "name": "Tacos congelados",
+                "description": "Tacos congelados listos para comer tras calentarlos.",
                 "quantity": 0,
                 "time": 25,
                 "texture": "FrozenTacos_display",
-                "buildingTexture": "Microwave_frozenTacos_texture"
+                "buildingTexture": "Harbor_FrozenTacos_texture"
             },
             "frozenPizza": {
-                "name": "Frozen Pizza",
-                "description": "Frozen pizza ready to be eaten when warmed.",
+                "name": "Pizza congelada",
+                "description": "Pizza congelada lista para comer tras calentarla.",
                 "quantity": 0,
                 "time": 20,
                 "texture": "FrozenPizza_display",
-                "buildingTexture": "Microwave_frozenPizza_texture"
+                "buildingTexture": "Harbor_FrozenPizza_texture"
             },
             "frozenPaella": {
-                "name": "Frozen Paella",
-                "description": "Frozen paella ready to be eaten when warmed.",
+                "name": "Paella congelada",
+                "description": "Paella congelada lista para comer tras calentarla.",
                 "quantity": 0,
                 "time": 35,
                 "texture": "FrozenPaella_display",
-                "buildingTexture": "Microwave_frozenPaella_texture"
+                "buildingTexture": "Harbor_FrozenPaella_texture"
             }
         }
     },
     "processedProducts": {
         "tier1": {
             "coffee": {
-                "name": "Coffee", 
-                "description": "Processed coffee ready to be sold.",
+                "name": "Café", 
+                "description": "Café procesado listo para la venta.",
                 "quantity": 0,
                 "time": 5,
                 "price": 10,
@@ -104,8 +104,8 @@
                 "japaneseName": "金"
             },
             "tea": {
-                "name": "Tea",
-                "description": "Processed tea ready to be sold.",
+                "name": "Té",
+                "description": "Té procesado listo para la venta.",
                 "quantity": 0,
                 "time": 8,
                 "price": 12,
@@ -118,8 +118,8 @@
         },
         "tier2": {
             "hotChocolate": {
-                "name": "Hot Chocolate",
-                "description": "Warm and comforting hot chocolate made from chocolate and milk.",
+                "name": "Chocolate caliente",
+                "description": "Chocolate caliente reconfortante hecho de cacao y leche.",
                 "quantity": 0,
                 "time": 15,
                 "price": 20,
@@ -130,8 +130,8 @@
                 "japaneseName": "水"
             },
             "pumpkinLatte": {
-                "name": "Pumpkin Latte",
-                "description": "A seasonal favorite made with fresh pumpkins and espresso.",
+                "name": "Latte de calabaza",
+                "description": "Un favorito de temporada hecho con calabaza fresca y espresso.",
                 "quantity": 0,
                 "time": 18,
                 "price": 25,
@@ -145,8 +145,8 @@
         },
         "tier3": {
             "cookies": {
-                "name": "Cookies",
-                "description": "Delicious cookies made from dough.",
+                "name": "Galletas",
+                "description": "Deliciosas galletas hechas con masa.",
                 "quantity": 0,
                 "time": 30,
                 "price": 50,
@@ -159,8 +159,8 @@
                 "japaneseName": "土"
             },
             "pumpkinPie": {
-                "name": "Pumpkin Pie",
-                "description": "A classic dessert made with fresh pumpkins and a flaky crust.",
+                "name": "Tarta de calabaza",
+                "description": "Un postre clásico hecho con calabaza fresca y una masa hojaldrada.",
                 "quantity": 0,
                 "time": 40,
                 "price": 70,
@@ -173,8 +173,8 @@
                 "japaneseName": "山"
             },
             "bread": {
-                "name": "Bread",
-                "description": "Freshly baked bread made from dough.",
+                "name": "Pan",
+                "description": "Pan recién horneado hecho con masa.",
                 "quantity": 0,
                 "time": 25,
                 "price": 30,
@@ -187,8 +187,8 @@
         },
         "tier4": {
             "burgers": {
-                "name": "Burgers",
-                "description": "Juicy burgers made from frozen burgers.",
+                "name": "Hamburguesas",
+                "description": "Jugosas hamburguesas hechas a partir de hamburguesas congeladas.",
                 "quantity": 0,
                 "time": 20,
                 "price": 80,
@@ -200,7 +200,7 @@
             },
             "tacos": {
                 "name": "Tacos",
-                "description": "Delicious tacos made from frozen tacos.",
+                "description": "Deliciosos tacos hechos a partir de tacos congelados.",
                 "quantity": 0,
                 "time": 18,
                 "price": 70,
@@ -212,7 +212,7 @@
             },
             "pizza": {
                 "name": "Pizza",
-                "description": "Tasty pizza made from frozen pizza.",
+                "description": "Sabrosa pizza hecha a partir de pizza congelada.",
                 "quantity": 0,
                 "time": 22,
                 "price": 90,
@@ -224,7 +224,7 @@
             },
             "paella": {
                 "name": "Paella",
-                "description": "Flavorful paella made from frozen paella.",
+                "description": "Sabrosa paella hecha a partir de paella congelada.",
                 "quantity": 0,
                 "time": 28,
                 "price": 100,

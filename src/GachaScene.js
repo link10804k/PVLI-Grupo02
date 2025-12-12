@@ -1,4 +1,3 @@
-import Button from "./Button.js";
 import Pool from "./Pool.js";
 import GachaBasket from "./GachaBasket.js"
 import GachaBall from "./GachaBall.js";
@@ -328,7 +327,7 @@ export default class GachaScene extends Phaser.Scene {
         let productDisplay = null;
 
         if (this.caughtProduct != null) {
-            temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y - 40, "¡Has conseguido " + this.caughtProduct.name + "!", { fontSize: '24px', fill: '#000' }).setOrigin(0.5));
+            temporaryDisplay.push(this.add.text(MID_POINT_X, MID_POINT_Y - 40, "¡Has conseguido " + this.caughtProduct.name + "!", { fontSize: '22px', fill: '#000' }).setOrigin(0.5));
             productDisplay = this.add.image(MID_POINT_X, MID_POINT_Y + 40, this.caughtProduct.texture).setOrigin(0.5).setScale(4);
             this.caughtProduct.quantity += 1;
             this.caughtProduct = null;

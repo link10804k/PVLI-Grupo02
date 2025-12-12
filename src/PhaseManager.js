@@ -1,8 +1,8 @@
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 
-const PRODUCTION_TIME = 10000; // 30 segundos (variable)
-const SELLING_TIME = 30000; // 30 segundos (variable)
+const PRODUCTION_TIME = 90000; // 90 segundos (variable)
+const SELLING_TIME = 90000; // 90 segundos (variable)
 
 export default class PhaseManager {
     constructor(scene) {
@@ -10,14 +10,15 @@ export default class PhaseManager {
         this.countdownText = null;
         this.countdownEvent = null;
 
+        // Filtro de atardecer
+        this.phaseFilter = this.scene.add.image(0, 0, "SunsetFilter").setDepth(1).setOrigin(0); // Filtro de color (escondido en la fase de produccion)
+
         // Referencia a la UI
         this.ui = scene.scene.get("UIScene");
 
         this.createCountdownText();
 
         this.ProductionPhase();
-
-        
     }
 
      //Crear texto del temporizador abajo en el centro
@@ -47,7 +48,7 @@ export default class PhaseManager {
 
         let remaining = Math.ceil(timeMs / 1000);
 
-        this.countdownText.setText(`Próxima fase (${label}) en: ${remaining}s`);
+        this.countdownText.setText(`${label} en: ${remaining}s`);
 
         // Timer de 1 segundo que actualiza el texto
         this.countdownEvent = this.scene.time.addEvent({
@@ -55,7 +56,7 @@ export default class PhaseManager {
             loop: true,
             callback: () => {
                 remaining--;
-                this.countdownText.setText(`Próxima fase (${label}) en: ${remaining}s`);
+                this.countdownText.setText(`${label} en: ${remaining}s`);
 
                 if (remaining <= 0) {
                     this.countdownEvent.remove(false);
@@ -69,10 +70,14 @@ export default class PhaseManager {
 
     ProductionPhase() {
         EventBus.emit(events.PRODUCTION_PHASE);
-        console.log("Fase de producción iniciada");
+        this.phaseFilter.alpha = 0; // Desactivamos filtro de tarde
+        this.scene.sound.play("phaseChange", { volume: 0.4 });
+
+        // Música de la escena principal del juego
+        this.scene.sound.play("MainSceneMusic", { volume: 0.5 }); 
 
          this.startCountdown(
-            "Venta",
+            "Abrirá la cafetería",
             PRODUCTION_TIME,
             () => this.SellingPhase()
         );
@@ -80,10 +85,11 @@ export default class PhaseManager {
 
     SellingPhase() {
         EventBus.emit(events.SELLING_PHASE);
-        console.log("Fase de venta iniciada");
+        this.phaseFilter.alpha = 255; // Activamos filtro de tarde
+        this.scene.sound.play("phaseChange", { volume: 0.4 });
 
-         this.startCountdown(
-            "Producción",
+        this.startCountdown(
+            "Cerrará la cafetería",
             SELLING_TIME,
             () => this.ProductionPhase()
         );

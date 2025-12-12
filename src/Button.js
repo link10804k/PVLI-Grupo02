@@ -23,6 +23,8 @@ export default class Button extends Phaser.GameObjects.Sprite {
     }
     onMouseDown() {
          console.log("Botón presionado");
+         this.scene.sound.play("popUp", { volume: 0.2 }); // Sonido de pop up
+
         // Ejecutamos todas las funciones
        this.func.forEach(f => f());}
     

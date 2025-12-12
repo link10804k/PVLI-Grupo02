@@ -1,13 +1,13 @@
 import MainMenu from "./MainMenu.js";
 import MainScene from "./MainScene.js";
-import BuildingWorkerScene from "./BuildingWorkerScene.js";
 import ProductionMenuScene from "./ProductionMenuScene.js";
-import InventoryScene from "./InventoryUI.js"
 import CoffeSelectionMenu from "./CoffeSelectionMenu.js";
 import BuildingMenuScene from "./BuildingMenuScene.js";
 import UIScene from "./UIScene.js";
 import GachaScene from "./GachaScene.js";
 import TutorialScene from "./TutorialScene.js";
+import TutorialUIScene from "./TutorialUIScene.js";
+import EndScreen from "./EndScreen.js";
 
 let config = {
     type: Phaser.AUTO,
@@ -28,14 +28,15 @@ let config = {
     },
     scene: [
         MainMenu, 
-        MainScene, 
-        BuildingWorkerScene, 
+        MainScene,
+        TutorialScene, 
         ProductionMenuScene, 
         CoffeSelectionMenu, 
-        BuildingMenuScene, 
+        BuildingMenuScene,
         UIScene,
+        TutorialUIScene,
         GachaScene,
-        TutorialScene]
+        EndScreen],
 }
 
 new Phaser.Game(config);

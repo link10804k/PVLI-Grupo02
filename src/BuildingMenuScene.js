@@ -20,6 +20,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
         this.isProcessor = data.isProcessor;
 
         this.ui = this.mainScene.scene.get("UIScene");
+        this.mainScene.sound.play("popUp", { volume: 0.2 }); // Sonido de aparición de menú
     }
 
     create(){
@@ -29,7 +30,8 @@ export default class BuildingMenuScene extends Phaser.Scene {
         }
 
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
-        const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1); //lo guardo para sacar sus límites
+        //const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1); //lo guardo para sacar sus límites
+        const menuRect = this.add.image(400, 300, "menuBackground").setOrigin(0.5).setScale(1.6, 1.4);
 
         //Guardamos sus límites
         const menuBounds = {
@@ -61,22 +63,22 @@ export default class BuildingMenuScene extends Phaser.Scene {
              // Botón principal del edificio
             const button = new Button(this, 250, y, building.texture, () => {
                 this.selectBuilding(building);
-            }).setScale(0.1);
+            }).setScale(1);
 
-            if(this.isProcessor) button.setScale(1.5)
+            if(this.isProcessor) button.setScale(6);
 
             this.add.existing(button);
 
              // Descripción
             this.add.text(450, y , building.name + ": " + building.description, {
-                fontSize: "14px",
-                color: "#cccccc",
+                fontSize: "16px",
+                color: "#fff",
                 fontFamily: "Arial",
                 align: "center",
                 wordWrap: { width: 250 },
             }).setOrigin(0.5);
 
-            this.add.text(450, y + 30, "$" + building.price, {
+            this.add.text(450, y + 40, "$" + building.price, {
                 fontSize: "20px",
                 color: "#007332",
                 fontFamily: "Arial",
@@ -86,9 +88,9 @@ export default class BuildingMenuScene extends Phaser.Scene {
         });
 
         // Botón para cerrar el menú
-        const closeButton = new Button(this, 400, 520, "button", () => {
+        const closeButton = new Button(this, 400, 520, "exit", () => {
             this.closeWindow();
-        });
+        }).setScale(2);
         this.add.existing(closeButton);
 
         //cerrar el menú al hacer clic fuera de él
@@ -141,6 +143,20 @@ export default class BuildingMenuScene extends Phaser.Scene {
 
                 if (building.tier)
                     Buildings.processedProducts[`tier${building.tier}`].alreadyBuilt = true;
+
+                if (building.name === "Granja") {
+                    const tutoUI = this.mainScene.scene.get("TutorialUIScene");
+                    if (tutoUI && tutoUI.tutorial) {
+                        tutoUI.tutorial.notify("BUILD_FARM");
+                    }
+                }
+
+                if (building.name === "Cafetera") {
+                    const tutoUI = this.mainScene.scene.get("TutorialUIScene");
+                    if (tutoUI && tutoUI.tutorial) {
+                        tutoUI.tutorial.notify("BUILD_CAFE");
+                    }
+                }
             }
         }
         else new FloatingMessage(this.ui, "No tienes suficiente dinero para construir " + building.name)
@@ -148,17 +164,29 @@ export default class BuildingMenuScene extends Phaser.Scene {
         this.closeWindow();
     }
 
-   closeWindow() {
-        // Esperamos un poco antes de cerrar y reactivar input
-        this.time.delayedCall(100, () => {
-            if (this.mainScene && this.mainScene.input) {
-                this.mainScene.input.enabled = true;
-            }
-            this.scene.resume("MainScene");
+closeWindow() {
+    this.time.delayedCall(50, () => {
+
+        // Reactivar input del mundo
+        if (this.mainScene && this.mainScene.input) {
+            this.mainScene.input.enabled = true;
+        }
+
+        // Reanudar la escena que abrió este menú
+        if (this.scene.isPaused(this.mainScene.scene.key)) {
+            this.scene.resume(this.mainScene.scene.key);
+        }
+
+        // Reanudar UIScene
+        if (this.scene.isPaused("UIScene")) {
             this.scene.resume("UIScene");
-            this.scene.stop(); // ahora sí detenemos el menú
-        });
-    }
+        }
+
+        // Cerrar el menú
+        this.scene.stop();
+    });
+}
+
 
     getUnprocessedBuildings() {
         
@@ -170,12 +198,13 @@ export default class BuildingMenuScene extends Phaser.Scene {
             description: harbor.description,
             products: this.inventory.getUnprocessedProductsFromTier(4),
             price: 50 * Math.pow(2, this.buildingCount),
-            texture: harbor.texture
+            texture: harbor.texture,
+            audio: harbor.audio // Audio del edificio
         }];
     }
         //comportamineto normal
         let buildings = []
-        let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier);
+        let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier - 1);
         for (let i = 1; i <= tier; i++) {
             let currentTier = Buildings.unprocessedProducts[`tier${i}`];
             buildings.push({
@@ -183,11 +212,15 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 description: currentTier.description,
                 products: this.inventory.getUnprocessedProductsFromTier(i),
                 price: 50 * Math.pow(2, this.buildingCount),
-                texture: currentTier.texture // textura concreta del sprite
+                texture: currentTier.texture, // textura concreta del sprite
+                audio: currentTier.audio // Audio del edificio
             });
         }
         return buildings;
     }
+    
+    // NO SE LEE EL AUDIO DE LOS  BUILDINGS
+
     getProcessedBuildings() {
         let buildings = []
         let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier);
@@ -200,7 +233,8 @@ export default class BuildingMenuScene extends Phaser.Scene {
                 products: this.inventory.getProcessedProductsFromTier(i),
                 price: 50 * Math.pow(2, this.buildingCount),
                 texture: currentTier.texture, // textura concreta del sprite
-                tier: i
+                audio: currentTier.audio, // Audio del edificio
+                tier: i,
             });
             }
         }

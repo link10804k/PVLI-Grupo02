@@ -5,7 +5,7 @@ import { events } from "./EventBus.js";
 
 const ORDER_INTERVAL = 10000; // 10 segundos entre pedidos (variable)
 const ORDER_TIME = 12000; // 20 segundos para completar el pedido (variable)
-const ORDER_IMAGE_SIZE = 100; // Tamaño en píxeles del sprite del pedido
+const ORDER_IMAGE_SIZE = 64; // Tamaño en píxeles del sprite del pedido
     
 export default class OrdersManager {
     constructor(scene, inventory) {
@@ -13,7 +13,12 @@ export default class OrdersManager {
         this.orders = [];
         this.inventory = inventory;
         this.waitingCustomers = [];
+
+        this.orderInterval = ORDER_INTERVAL;
         
+        EventBus.on(events.LEVEL_INCREASED, (tier) => {
+            this.orderInterval = Math.max(1000, ORDER_INTERVAL - (tier*1.5*1000)); // Disminuye el intervalo entre pedidos al subir de nivel
+        });
          
         EventBus.on(events.SELLING_PHASE, () => this.StartOrders());
         EventBus.on(events.PRODUCTION_PHASE, () => this.StopOrders());
@@ -32,7 +37,7 @@ export default class OrdersManager {
         this.AddOrder();
         this.timerEvent = this.scene.time.addEvent({
             callback: () => this.AddOrder(),
-            delay: ORDER_INTERVAL,
+            delay: this.orderInterval,
             loop: true
         });
     }
@@ -49,31 +54,22 @@ export default class OrdersManager {
         this.popularProduct = null;
     }
     AddOrder() {     
-        console.log("Order added");
+        if (this.orders.length < 8) {
+            let {products, amounts} = this.RandomizeOrder();
+    
+            let order = new Order(this.scene.UIScene, 0, this.orders.length*ORDER_IMAGE_SIZE, "panel", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(2);
+            this.orders.push(order);
 
-        let {products, amounts} = this.RandomizeOrder();
-        console.log("Productos: ");
-        
-        for (let i = 0; i < products.length; i++) {
-            console.log(products[i].name + " (" + amounts[i] + ")");
+            EventBus.emit(events.ORDER_ADDED, order); // Para los clientes
+
+            this.scene.sound.play("newCustomer", { volume: 0.5 });
         }
-
-
-        let order = new Order(this.scene.UIScene, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(0.4);
-        this.orders.push(order);
-
-        EventBus.emit(events.ORDER_ADDED, order); // Para los clientes
     }
     RemoveOrder(order, orderId) {
-        //console.log("BORRANDO PEDIDO")
-        console.log(this.orders);
-
         for (let i = orderId; i < this.orders.length; i++)  {
             this.orders[i] = i+1 == this.orders.length ? null : this.orders[i+1];
         }
         this.orders = this.orders.filter(order => order != null);
-
-        console.log(this.orders);
 
         for(let i = orderId; i < this.orders.length; i++) {
             this.orders[i].moveOrder(ORDER_IMAGE_SIZE);

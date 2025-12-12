@@ -1,7 +1,10 @@
+import Button from "./Button.js";
+
 export default class Application {
-    constructor(scene, userId = null, imageKey = null, captionText = "Pie de imagen") {
+    constructor(scene, userId = null, imageKey = null, captionText = "Pie de imagen", lifeTime = 5000) {
         this.scene = scene;
         this.userId = userId;
+        this.lifeTime = lifeTime;
 
         this.setupDimensions();
         this.createContainer();
@@ -10,6 +13,7 @@ export default class Application {
         this.createUsernameText();
         this.createImage(imageKey);
         this.adjustImageSize();
+        this.createExitButton();
         this.createCaptionText(captionText);
 
         this.addToContainer();
@@ -66,15 +70,14 @@ export default class Application {
      setupMovement() {
         this.speed = 120;
         this.targetY = this.scene.cameras.main.height / 2;
-        this.lifeTime = 5000;
         this.staying = false;
         this.lifeTimer = 0;
     }
 
     createUsernameText() {
         this.usernameText = this.scene.add.text(
-            -this.width / 2 + 10,
-            -this.height / 2 + 10,
+            -this.width / 2 + 20,
+            0,
             this.userId || "Usuario",
             {
                 fontSize: '14px',
@@ -89,11 +92,11 @@ export default class Application {
 
     createImage(imageKey) {
         if (imageKey) {
-            this.image = this.scene.add.image(0, -this.height * 0.1, imageKey);
+            this.image = this.scene.add.image(0, -this.height * 0.25, imageKey);
         } else {
             this.image = this.scene.add.rectangle(
                 0,
-                -this.height * 0.1,
+                -this.height * 0.25,
                 this.width * 0.8,
                 this.height * 0.5,
                 0xffffff
@@ -102,12 +105,12 @@ export default class Application {
     }
 
      adjustImageSize() {
-        this.image.displayWidth = this.width * 0.8;
-        this.image.displayHeight = this.height * 0.5;
+        this.image.displayWidth = this.width * 0.8 * 0.75;
+        this.image.displayHeight = this.height * 0.5 * 0.75;
     }
 
      createCaptionText(captionText) {
-        this.text = this.scene.add.text(0, this.height / 4, captionText, {
+        this.text = this.scene.add.text(0, 20, captionText, {
             fontSize: '14px',
             color: '#000',
             align: 'center',
@@ -116,7 +119,59 @@ export default class Application {
             wordWrap: { width: this.width * 0.9 }
         });
         this.text.setOrigin(0.5, 0);
+
+        this.fitCaptionInsideBox();
     }
+
+createExitButton() {
+    this.exitButton = new Button(
+        this.scene,
+        this.container.x + this.width / 2 - 10,
+        this.container.y - this.height / 2 + 10,
+        'exit',
+        () => this.playExitTween()
+    );
+
+    this.exitButton.setOrigin(0.5, 0.5);
+    this.exitButton.setDepth(100); // siempre encima
+
+    // Hacer que siga al container
+    this.scene.events.on('update', () => {
+        this.exitButton.x = this.container.x + this.width / 2 - 10;
+        this.exitButton.y = this.container.y - this.height / 2 + 10;
+    });
+}
+
+fitCaptionInsideBox() {
+    const maxHeight = this.height * 0.40; // Altura disponible debajo de la imagen
+    const minFont = 10;
+    let fontSize = 14;
+
+    do {
+        this.text.setStyle({ fontSize: `${fontSize}px` });
+        this.text.setWordWrapWidth(this.width * 0.9);
+
+        // Phaser necesita un paso de actualización
+        this.text.updateText();
+        this.text.updateDisplayOrigin();
+
+        if (this.text.height <= maxHeight) break;
+
+        fontSize--;
+    } while (fontSize >= minFont);
+
+    // Si aún no cabe, forzar truncado con "..."
+    if (this.text.height > maxHeight) {
+        const original = this.text.text;
+        let truncated = original;
+
+        while (this.text.height > maxHeight && truncated.length > 0) {
+            truncated = truncated.substring(0, truncated.length - 1);
+            this.text.setText(truncated + "...");
+            this.text.updateText();
+        }
+    }
+}
 
     addToContainer() {
         this.container.add([this.rect, this.usernameText, this.image, this.text]);

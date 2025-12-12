@@ -10,6 +10,8 @@ export default class ProductionMenuScene extends Phaser.Scene {
         this.building = data.building;
         this.mainScene = data.mainScene;
         this.products = data.products;
+        
+        this.mainScene.sound.play("popUp", { volume: 0.2 }); // Sonido de aparición de menú
     }
 
     create(){
@@ -22,42 +24,44 @@ export default class ProductionMenuScene extends Phaser.Scene {
         //Menu de Producción
         //
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
-       const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
+       //const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1);
+       const menuRect = this.add.image(400, 300, "menuBackground").setOrigin(0.5).setScale(1.6, 1.4);
 
         //Guardamos sus límites
     const menuBounds = {
-        x: menuRect.x - menuRect.width / 2,
-        y: menuRect.y - menuRect.height / 2,
-        width: menuRect.width,
-        height: menuRect.height
+        x: menuRect.x - menuRect.width * menuRect.scaleX / 2,
+        y: menuRect.y - menuRect.height * menuRect.scaleY / 2,
+        width: menuRect.width * menuRect.scaleX,
+        height: menuRect.height * menuRect.scaleY
     };
 
-        //this.add.image(400, 150, "order").setScale(0.8).setOrigin(0.5).setScale(2);
-
-        this.add.text(410, 90, `PRODUCTION MENU`, {
-            fontSize: "40px",
+        this.add.text(410, 90, `Menú de Producción`, {
+            fontSize: "28px",
             color: "#fff",
         }).setOrigin(0.5);
 
         for(let i = 0; i < this.products.length; i++)
         {
             const product = this.products[i];
-           const productText = this.add.text(320, 160 + 50 * i, this.products[i].name.toUpperCase(), {
-            fontSize: "30px",
+           const productText = this.add.text(400, 160 + 80 * i, this.products[i].name + ": " + this.products[i].description, {
+            fontSize: "16px",
             color: "#fff",
+            fontFamily: "Arial",
+            align: "center",
+            wordWrap: { width: 200 },
             }).setOrigin(0.5);
 
-            this.addButton = new Button(this, 520, 160 + 50 * i, "plus", [
+            this.addButton = new Button(this, 250, 160 + 80 * i, this.products[i].texture, [
                 () => this.building.produce(this.products[i]),
                 () => this.closeWindow(),
-            ]).setScale(2);
+            ]).setScale(4);
 
              
         //Mostrar ingredientes si el producto es procesado ------------------------
         if (product.neededProducts) {
 
             const productTextBounds = productText.getBounds();
-            let offsetX = productTextBounds.right + productText.width + 10; // al lado del texto
+            let offsetX = productTextBounds.right + 30; // al lado del texto
             const baseY = productTextBounds.centerY; // misma altura que el texto del producto
 
             let offset = 0;
@@ -71,16 +75,16 @@ export default class ProductionMenuScene extends Phaser.Scene {
 
                 // ICONO 
                 this.add.image(offsetX + offset, baseY, requiredProduct.texture)
-                    .setScale(1) // ajusta tamaño si quieres
+                    .setScale(2) // ajusta tamaño si quieres
                     .setOrigin(0.5);
 
                 // TEXTO DE CANTIDAD
-                this.add.text(offsetX + offset, baseY + 10, "x" + amount, {
+                this.add.text(offsetX + offset, baseY + 25, "x" + amount, {
                     fontSize: "18px",
                     color: "#fff",
                 }).setOrigin(0.5);
 
-                offset += 50; // separa los iconos entre sí
+                offset += 30; // separa los iconos entre sí
         }
     }
             
@@ -135,16 +139,30 @@ export default class ProductionMenuScene extends Phaser.Scene {
     }
 
     closeWindow() {
-    // Esperamos un poco antes de cerrar y reactivar input
-    this.time.delayedCall(100, () => {
-        if (this.mainScene && this.mainScene.input) {
-            this.mainScene.input.enabled = true;
-        }
-        this.scene.resume("MainScene");
-        this.scene.resume("UIScene");
-        this.scene.stop(); // ahora sí detenemos el menú
-    });
-}
+        // Esperamos un poco antes de cerrar y reactivar input
+        this.time.delayedCall(100, () => {
+            // Reactivar input de la escena del juego
+            if (this.mainScene && this.mainScene.input) {
+                this.mainScene.input.enabled = true;
+            }
+
+            // Reanudar la escena correcta (puede ser MainScene o TutorialScene)
+            if (this.mainScene) {
+                const key = this.mainScene.scene.key;
+                if (this.scene.isPaused(key)) {
+                    this.scene.resume(key);
+                }
+            }
+
+            // Reanudar la UIScene si estaba pausada
+            if (this.scene.isPaused("UIScene")) {
+                this.scene.resume("UIScene");
+            }
+
+            // Cerrar este menú
+            this.scene.stop();
+        });
+    }
 
 findProductByKey(key) {
     for (const tier in Products.unprocessedProducts) {
