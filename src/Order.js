@@ -2,8 +2,6 @@ import Button from "./Button.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 import ProductionTimer from "./Timer.js"; 
-import MainScene from "./MainScene.js";
-import Customer from "./Customer.js";
 import FloatingMessage from "./FloatingMessage.js";
 
 const POPULARITY_LOSS_ON_FAIL = 30; // Cantidad de popularidad que se pierde al fallar un pedido

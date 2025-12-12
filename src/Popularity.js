@@ -126,6 +126,11 @@ export default class PopularityBar {
         EventBus.emit(events.LEVEL_INCREASED, this.level);
 
         this.scene.sound.play("popularityUp", { volume: 0.5} ); // Sonido de subida de nivel de popularidad
+
+        const tutoUI = this.scene.scene.get("TutorialUIScene");
+        if (tutoUI && tutoUI.tutorial) {
+            tutoUI.tutorial.notify("LEVEL");
+        }
     }
 
     updateBar() {

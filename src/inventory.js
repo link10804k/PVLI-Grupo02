@@ -97,6 +97,11 @@ export default class Inventory {
 
         this.addMoney(totalMoney);
         this.updateInventoryUI();
+
+        const tutoUI = this.mainScene.scene.get("TutorialUIScene");
+        if (tutoUI && tutoUI.tutorial) {
+            tutoUI.tutorial.notify("ORDER_COMPLETE");
+        }
     }
 
     // -------------------------------------------------------
@@ -144,9 +149,6 @@ export default class Inventory {
         EventBus.emit(events.INVENTORY_UPDATE, this.unprocessedProducts, this.processedProducts);
     }
 
-    // -------------------------------------------------------
-    // TRABAJADORES
-    // -------------------------------------------------------
     buyWorker() {
         if (this.workers >= this.workersSlots) {
             new FloatingMessage(this.ui, "No puedes contratar más trabajadores.");
