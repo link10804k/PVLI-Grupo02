@@ -96,7 +96,7 @@
                 "description": "Café procesado listo para la venta.",
                 "quantity": 0,
                 "time": 5,
-                "price": 10,
+                "price": 30,
                 "neededProducts": {
                     "coffeeGrains": 1
                 },
@@ -108,7 +108,7 @@
                 "description": "Té procesado listo para la venta.",
                 "quantity": 0,
                 "time": 8,
-                "price": 12,
+                "price": 32,
                 "neededProducts": {
                     "teaHerbs": 1
                 },
@@ -122,7 +122,7 @@
                 "description": "Chocolate caliente reconfortante hecho de cacao y leche.",
                 "quantity": 0,
                 "time": 15,
-                "price": 20,
+                "price": 50,
                 "neededProducts": {
                     "cocoaBeans": 1
                 },
@@ -134,7 +134,7 @@
                 "description": "Un favorito de temporada hecho con calabaza fresca y espresso.",
                 "quantity": 0,
                 "time": 18,
-                "price": 25,
+                "price": 70,
                 "neededProducts": {
                     "pumpkins": 1,
                     "coffeeGrains": 1
@@ -149,7 +149,7 @@
                 "description": "Deliciosas galletas hechas con masa.",
                 "quantity": 0,
                 "time": 30,
-                "price": 50,
+                "price": 200,
                 "neededProducts": {
                     "dough": 1,
                     "sugar": 2,
@@ -163,7 +163,7 @@
                 "description": "Un postre clásico hecho con calabaza fresca y una masa hojaldrada.",
                 "quantity": 0,
                 "time": 40,
-                "price": 70,
+                "price": 250,
                 "neededProducts": {               
                     "dough": 1,
                     "sugar": 1,
@@ -177,7 +177,7 @@
                 "description": "Pan recién horneado hecho con masa.",
                 "quantity": 0,
                 "time": 25,
-                "price": 30,
+                "price": 130,
                 "neededProducts": {
                     "dough": 2
                 },
@@ -191,7 +191,7 @@
                 "description": "Jugosas hamburguesas hechas a partir de hamburguesas congeladas.",
                 "quantity": 0,
                 "time": 20,
-                "price": 80,
+                "price": 400,
                 "neededProducts": {
                     "frozenBurgers": 1
                 },
@@ -203,7 +203,7 @@
                 "description": "Deliciosos tacos hechos a partir de tacos congelados.",
                 "quantity": 0,
                 "time": 18,
-                "price": 70,
+                "price": 360,
                 "neededProducts": {
                     "frozenTacos": 1
                 },
@@ -215,7 +215,7 @@
                 "description": "Sabrosa pizza hecha a partir de pizza congelada.",
                 "quantity": 0,
                 "time": 22,
-                "price": 90,
+                "price": 420,
                 "neededProducts": {
                     "frozenPizza": 1
                 },
@@ -227,7 +227,7 @@
                 "description": "Sabrosa paella hecha a partir de paella congelada.",
                 "quantity": 0,
                 "time": 28,
-                "price": 100,
+                "price": 500,
                 "neededProducts": {
                     "frozenPaella": 1
                 },

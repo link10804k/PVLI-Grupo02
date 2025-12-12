@@ -47,7 +47,7 @@ export default class InventoryUI {
     });
     }
 
-    drawProduct(product, x, y, color = "#85008aff") {
+    drawProduct(product, x, y, color = "#ffffff") {
 
     let container = this.UIScene.add.container(x, y);
     this.entities.push(container);
@@ -72,7 +72,7 @@ export default class InventoryUI {
     container.add(nameText);
 
     // CANTIDAD
-    let qtyText = this.UIScene.add.text(150, 0, product.quantity, {
+    let qtyText = this.UIScene.add.text(160, 0, product.quantity, {
         fontFamily: "Arial",
         fontSize: "14px",
         color: color,
