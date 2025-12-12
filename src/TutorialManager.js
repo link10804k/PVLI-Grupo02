@@ -22,7 +22,7 @@ export default class TutorialManager {
                 characterKey: "K_talk"
             },
             {
-                text: "Bueno a ya vale de preguntitas, te voy a enseñar a montar tu negocio desde cero para no tener problemas",
+                text: "Bueno ya vale de preguntitas, te voy a enseñar a montar tu negocio desde cero para no tener problemas",
                 characterKey: "K_talk"
             },
             {
@@ -59,7 +59,7 @@ export default class TutorialManager {
                 characterKey: "K_happy"
             },
             {
-                text: "Una vez este ahí trabajando, dale al botón de el producto que quieras hacer ",
+                text: "Una vez este ahí trabajando, dale al botón del producto que quieras hacer ",
                 characterKey: "K_talk"
             },
             {
@@ -101,7 +101,7 @@ export default class TutorialManager {
                 characterKey: "K_angry",
             },
             {
-                text: "Antes, contrata otro trabajador dando click al botón de arriba a la derecha y así ya dos knekres, GOD ",
+                text: "Antes, contrata otro trabajador dando click al botón de arriba a la derecha y así ya tienes dos knekres, GOD ",
                 characterKey: "K_happy",
             },
             {
@@ -122,7 +122,7 @@ export default class TutorialManager {
                 characterKey: "K_presente"
             }, 
             { 
-                text: "Cuando entregues tu primer pedido vuelvo y te explico LO ÚLTIMO al fin macho que eres muy pesao ", 
+                text: "Cuando entregues tu primer pedido vuelvo y te explico más cosas, macho que eres muy pesao ", 
                 characterKey: "K_presente", 
                 waitFor: "ORDER_COMPLETE" 
             },
@@ -139,7 +139,7 @@ export default class TutorialManager {
                 characterKey: "K_happy"
             },
             { 
-                text: "Si no lo haces está bajara y a medida que consigas subir de nivel conseguiras nuevos productos cultivos. ", 
+                text: "Si no lo haces está bajara y a medida que consigas subir de nivel conseguiras nuevos productos y cultivos. ", 
                 characterKey: "K_presente"
             },
             { 
@@ -147,11 +147,11 @@ export default class TutorialManager {
                 characterKey: "K_presente"
             },
             { 
-                text: "Tu objetivo será hacer que esa barra suba al máximo para poder ganar el juego osea que sabes. ", 
+                text: "Tu objetivo será hacer que esa barra suba al máximo para poder ganar el juego osea que ya sabes lo que hacer. ", 
                 characterKey: "K_happy"
             },
             { 
-                text: "Pero bueno, antes te voy a enseñar a mejorar un poco tus edificios para que vayan más rápido que mi tarjeta en un juego gacha. ", 
+                text: "Pero bueno, ahora te voy a enseñar a mejorar un poco tus edificios para que vayan más rápido que mi tarjeta en un juego gacha. ", 
                 characterKey: "K_happy"
             },            
             { 
@@ -167,7 +167,7 @@ export default class TutorialManager {
                 characterKey: "K_presente",
             },
             { 
-                text: "Bueno y lo más guapo, al subir a nivel 2 de popularidad desbloqueas...", 
+                text: "Bueno es verdad, me falta lo más guapo, al subir a nivel 2 de popularidad desbloqueas...", 
                 characterKey: "K_happy"
             },
             { 
