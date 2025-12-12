@@ -33,8 +33,8 @@ let config = {
         CoffeSelectionMenu, 
         BuildingMenuScene,
         UIScene,
-        TutorialUIScene,
-        GachaScene]
+        GachaScene,
+        TutorialUIScene]
 }
 
 new Phaser.Game(config);

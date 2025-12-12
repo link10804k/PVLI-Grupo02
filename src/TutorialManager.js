@@ -56,7 +56,7 @@ export default class TutorialManager {
             },
             {
                 text: "Pues ya sabes, tienes un knekrer ahí sin hacer nada, pulsa en la granja y sumale un trabajador",
-                characterKey: "K_talk"
+                characterKey: "K_happy"
             },
             {
                 text: "Una vez este ahí trabajando, dale al botón de el producto que quieras hacer ",
@@ -64,7 +64,7 @@ export default class TutorialManager {
             },
             {
                 text: "Muy importante que esté el knekrer (trabajador) asignado en la granja porque sino está no va a hacer nada ",
-                characterKey: "K_talk"
+                characterKey: "K_happy"
             },
             {
                 text: "Pues igual, cuando lo tengas mandame unos bits o unas subs y seguimos.  ",
@@ -80,11 +80,11 @@ export default class TutorialManager {
                 characterKey: "K_talk",
             },
             {
-                text: "Ves tu cafetería no? Y como se have el café?  ",
+                text: "Ves tu cafetería no? Y como se hace el café?  ",
                 characterKey: "K_presente",
             },
             {
-                text: "Pues ala a constuir una cafetera y que tienes una cafeteria pero no una cafetera. ",
+                text: "Pues ala a constuir una cafetera, que tienes una cafeteria pero no una cafetera. ",
                 characterKey: "K_talk",
             },
             {
@@ -102,7 +102,7 @@ export default class TutorialManager {
             },
             {
                 text: "Antes, contrata otro trabajador dando click al botón de arriba a la derecha y así ya dos knekres, GOD ",
-                characterKey: "K_talk",
+                characterKey: "K_happy",
             },
             {
                 text: "Ponlo a trabajar en la cafetera para que haga café y pim, pam, pum cafecito calentito ",
@@ -110,9 +110,80 @@ export default class TutorialManager {
                 waitFor: "PROCESE_PRODUCT"
             },
             {
-                text: "PERUANOS ",
+                text: "BUENO BUENO vaya productazo, ahora quiero ver como se lo vendes a un cliente. ", 
+                characterKey: "K_presente"
+            },
+            {
+                text: "Para vender tus productos a los clientes lo que debes hacer es esperar a quee te salga una comanda. ", 
+                characterKey: "K_talk"
+            },
+            { 
+                text: "Estas salen en la parte superior izquierda de la pantalla y deberás de darle al botón para entregarla. ", 
+                characterKey: "K_presente"
+            }, 
+            { 
+                text: "Cuando entregues tu primer pedido vuelvo y te explico LO ÚLTIMO al fin macho que eres muy pesao ", 
+                characterKey: "K_presente", 
+                waitFor: "ORDER_COMPLETE" 
+            },
+            { 
+                text: "LET'S FU***** GO, eres un crack loquete ya solo me falta por explicarte las dos últimas cositas. ", 
+                characterKey: "K_happy"
+            }, 
+            { 
+                text: "Rápidamente, has visto que al entregar el pedido la barra que tienes encima de la cabeza ha subido un poco. ", 
+                characterKey: "K_presente"
+            },
+            { 
+                text: "Pues eso es tu barra de popularidad, la cual irá ssubiendo a medida que entregas pedidos a tiempo. ", 
+                characterKey: "K_happy"
+            },
+            { 
+                text: "Si no lo haces está bajara y a medida que consigas subir de nivel conseguiras nuevos productos y cultivos. ", 
+                characterKey: "K_presente"
+            },
+            { 
+                text: "Los cuales podrás cultivar y producir de la misma forma que te explique antes", 
+                characterKey: "K_presente"
+            },
+            { 
+                text: "Pero bueno, antes te voy a enseñar a mejorar un poco tus edificios para que vayan más rápido que mi tarjeta en un juego gacha. ", 
+                characterKey: "K_happy"
+            },            
+            { 
+                text: "Es facilillo, solamente debes de dar click sobre el edificio que quieras mejorar. ", 
+                characterKey: "K_presente"
+            },
+            { 
+                text: "Y una vez dentro del menú, abajo a la derecha de este y con el dinero suficiente, darle al botón del martillo", 
+                characterKey: "K_presente"
+            },         
+            { 
+                text: "Ahora no te voy a obligar porque es caro y quiero que te guardes el dinero", 
                 characterKey: "K_presente",
             },
+            { 
+                text: "Bueno última cosa, al subir a nivel 2 de popularidad desbloqueas...", 
+                characterKey: "K_happy"
+            },
+            { 
+                text: "GACHAPON WEY!!! Pues venga a subir esa popularidad que quiero ver eso, jeje GOD ", 
+                characterKey: "K_happy",
+                waitFor: "LEVEL"
+            },
+            { 
+                text: "Pues nada ahí lo tienes, arriba a la derecha junto a tus empleados y tu dinero", 
+                characterKey: "K_presente"
+            },
+            { 
+                text: "Si quieres jugar dale click y te viene todo muy bien esplicado y a disfrutar", 
+                characterKey: "K_happy"
+            },
+            { 
+                text: "Esto de parte del equipo de desarrollo, gracias por leer todo y disfruta el jueguito, GOD", 
+                characterKey: "K_presente"
+            },
+            
         ];
 
         this.currentDialogueIndex = 0;
@@ -134,9 +205,7 @@ export default class TutorialManager {
         this.createUI();
     }
 
-    // -----------------------------
     // UI DEL TUTORIAL
-    // -----------------------------
     createUI() {
         const cam = this.scene.cameras.main;
         const centerX = cam.width / 2;
@@ -190,10 +259,7 @@ export default class TutorialManager {
         this.character.setVisible(true);
         this.nextButton.setVisible(true);
 
-        //// FIX >>>>>
-        // Cuando el tutorial aparece, bloqueamos la interacción del juego:
         this.scene.input.topOnly = true;
-        //// FIX <<<<<
     }
 
     hideUI() {
@@ -202,8 +268,6 @@ export default class TutorialManager {
         this.character.setVisible(false);
         this.nextButton.setVisible(false);
 
-        //// FIX >>>>>
-        // Cuando desaparece el tutorial, permitimos interacción del juego:
         this.scene.input.topOnly = false;
         //// FIX <<<<<
     }

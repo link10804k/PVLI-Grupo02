@@ -199,9 +199,6 @@ export default class Building extends Phaser.GameObjects.Sprite {
         }
     }
 
-    // -------------------------------------------------------
-    // UPGRADE RESTAURADO
-    // -------------------------------------------------------
     upgrade() {
         if (this.inventory.hasEnoughMoney(500 * (this.upgradeTier))) {
 
@@ -211,6 +208,12 @@ export default class Building extends Phaser.GameObjects.Sprite {
 
             if (this.tierText) {
                 this.tierText.setText(`Tier: ${this.upgradeTier}`);
+            }
+
+            // NOTIFICAR AL TUTORIAL
+            const tutoUI = this.mainScene.scene.get("TutorialUIScene");
+            if (tutoUI && tutoUI.tutorial) {
+                tutoUI.tutorial.notify("UPGRADE_TIER");
             }
 
         } else {
