@@ -7,6 +7,7 @@ import UIScene from "./UIScene.js";
 import GachaScene from "./GachaScene.js";
 import TutorialScene from "./TutorialScene.js";
 import TutorialUIScene from "./TutorialUIScene.js";
+import EndScreen from "./EndScreen.js";
 
 let config = {
     type: Phaser.AUTO,
@@ -33,8 +34,9 @@ let config = {
         CoffeSelectionMenu, 
         BuildingMenuScene,
         UIScene,
+        TutorialUIScene,
         GachaScene,
-        TutorialUIScene]
+        EndScreen],
 }
 
 new Phaser.Game(config);
