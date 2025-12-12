@@ -5,7 +5,7 @@ import { events } from "./EventBus.js";
 
 const ORDER_INTERVAL = 10000; // 10 segundos entre pedidos (variable)
 const ORDER_TIME = 12000; // 20 segundos para completar el pedido (variable)
-const ORDER_IMAGE_SIZE = 100; // Tamaño en píxeles del sprite del pedido
+const ORDER_IMAGE_SIZE = 64; // Tamaño en píxeles del sprite del pedido
     
 export default class OrdersManager {
     constructor(scene, inventory) {
@@ -51,7 +51,7 @@ export default class OrdersManager {
     AddOrder() {     
         let {products, amounts} = this.RandomizeOrder();
     
-        let order = new Order(this.scene.UIScene, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(0.4);
+        let order = new Order(this.scene.UIScene, 0, this.orders.length*ORDER_IMAGE_SIZE, "panel", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(2);
         this.orders.push(order);
 
         EventBus.emit(events.ORDER_ADDED, order); // Para los clientes

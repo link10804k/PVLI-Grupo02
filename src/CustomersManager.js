@@ -2,7 +2,7 @@ import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 import Customer from "./Customer.js";
 
-const CUSTOMER_IMAGE_SIZE = 10; // Tamaño en píxeles del sprite del cliente
+const CUSTOMER_IMAGE_SIZE = 20; // Tamaño en píxeles del sprite del cliente
 const Direction = {
     UP: { x: 0, y: -1 },
     DOWN: { x: 0, y: 1 },
@@ -23,13 +23,19 @@ export default class CustomersManager {
     }
 
     AddCustomer(order) {
-        let customerImage = "customer" + Phaser.Math.Between(0, 15);
-        let customer = new Customer(this.scene, this.cafeteria.x+10, this.cafeteria.y + this.customers.length * (CUSTOMER_IMAGE_SIZE+10), customerImage).setOrigin(0.5).setScale(0.05);
+        let customerImage;
+        if (Phaser.Math.Between(0, 1) == 0) {
+            customerImage = "maleCustomer";
+        }
+        else {
+            customerImage = "femaleCustomer";
+        }
+        let customer = new Customer(this.scene, this.cafeteria.x+15, this.cafeteria.y - 10 + this.customers.length * (CUSTOMER_IMAGE_SIZE), customerImage).setOrigin(0.5).setScale(1);
         this.customers.push(customer);
     }
 
     RemoveCustomer(order, orderId) {
-        this.customers[orderId].GetOut(50, Direction.LEFT);
+        this.customers[orderId].GetOut(30, Direction.LEFT);
 
         for (let i = orderId; i < this.customers.length; i++)  {
             this.customers[i] = i+1 == this.customers.length ? null : this.customers[i+1];
@@ -37,7 +43,7 @@ export default class CustomersManager {
         this.customers = this.customers.filter(customer => customer != null);
 
         for(let i = orderId; i < this.customers.length; i++) {
-            this.customers[i].Walk(CUSTOMER_IMAGE_SIZE + 10, Direction.UP);
+            this.customers[i].Walk(CUSTOMER_IMAGE_SIZE, Direction.UP);
             this.customers[i].id -= 1;
         }
 

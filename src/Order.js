@@ -9,7 +9,7 @@ const POPULARITY_GAIN_ON_COMPLETE = 20; // Cantidad de popularidad que se gana a
 
 export default class Order extends Phaser.GameObjects.Sprite {
 
-    constructor(scene, x, y, texture, id, resources, amounts, time, inventory) {
+    constructor(scene, x, y, texture = "panel", id, resources, amounts, time, inventory) {
         super(scene, x, y, texture);
         this.id = id;
         this.resources = resources;
@@ -19,13 +19,28 @@ export default class Order extends Phaser.GameObjects.Sprite {
         this.ui = this.scene.scene.get("UIScene");
 
         scene.add.existing(this);
-        this.completeOrderButton = new Button(scene, x+90, y+40, "button", () => this.TryCompleteOrder()).setScale(0.8).setOrigin(0.5);
+        this.setInteractive();
+
+        this.on("pointerover", () => {
+            this.setTint(0xaaaaaa);
+        });
+        this.on("pointerout", () => {
+            this.clearTint();
+        });
+        this.on("pointerdown", () => {
+            this.setTint(0x888888);
+        });
+        this.on("pointerup", () => {
+            this.clearTint();
+            this.TryCompleteOrder()
+        });
+
         this.productsImages = [];
 
         let k = 0;
         for (let i = 0; i < this.resources.length; i++) {
             for (let j = 0; j < this.amounts[i]; j++) {
-                this.productsImages.push(this.scene.add.image(this.x + 20 + k*30, this.y + 30, this.resources[i].texture).setScale(2));
+                this.productsImages.push(this.scene.add.image(this.x + 25 + k*37.5, this.y + 30, this.resources[i].texture).setScale(2));
                 k++;
             }
         }
@@ -33,8 +48,8 @@ export default class Order extends Phaser.GameObjects.Sprite {
         // Timer con ProductionTimer
        this.timer = new ProductionTimer(
             scene, 
-            this.x + this.width / 2 + 20, 
-            this.y + this.height / 2, 
+            this.x + this.width + 100, 
+            this.y + this.height / 2 + 10, 
             Math.ceil(time / 1000), 
             null,// <---icono si queremos aqui
             this.FailOrder.bind(this), // <-- callback al terminar
@@ -49,7 +64,6 @@ export default class Order extends Phaser.GameObjects.Sprite {
     
     moveOrder(y) {
         this.y -= y;
-        this.completeOrderButton.y -= y;
         this.productsImages.forEach(element => {
             element.y -= y;
         });
@@ -60,7 +74,6 @@ export default class Order extends Phaser.GameObjects.Sprite {
     destructor() {
         this.scene.time.removeEvent(this.timerEvent);
         this.timerEvent = null;
-        this.completeOrderButton.destroy();
         this.productsImages.forEach(element => {
             element.destroy();
         });

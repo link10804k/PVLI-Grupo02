@@ -29,10 +29,10 @@ export default class ProductionMenuScene extends Phaser.Scene {
 
         //Guardamos sus límites
     const menuBounds = {
-        x: menuRect.x - menuRect.width / 2,
-        y: menuRect.y - menuRect.height / 2,
-        width: menuRect.width,
-        height: menuRect.height
+        x: menuRect.x - menuRect.width * menuRect.scaleX / 2,
+        y: menuRect.y - menuRect.height * menuRect.scaleY / 2,
+        width: menuRect.width * menuRect.scaleX,
+        height: menuRect.height * menuRect.scaleY
     };
 
         this.add.text(410, 90, `Menú de Producción`, {

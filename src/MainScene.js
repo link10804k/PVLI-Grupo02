@@ -30,10 +30,7 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("Background", "assets/gameAssets/Background.png");
         this.load.image("SunsetFilter", "assets/gameAssets/SunsetFilter.png");
         
-        this.load.image("pedidos", "assets/gameAssets/order.jpg")
         this.load.image("worker", "assets/gameAssets/worker.png")
-
-        this.load.image("coffeeOrder", "assets/gameAssets/coffeeOrder.png")
 
         this.load.image("plus", "assets/gameAssets/PlusIcon.png")
         this.load.image("menos", "assets/gameAssets/MinusIcon.png")
@@ -45,6 +42,9 @@ export default class MainScene extends Phaser.Scene {
 
         this.load.image("menuBackground", "assets/gameAssets/ProductionBackground.png");
 
+        // Clientes
+        this.load.image("maleCustomer", "assets/gameAssets/MaleCustomer.png");
+        this.load.image("femaleCustomer", "assets/gameAssets/FemaleCustomer.png");
         // Productos no procesados
         this.load.image("CoffeeGrains_display", "assets/gameAssets/CoffeeGrainIcon.png");
         this.load.image("TeaHerbs_display", "assets/gameAssets/TeaIcon.png");
@@ -96,9 +96,6 @@ export default class MainScene extends Phaser.Scene {
         // Gacha
         this.load.image("gachaIcon", "assets/gameAssets/GachaIcon.png");
 
-        for (let i = 0; i < 16; i++) {
-            this.load.image("customer" + i, "assets/gameAssets/customersSprites/" + i + ".png");
-        }
         this.load.image("Angry", "assets/gameAssets/Angry.png");
 
         // Musica
