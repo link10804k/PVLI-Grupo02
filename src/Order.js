@@ -114,6 +114,4 @@ export default class Order extends Phaser.GameObjects.Sprite {
 
         this.destructor();
     }
-
-   
 }

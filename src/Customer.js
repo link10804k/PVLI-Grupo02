@@ -23,7 +23,7 @@ export default class Customer extends Phaser.GameObjects.Sprite {
         const targetX = this.x + direction.x * distance;
         const targetY = this.y + direction.y * distance;
 
-        this.scene.sound.play('customer_walk');
+        this.scene.sound.play("customerExit");
 
        //TWEEN PRINCIPAL (movimiento)
         this.scene.tweens.add({

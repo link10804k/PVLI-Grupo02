@@ -40,7 +40,10 @@ export default class CustomersManager {
             this.customers[i].Walk(CUSTOMER_IMAGE_SIZE + 10, Direction.UP);
             this.customers[i].id -= 1;
         }
+
+        this.scene.sound.play("customerExit"); // Sonido de cliente marchandose
     }
+
     RemoveAllCustomers() {
         let customersLength = this.customers.length;
         for (let i = 0; i < customersLength; i++) {
@@ -48,6 +51,8 @@ export default class CustomersManager {
         }
 
         this.customers = [];
+
+        this.scene.sound.play("customerExit"); // Sonido de cliente marchandose
     }
 
     AngryCustomer(order, orderId) {

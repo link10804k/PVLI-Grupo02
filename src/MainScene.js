@@ -27,6 +27,7 @@ export default class MainScene extends Phaser.Scene {
 
     preload() { // Cargar recursos aquí
         this.load.image("Background", "assets/gameAssets/Background.png");
+        this.load.image("SunsetFilter", "assets/gameAssets/SunsetFilter.png");
         
         this.load.image("pedidos", "assets/gameAssets/order.jpg")
         this.load.image("worker", "assets/gameAssets/worker.png")
@@ -98,10 +99,9 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("Angry", "assets/gameAssets/Angry.png");
 
         // Musica
-
+        this.load.audio("MainSceneMusic", "assets/gameAssets/audios/MainSceneOST.mp3");
 
         // Audios
-        this.load.audio("customer_walk", "assets/gameAssets/audios/moving-stone.mp3");
         this.load.audio("purchase", "assets/gameAssets/audios/PurchaseSFX.mp3");
         this.load.audio("build", "assets/gameAssets/audios/BuildSFX.mp3");
         this.load.audio("dig", "assets/gameAssets/audios/ShovelDigSFX.mp3");
@@ -114,6 +114,7 @@ export default class MainScene extends Phaser.Scene {
         this.load.audio("popUp", "assets/gameAssets/audios/PopUpSFX.mp3");
         this.load.audio("newCustomer", "assets/gameAssets/audios/DoorBellSFX.mp3");
         this.load.audio("phaseChange", "assets/gameAssets/audios/GongSFX.mp3");
+        this.load.audio("customerExit", "assets/gameAssets/audios/WoodStepsSFX.mp3");
     }
     
     create() { // Crear objetos del juego aquí
@@ -128,7 +129,7 @@ export default class MainScene extends Phaser.Scene {
 
         this.add.image(0, 0, "Background").setOrigin(0);
 
-         this.wally = new Wally(this);
+        this.wally = new Wally(this);
 
         this.createParcelas();
         

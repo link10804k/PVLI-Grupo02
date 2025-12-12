@@ -10,6 +10,9 @@ export default class PhaseManager {
         this.countdownText = null;
         this.countdownEvent = null;
 
+        // Filtro de atardecer
+        this.phaseFilter = this.scene.add.image(0, 0, "SunsetFilter").setDepth(1).setOrigin(0); // Filtro de color (escondido en la fase de produccion)
+
         // Referencia a la UI
         this.ui = scene.scene.get("UIScene");
 
@@ -67,7 +70,11 @@ export default class PhaseManager {
 
     ProductionPhase() {
         EventBus.emit(events.PRODUCTION_PHASE);
+        this.phaseFilter.alpha = 0; // Desactivamos filtro de tarde
         this.scene.sound.play("phaseChange", { volume: 0.4 });
+
+        // Música de la escena principal del juego
+        this.scene.sound.play("MainSceneMusic", { volume: 0.5 }); 
 
          this.startCountdown(
             "Abrirá la cafetería",
@@ -78,9 +85,10 @@ export default class PhaseManager {
 
     SellingPhase() {
         EventBus.emit(events.SELLING_PHASE);
+        this.phaseFilter.alpha = 255; // Activamos filtro de tarde
         this.scene.sound.play("phaseChange", { volume: 0.4 });
 
-         this.startCountdown(
+        this.startCountdown(
             "Cerrará la cafetería",
             SELLING_TIME,
             () => this.ProductionPhase()
