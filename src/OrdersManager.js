@@ -2,28 +2,42 @@ import Order from "./Order.js";
 import { EventBus } from "./EventBus.js";
 import { events } from "./EventBus.js";
 
+
 const ORDER_INTERVAL = 10000; // 10 segundos entre pedidos (variable)
 const ORDER_TIME = 12000; // 20 segundos para completar el pedido (variable)
-const ORDER_IMAGE_SIZE = 100; // Tamaño en píxeles del sprite del pedido
+const ORDER_IMAGE_SIZE = 64; // Tamaño en píxeles del sprite del pedido
     
 export default class OrdersManager {
     constructor(scene, inventory) {
         this.scene = scene;
         this.orders = [];
         this.inventory = inventory;
+        this.waitingCustomers = [];
 
+        this.orderInterval = ORDER_INTERVAL;
+        
+        EventBus.on(events.LEVEL_INCREASED, (tier) => {
+            this.orderInterval = Math.max(1000, ORDER_INTERVAL - (tier*1.5*1000)); // Disminuye el intervalo entre pedidos al subir de nivel
+        });
+         
         EventBus.on(events.SELLING_PHASE, () => this.StartOrders());
         EventBus.on(events.PRODUCTION_PHASE, () => this.StopOrders());
 
         EventBus.on(events.ORDER_COMPLETED, (order, orderId) => this.RemoveOrder(order, orderId));
         EventBus.on(events.ORDER_FAILED, (order, orderId) => this.FailOrder(order, orderId));
+
+        this.popularProduct = null;
+
+        EventBus.on(events.POPULAR_PRODUCT_REQUESTED, (popularProduct) => {
+            this.popularProduct = popularProduct;
+        });
     }
     
     StartOrders() {
         this.AddOrder();
         this.timerEvent = this.scene.time.addEvent({
             callback: () => this.AddOrder(),
-            delay: ORDER_INTERVAL,
+            delay: this.orderInterval,
             loop: true
         });
     }
@@ -31,34 +45,31 @@ export default class OrdersManager {
         this.scene.time.removeEvent(this.timerEvent);
         this.timerEvent = null;
 
-        for (let i = 0; i < this.orders.length; i++) {
-            this.FailOrder(this.orders[i], this.orders[i].id);
-            this.orders[i].destructor();
+        let ordersLength = this.orders.length;
+        for (let i = 0; i < ordersLength; i++) {
+            this.orders[0].destructor();
+            this.FailOrder(this.orders[0], this.orders[0].id);
         }
+
+        this.popularProduct = null;
     }
-    AddOrder() {
-        console.log("Order added");
+    AddOrder() {     
+        if (this.orders.length < 8) {
+            let {products, amounts} = this.RandomizeOrder();
+    
+            let order = new Order(this.scene.UIScene, 0, this.orders.length*ORDER_IMAGE_SIZE, "panel", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(2);
+            this.orders.push(order);
 
-        let {products, amounts} = this.RandomizeOrder();
-        console.log("Productos: ");
-        
-        for (let i = 0; i < products.length; i++) {
-            console.log(products[i].name + " (" + amounts[i] + ")");
+            EventBus.emit(events.ORDER_ADDED, order); // Para los clientes
+
+            this.scene.sound.play("newCustomer", { volume: 0.5 });
         }
-
-        let order = new Order(this.scene.UIManager, 0, this.orders.length*ORDER_IMAGE_SIZE, "coffeeOrder", this.orders.length, products, amounts, ORDER_TIME, this.inventory).setOrigin(0).setScale(0.4);
-        this.orders.push(order);
     }
     RemoveOrder(order, orderId) {
-        //console.log("BORRANDO PEDIDO")
-        console.log(this.orders);
-
         for (let i = orderId; i < this.orders.length; i++)  {
             this.orders[i] = i+1 == this.orders.length ? null : this.orders[i+1];
         }
         this.orders = this.orders.filter(order => order != null);
-
-        console.log(this.orders);
 
         for(let i = orderId; i < this.orders.length; i++) {
             this.orders[i].moveOrder(ORDER_IMAGE_SIZE);
@@ -67,20 +78,26 @@ export default class OrdersManager {
     }
     FailOrder(order, orderId) {
         this.RemoveOrder(order, orderId);
-        // Perder popularidad, etc
     }
     RandomizeOrder() {
         let nProducts = Phaser.Math.Between(1, 3); // elegir entre 1 y 3 productos
         let products = [];
         let amounts = [];
-        let eligibleProducts = Object.keys(this.inventory.processedProducts); // keys = ['coffee', 'tea', ...]
+        let eligibleProducts = Object.keys(this.inventory.processedProducts);
 
         for (let i = 0; i < nProducts; i++) {
-            let selectedProduct = eligibleProducts[Phaser.Math.Between(0, eligibleProducts.length - 1)];
+            // Elige un producto aleatorio entre el array de keys. LUEGO, accede al objeto del inventario usando la key (como en un array).
+            let selectedProduct;
+            if (this.popularProduct && Phaser.Math.Between(1, 100) <= 50) { // 50% de probabilidad de que salga el producto popular (más la probabilidad normal)
+                selectedProduct = this.popularProduct;
+            }
+            else {
+                selectedProduct = this.inventory.processedProducts[eligibleProducts[Phaser.Math.Between(0, eligibleProducts.length - 1)]];
+            }
             
             let position = this.IsInArray(products, selectedProduct);
             if (position == -1) {
-                products.push(this.inventory.processedProducts[selectedProduct]);
+                products.push(selectedProduct);
                 amounts[products.length - 1] = 1;
             }
             else {
@@ -93,7 +110,7 @@ export default class OrdersManager {
     // Devuelve el índice de un elemento en un array o -1 si no está
     IsInArray(array, element) {
         let i = 0;
-        while (i < array.length && array[i].id != element.id) {
+        while (i < array.length && array[i] != element) {
             i++;
         }
         return i < array.length ? i : -1;

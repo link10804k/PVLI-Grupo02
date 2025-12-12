@@ -1,24 +1,37 @@
 import Button from "./Button.js";
-import Products from "./Resources/Products.json" with { type: "json" };
+import Buildings from "./Resources/Buildings.json" with { type: "json"}
+import FloatingMessage from "./FloatingMessage.js";
 
 export default class BuildingMenuScene extends Phaser.Scene {
+
+     // Definir constante para tiles cercanas al agua
+    static WATER_TILE_X = 200; // Todo tile con x <= 200 se considera cerca del agua
+
     constructor(){
         super({ key: "BuildingMenuScene" });
+        // Número de edificios construidos para aplicar un multiplicador por 
+        this.buildingCount = 0;
     }
 
     init(data){
         this.mainScene = data.mainScene;
         this.tile = data.tile;
+        this.inventory = data.inventory;
+        this.isProcessor = data.isProcessor;
+
+        this.ui = this.mainScene.scene.get("UIScene");
+        this.mainScene.sound.play("popUp", { volume: 0.2 }); // Sonido de aparición de menú
     }
 
     create(){
-//Desactivar input en la escena principal mientras el menú está abierto
+        //Desactivar input en la escena principal mientras el menú está abierto
         if (this.mainScene && this.mainScene.input) {
             this.mainScene.input.enabled = false;
         }
 
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.5);
-        const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1); //lo guardo para sacar sus límites
+        //const menuRect = this.add.rectangle(400, 300, 400, 500, 0x000000, 1); //lo guardo para sacar sus límites
+        const menuRect = this.add.image(400, 300, "menuBackground").setOrigin(0.5).setScale(1.6, 1.4);
 
         //Guardamos sus límites
         const menuBounds = {
@@ -35,99 +48,196 @@ export default class BuildingMenuScene extends Phaser.Scene {
             fontFamily: "Arial",
         }).setOrigin(0.5);
 
-        // Lista de edificios disponibles
-        const buildings = [
-            {
-                key: "coffee farm",
-                texture: "building", // textura concreta del sprite
-                name: "Granja de café",
-                description: "Produce granos de café.",
-                products: [ Products.unprocessedProducts.tier1.coffeeGrain, ],
-                
-        
-            },
+        // Generar la lista de edificios disponibles según el nivel de popularidad
+        if (this.isProcessor) this.buildings = this.getProcessedBuildings();
+        else this.buildings = this.getUnprocessedBuildings();
 
-            {
-                key: "tea farm",
-                texture: "building", // textura concreta del sprite
-                name: "Granja de té",
-                description: "Produce hierbas de té.",
-                products: [ Products.unprocessedProducts.tier1.teaHerbs, ],
-                
-        
-            }
-            // Futuro: puedes añadir más, ej:
-            // { key: "house", name: "Casa", description: "Aumenta población.", icon: "houseIcon" },
-            // { key: "mine", name: "Mina", description: "Extrae recursos.", icon: "mineIcon" },
-        ];
-
-         // Posición inicial del primer botón
+        // Posición inicial del primer botón
         const startY = 160;
         const spacing = 100;
 
-        buildings.forEach((building, index) => {
+        this.buildings.forEach((building, index) => {
             const y = startY + index * spacing;
 
 
              // Botón principal del edificio
             const button = new Button(this, 250, y, building.texture, () => {
                 this.selectBuilding(building);
-            }).setScale(0.1);
+            }).setScale(1);
+
+            if(this.isProcessor) button.setScale(6);
 
             this.add.existing(button);
 
              // Descripción
             this.add.text(450, y , building.name + ": " + building.description, {
-                fontSize: "14px",
-                color: "#cccccc",
+                fontSize: "16px",
+                color: "#fff",
+                fontFamily: "Arial",
+                align: "center",
+                wordWrap: { width: 250 },
+            }).setOrigin(0.5);
+
+            this.add.text(450, y + 40, "$" + building.price, {
+                fontSize: "20px",
+                color: "#007332",
                 fontFamily: "Arial",
                 align: "center",
                 wordWrap: { width: 250 },
             }).setOrigin(0.5);
         });
 
-         // Botón para cerrar el menú
-        const closeButton = new Button(this, 400, 520, "button", () => {
+        // Botón para cerrar el menú
+        const closeButton = new Button(this, 400, 520, "exit", () => {
             this.closeWindow();
-        });
+        }).setScale(2);
         this.add.existing(closeButton);
 
- //cerrar el menú al hacer clic fuera de él
-    this.input.on('pointerdown', (pointer) => {
-        const { x, y } = pointer;
-        const inside =
-            x >= menuBounds.x &&
-            x <= menuBounds.x + menuBounds.width &&
-            y >= menuBounds.y &&
-            y <= menuBounds.y + menuBounds.height;
+        //cerrar el menú al hacer clic fuera de él
+        this.input.on('pointerdown', (pointer) => {
+            const { x, y } = pointer;
+            const inside = (
+                x >= menuBounds.x &&
+                x <= menuBounds.x + menuBounds.width &&
+                y >= menuBounds.y &&
+                y <= menuBounds.y + menuBounds.height
+            );
 
-        if (!inside) {
-            this.closeWindow();
-        }
-    });
-
+            if (!inside) {
+                this.closeWindow();
+            }
+        });
     }
 
-
-
-
-     selectBuilding(building) {
+    // Si el jugador tiene suficiente dinero para construir el edificio seleccionado y la parcela esta vacía, se construye el edificio 
+    selectBuilding(building) {
         console.log("Construir:", building.name);
-       this.tile.build(building);
+
+       // Si es un puerto, solo permitir en tiles cerca del agua y nivel de popularidad 4
+    if (building.name === "Harbor") {
+        if (!this.tile.nearWater) {
+            new FloatingMessage(this.ui, "Solo se puede construir el puerto en tiles cercanas al agua");
+            return;
+        }
+
+            if (this.inventory.popularityLevel < 4) {
+                new FloatingMessage(this.ui, "Necesitas ser nivel 4 de popularidad para construir el puerto");
+                return;
+            }
+
+        } else {
+            // Si el nivel del jugador aún no desbloquea otros edificios, bloquearlos
+            if (this.inventory.popularityLevel < building.requiredLevel) {
+                 new FloatingMessage(this.ui, "Aún no puedes construir este edificio");
+                return;
+            }
+        }
+
+        if(this.mainScene.playerInventory.hasEnoughMoney(building.price))
+        {
+            if(this.tile.build(building)) 
+            {
+                this.mainScene.playerInventory.removeMoney(building.price);
+                this.mainScene.updateMoneyUI();
+                this.buildingCount++;
+
+                if (building.tier)
+                    Buildings.processedProducts[`tier${building.tier}`].alreadyBuilt = true;
+
+                if (building.name === "Granja") {
+                    const tutoUI = this.mainScene.scene.get("TutorialUIScene");
+                    if (tutoUI && tutoUI.tutorial) {
+                        tutoUI.tutorial.notify("BUILD_FARM");
+                    }
+                }
+
+                if (building.name === "Cafetera") {
+                    const tutoUI = this.mainScene.scene.get("TutorialUIScene");
+                    if (tutoUI && tutoUI.tutorial) {
+                        tutoUI.tutorial.notify("BUILD_CAFE");
+                    }
+                }
+            }
+        }
+        else new FloatingMessage(this.ui, "No tienes suficiente dinero para construir " + building.name)
+
         this.closeWindow();
     }
 
+closeWindow() {
+    this.time.delayedCall(50, () => {
 
-    
-   closeWindow() {
-    // Esperamos un poco antes de cerrar y reactivar input
-    this.time.delayedCall(100, () => {
+        // Reactivar input del mundo
         if (this.mainScene && this.mainScene.input) {
             this.mainScene.input.enabled = true;
         }
-        this.scene.resume("MainScene");
-        this.scene.stop(); // ahora sí detenemos el menú
+
+        // Reanudar la escena que abrió este menú
+        if (this.scene.isPaused(this.mainScene.scene.key)) {
+            this.scene.resume(this.mainScene.scene.key);
+        }
+
+        // Reanudar UIScene
+        if (this.scene.isPaused("UIScene")) {
+            this.scene.resume("UIScene");
+        }
+
+        // Cerrar el menú
+        this.scene.stop();
     });
 }
+
+
+    getUnprocessedBuildings() {
+        
+    // Si el tile está cerca del agua, solo devolver el puerto
+    if (this.tile.nearWater) {
+        const harbor = Buildings.unprocessedProducts.tier4; // Ajusta según tu JSON
+        return [{
+            name: harbor.name,
+            description: harbor.description,
+            products: this.inventory.getUnprocessedProductsFromTier(4),
+            price: 50 * Math.pow(2, this.buildingCount),
+            texture: harbor.texture,
+            audio: harbor.audio // Audio del edificio
+        }];
+    }
+        //comportamineto normal
+        let buildings = []
+        let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier - 1);
+        for (let i = 1; i <= tier; i++) {
+            let currentTier = Buildings.unprocessedProducts[`tier${i}`];
+            buildings.push({
+                name: currentTier.name,
+                description: currentTier.description,
+                products: this.inventory.getUnprocessedProductsFromTier(i),
+                price: 50 * Math.pow(2, this.buildingCount),
+                texture: currentTier.texture, // textura concreta del sprite
+                audio: currentTier.audio // Audio del edificio
+            });
+        }
+        return buildings;
+    }
     
+    // NO SE LEE EL AUDIO DE LOS  BUILDINGS
+
+    getProcessedBuildings() {
+        let buildings = []
+        let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier);
+        for (let i = 1; i <= tier; i++) {
+            let currentTier = Buildings.processedProducts[`tier${i}`];
+            if (!currentTier.alreadyBuilt) {
+                buildings.push({
+                name: currentTier.name,
+                description: currentTier.description,
+                products: this.inventory.getProcessedProductsFromTier(i),
+                price: 50 * Math.pow(2, this.buildingCount),
+                texture: currentTier.texture, // textura concreta del sprite
+                audio: currentTier.audio, // Audio del edificio
+                tier: i,
+            });
+            }
+        }
+        return buildings;
+    }
 }
