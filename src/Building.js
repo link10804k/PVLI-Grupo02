@@ -213,12 +213,6 @@ export default class Building extends Phaser.GameObjects.Sprite {
                 this.tierText.setText(`Tier: ${this.upgradeTier}`);
             }
 
-            // NOTIFICAR AL TUTORIAL
-            const tutoUI = this.mainScene.scene.get("TutorialUIScene");
-            if (tutoUI && tutoUI.tutorial) {
-                tutoUI.tutorial.notify("UPGRADE_TIER");
-            }
-
         } else {
             new FloatingMessage(this.ui, "No tienes suficiente dinero para mejorar este edificio.");
         }

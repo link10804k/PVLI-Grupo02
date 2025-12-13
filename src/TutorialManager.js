@@ -160,8 +160,12 @@ export default class TutorialManager {
             },
             { 
                 text: "Y una vez dentro del menú, abajo a la derecha de este y con el dinero suficiente, darle al botón del martillo", 
+                characterKey: "K_talk"
+            },      
+            { 
+                text: "Esto hará que el edificio suba de nivel y por lo tanto trabaje más rápido. ", 
                 characterKey: "K_presente"
-            },         
+            },     
             { 
                 text: "Ahora no te voy a obligar porque es caro y quiero que te guardes el dinero", 
                 characterKey: "K_presente",
