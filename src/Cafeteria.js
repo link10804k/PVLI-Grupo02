@@ -17,10 +17,17 @@ export default class Cafeteria extends Phaser.GameObjects.Sprite{
 
     // Slots cafeterass
     this.slots = [];
-    this.slots.push(new Tile(this.scene, this.x - 12, this.y - 28, false, true).setOrigin(0.5).setScale(0.5));
-    this.slots.push(new Tile(this.scene, this.x + 0, this.y - 28, false, true).setOrigin(0.5).setScale(0.5).setVisible(false));
-    this.slots.push(new Tile(this.scene, this.x + 12, this.y - 28, false, true).setOrigin(0.5).setScale(0.5).setVisible(false));
-    this.slots.push(new Tile(this.scene, this.x + 24, this.y - 28, false, true).setOrigin(0.5).setScale(0.5).setVisible(false));
+
+    for(let i = 0; i < 2; i++)
+    { 
+        for(let j = 0; j < 4; j++)
+        {
+          this.slots.push(new Tile(this.scene, this.x - 12 + (12 * j), this.y - 28 + (6 * i), false, true).setOrigin(0.5).setScale(0.5).setVisible(false));
+        }
+    }
+
+    this.slots[0].setVisible(true); 
+    this.slots[1].setVisible(true); 
 
     console.log("Posiciones de los slots de la cafetería:");
     this.slots.forEach((slot, index) => {
@@ -29,7 +36,8 @@ export default class Cafeteria extends Phaser.GameObjects.Sprite{
 
     EventBus.on(events.LEVEL_INCREASED, (newLevel) => {
       if (newLevel >= 1 && newLevel <= 4) {
-        this.slots[newLevel - 1].setVisible(true);
+        this.slots[(newLevel - 1) * 2].setVisible(true);
+        this.slots[((newLevel - 1) * 2) + 1].setVisible(true);
       }
     });
   }

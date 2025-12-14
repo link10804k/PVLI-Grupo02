@@ -218,8 +218,6 @@ closeWindow() {
         }
         return buildings;
     }
-    
-    // NO SE LEE EL AUDIO DE LOS  BUILDINGS
 
     getProcessedBuildings() {
         let buildings = []
