@@ -17,7 +17,7 @@ export default class PopularityBar {
         //Popularidad
         this.level = 1;
         this.currentPopularity = 0;
-        this.popularityNeeded = 100;
+        this.popularityNeeded = 300;
 
         //Color personalizable
         this.color = 0Xda0086;
@@ -113,7 +113,7 @@ export default class PopularityBar {
 
     levelUp() {
         this.level++;
-        this.popularityNeeded = Math.floor(this.popularityNeeded * 1.25);
+        this.popularityNeeded = Math.floor(this.popularityNeeded * 1.5);
 
         this.inventory.workersSlots += 4; // Aumentar espacio para trabajadores al subir de nivel
         this.inventory.workers += 1; // Aumentar número de trabajadores al subir de nivel

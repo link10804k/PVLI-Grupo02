@@ -69,7 +69,7 @@ export default class MainScene extends Phaser.Scene {
         this.load.image("Pizza_display", "assets/gameAssets/Pizza.png");
         this.load.image("Paella_display", "assets/gameAssets/Paella.png");
         // Edificios
-        this.load.image("cafeteria", "assets/gameAssets/cafeteria.png")
+        this.load.image("cafeteria", "assets/gameAssets/Cafeteria.png")
 
         this.load.image("Farm_building", "assets/gameAssets/Tier1Farm.png");
         this.load.image("Farm_CoffeeGrains_texture", "assets/gameAssets/CoffeeFarm.png");
@@ -232,10 +232,12 @@ export default class MainScene extends Phaser.Scene {
     }
 
     displayGachaScene() {
-    this.scene.launch("GachaScene", { inventory: this.playerInventory });
-
-    this.scene.pause();
-    this.UIScene.scene.pause();
-  }
+        this.scene.launch("GachaScene", { 
+            inventory: this.playerInventory,
+            returnScene: this.scene.key
+        });
+        this.scene.pause();
+        this.UIScene.scene.pause();
+    }
     
 }

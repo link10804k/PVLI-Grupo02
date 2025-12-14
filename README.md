@@ -28,7 +28,7 @@ Genero: Construcción de bases y gestión de recursos. Con vista top-down.
 ## Capturas del juego
 
 
-| ![Captura 1](assets/gitAssets/PantallaPrincipal.PNG) | ![Captura 2](assets/gitAssets/MenuDeConstruccion.PNG) | ![Captura 3](assets/gitAssets/MenuDeProduccion.PNG) |
+![Captura 1](assets/gitAssets/Captura1.png) | ![Captura 2](assets/gitAssets/Captura2.png) | ![Captura 3](assets/gitAssets/Captura3.png) | ![Captura 4](assets/gitAssets/Captura4.png) | 
 
 ---
 
@@ -61,6 +61,11 @@ Sigue el proyecto o contacta con nosotros en:
 ## 🧾 Licencia
 
 Este proyecto se distribuye bajo la licencia de Matcha Games.  
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ASSETS
+- https://www.myinstants.com/en/instant/moving-stone-4179
+- https://www.freepik.es/vector-gratis/vista-superior-personas-negocios_3907796.htm#fromView=keyword&page=1&position=0&uuid=f1e1f788-0f97-4cd3-ae97-27cdec496742&query=Top+down?log-in=google
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # GDD

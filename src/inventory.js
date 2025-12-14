@@ -15,7 +15,7 @@ export default class Inventory {
         EventBus.on(events.LEVEL_INCREASED, (popularityLevel) => this.inventoryChange(popularityLevel));
 
         // Dinero
-        this.money = money + 1000;   
+        this.money = 400;   
 
         // Trabajadores
         this.workers = 1;

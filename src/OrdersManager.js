@@ -88,7 +88,7 @@ export default class OrdersManager {
         for (let i = 0; i < nProducts; i++) {
             // Elige un producto aleatorio entre el array de keys. LUEGO, accede al objeto del inventario usando la key (como en un array).
             let selectedProduct;
-            if (this.popularProduct && Phaser.Math.Between(1, 100) <= 50) { // 50% de probabilidad de que salga el producto popular (más la probabilidad normal)
+            if (this.popularProduct && Phaser.Math.Between(1, 100) <= 20) { // 20% de probabilidad de que salga el producto popular (más la probabilidad normal)
                 selectedProduct = this.popularProduct;
             }
             else {

@@ -7,6 +7,7 @@ export default class Building extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture);
         scene.add.existing(this);
 
+        this.mainScene = scene;
         this.name = name;
         this.originalTexture = texture;
         this.description = description;
@@ -19,6 +20,7 @@ export default class Building extends Phaser.GameObjects.Sprite {
         this.currentResource = null;
         this.assignedWorkers = 0;
         this.upgradeTier = 1;
+        this.upgradeCost = 500;
 
         // RESTAURADO
         this.setScale(1);
@@ -200,20 +202,15 @@ export default class Building extends Phaser.GameObjects.Sprite {
     }
 
     upgrade() {
-        if (this.inventory.hasEnoughMoney(500 * (this.upgradeTier))) {
+        if (this.inventory.hasEnoughMoney(this.upgradeCost)) {
 
+            this.inventory.removeMoney(this.upgradeCost);
             this.upgradeTier++;
-            this.productionSpeed += 0.5;
-            this.inventory.removeMoney(500 * (this.upgradeTier));
+            this.productionSpeed = this.productionSpeed * 0.7; // Aumenta la velocidad de producción en un 30%
+            this.upgradeCost = Math.floor(this.upgradeCost * 1.5); // Incrementa el costo de mejora para la próxima vez
 
             if (this.tierText) {
                 this.tierText.setText(`Tier: ${this.upgradeTier}`);
-            }
-
-            // NOTIFICAR AL TUTORIAL
-            const tutoUI = this.mainScene.scene.get("TutorialUIScene");
-            if (tutoUI && tutoUI.tutorial) {
-                tutoUI.tutorial.notify("UPGRADE_TIER");
             }
 
         } else {

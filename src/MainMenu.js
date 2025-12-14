@@ -17,7 +17,7 @@ export default class MainMenu extends Phaser.Scene {
 
     create() { // Crear objetos del juego aquí
         
-        this.add.image(400, 300, "MainMenuBackground").setOrigin(0.5, 0.5);
+        this.add.image(400, 300, "MainMenuBackground").setOrigin(0.5, 0.5).setScale(8/7);
         this.add.image(400, 200, "Logo").setOrigin(0.5, 0.5).setScale(4);
 
         const btnTutorial = new Button(this, 400, 525, "Wbutton", () => this.startMainScene());

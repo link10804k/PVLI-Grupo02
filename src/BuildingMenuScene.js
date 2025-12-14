@@ -11,6 +11,9 @@ export default class BuildingMenuScene extends Phaser.Scene {
         super({ key: "BuildingMenuScene" });
         // Número de edificios construidos para aplicar un multiplicador por 
         this.buildingCount = 0;
+
+        this.firstBuildingBuilt = false;
+        this.firstCoffeeMakerBuilt = false;
     }
 
     init(data){
@@ -114,7 +117,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
         console.log("Construir:", building.name);
 
        // Si es un puerto, solo permitir en tiles cerca del agua y nivel de popularidad 4
-    if (building.name === "Harbor") {
+    if (building.name === "Puerto") {
         if (!this.tile.nearWater) {
             new FloatingMessage(this.ui, "Solo se puede construir el puerto en tiles cercanas al agua");
             return;
@@ -137,12 +140,18 @@ export default class BuildingMenuScene extends Phaser.Scene {
         {
             if(this.tile.build(building)) 
             {
+                if (this.isProcessor) {
+                    this.firstCoffeeMakerBuilt = true;
+                    Buildings.processedProducts[`tier${building.tier}`].numBuilt += 1;
+                }
+                else {
+                    this.firstBuildingBuilt = true;
+                    Buildings.unprocessedProducts[`tier${building.tier}`].numBuilt += 1;
+                }
+
                 this.mainScene.playerInventory.removeMoney(building.price);
                 this.mainScene.updateMoneyUI();
                 this.buildingCount++;
-
-                if (building.tier)
-                    Buildings.processedProducts[`tier${building.tier}`].alreadyBuilt = true;
 
                 if (building.name === "Granja") {
                     const tutoUI = this.mainScene.scene.get("TutorialUIScene");
@@ -197,9 +206,10 @@ closeWindow() {
             name: harbor.name,
             description: harbor.description,
             products: this.inventory.getUnprocessedProductsFromTier(4),
-            price: 50 * Math.pow(2, this.buildingCount),
+            price: this.firstBuildingBuilt ? 200*(Math.pow(1.5, harbor.numBuilt)) : 0,
             texture: harbor.texture,
-            audio: harbor.audio // Audio del edificio
+            audio: harbor.audio, // Audio del edificio
+            tier: 4
         }];
     }
         //comportamineto normal
@@ -211,9 +221,10 @@ closeWindow() {
                 name: currentTier.name,
                 description: currentTier.description,
                 products: this.inventory.getUnprocessedProductsFromTier(i),
-                price: 50 * Math.pow(2, this.buildingCount),
+                price: this.firstBuildingBuilt ? 200*(Math.pow(1.5, currentTier.numBuilt)) : 0, // El primer edificio de procesamiento es gratis 
                 texture: currentTier.texture, // textura concreta del sprite
-                audio: currentTier.audio // Audio del edificio
+                audio: currentTier.audio, // Audio del edificio
+                tier: i
             });
         }
         return buildings;
@@ -224,15 +235,15 @@ closeWindow() {
         let tier = Math.min(this.inventory.popularityLevel, this.inventory.maxTier);
         for (let i = 1; i <= tier; i++) {
             let currentTier = Buildings.processedProducts[`tier${i}`];
-            if (!currentTier.alreadyBuilt) {
+            if (currentTier.numBuilt < 2) {
                 buildings.push({
                 name: currentTier.name,
                 description: currentTier.description,
                 products: this.inventory.getProcessedProductsFromTier(i),
-                price: 50 * Math.pow(2, this.buildingCount),
+                price: this.firstCoffeeMakerBuilt ? 50 + (350*currentTier.numBuilt) : 0, // El primer edificio de procesamiento es gratis
                 texture: currentTier.texture, // textura concreta del sprite
                 audio: currentTier.audio, // Audio del edificio
-                tier: i,
+                tier: i
             });
             }
         }
