@@ -177,7 +177,7 @@ showProducedItemFeedback(textureKey) {
         .setAlpha(1);
 
     // Texto "+1"
-    const plusOne = this.scene.add.text(worldX + 25, worldY, "+" + sthis.building.assignedWorkers, {
+    const plusOne = this.scene.add.text(worldX + 25, worldY, "+" + this.building.assignedWorkers, {
         fontSize: "26px",
         color: "#ffffff",
         stroke: "#000000",
