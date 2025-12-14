@@ -26,7 +26,7 @@ export default class ApplicationManager {
         
         let text = message.text;
         let user = message.user;
-        new Application(this.UIScene, user, image, text);
+        new Application(this.UIScene, user, image, text, 10);
     }
 
     getRandomProcessedProduct() { // Devuelve un producto procesado aleatorio del tier actual
