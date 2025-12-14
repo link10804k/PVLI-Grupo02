@@ -56,7 +56,7 @@
         },    
         "tier4": {
             "frozenBurgers": {
-                "name": "Hamburguesas congeladas",
+                "name": "Hamburguesas cong.",
                 "description": "Hamburguesas congeladas listas para comer tras calentarlas.",
                 "quantity": 0,
                 "time": 30,
