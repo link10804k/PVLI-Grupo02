@@ -117,7 +117,7 @@ export default class BuildingMenuScene extends Phaser.Scene {
         console.log("Construir:", building.name);
 
        // Si es un puerto, solo permitir en tiles cerca del agua y nivel de popularidad 4
-    if (building.name === "Harbor") {
+    if (building.name === "Puerto") {
         if (!this.tile.nearWater) {
             new FloatingMessage(this.ui, "Solo se puede construir el puerto en tiles cercanas al agua");
             return;

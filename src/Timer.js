@@ -137,6 +137,9 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
 
         if (this.remaining <= 0) {
             this.finished = true;
+             if (this.building) {;
+        this.showProducedItemFeedback(this.icon.texture.key);
+    }
             if (this.onCompleteCallback) {
                 this.onCompleteCallback(); // llama al callback
     }
@@ -158,6 +161,44 @@ export default class ProductionTimer extends Phaser.GameObjects.Container {
     const b = b1 + (b2 - b1) * factor;
 
     return (r << 16) + (g << 8) + b;
+}
+
+showProducedItemFeedback(textureKey) {
+    if (!textureKey) return;
+
+    // Posición global del timer
+    const worldX = this.x;
+    const worldY = this.y - 40; // un poco encima del timer
+
+    // Sprite del producto
+    const productSprite = this.scene.add.image(worldX, worldY, textureKey)
+        .setScale(1)
+        .setDepth(999)
+        .setAlpha(1);
+
+    // Texto "+1"
+    const plusOne = this.scene.add.text(worldX + 25, worldY, "+" + sthis.building.assignedWorkers, {
+        fontSize: "26px",
+        color: "#ffffff",
+        stroke: "#000000",
+        strokeThickness: 4
+    })
+        .setOrigin(0.5)
+        .setDepth(999)
+        .setAlpha(1);
+
+    // Animación
+    this.scene.tweens.add({
+        targets: [productSprite, plusOne],
+        y: worldY - 40,
+        alpha: 0,
+        duration: 1200,
+        ease: "Cubic.easeOut",
+        onComplete: () => {
+            productSprite.destroy();
+            plusOne.destroy();
+        }
+    });
 }
     
 }
