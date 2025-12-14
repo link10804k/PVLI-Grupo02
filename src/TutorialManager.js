@@ -6,7 +6,7 @@ export default class TutorialManager {
         // Lista de diálogos del tutorial
 this.dialogues = [
     {
-        text: "¡Hola! Bienvenido a Ténai-zawa, nuestro pequeño pueblo en Japón.",
+        text: "¡Hola! Bienvenido a Ténai-Zawa, nuestro pequeño pueblo en Japón.",
         characterKey: "worker"
     },
     {
@@ -84,7 +84,7 @@ this.dialogues = [
         characterKey: "K_presente",
     },
     {
-        text: "Pues ala, a construir una cafetera, que tienes una cafetería pero no una cafetera. ",
+        text: "Pues hala, a construir una cafetera, que tienes una cafetería pero no una cafetera. ",
         characterKey: "K_talk",
     },
     {
@@ -93,11 +93,11 @@ this.dialogues = [
         waitFor: "BUILD_CAFE"
     },
     {
-        text: "LOCURILLA, pues ya sabes, venga, hazme una tazita de tu productito calentito, LET'S GO. ",
+        text: "LOCURILLA, pues ya sabes, venga, hazme una tacita de tu productito calentito, LET'S GO. ",
         characterKey: "K_talk",
     },
     {
-        text: "EPAA, ¿¡¿¡a dónde vas tan rápido tú!?!? ",
+        text: "EPAA, ¿¡¿¡Dónde vas tan rápido tú!?!? ",
         characterKey: "K_angry",
     },
     {
@@ -147,7 +147,7 @@ this.dialogues = [
         characterKey: "K_presente"
     },
     { 
-        text: "Tu objetivo será hacer que esa barra suba al máximo para poder ganar el juego, o sea que ya sabes lo que hacer. ", 
+        text: "Tu objetivo será hacer que esa barra suba al máximo para poder ganar el juego, o sea que ya sabes lo que hay que hacer. ", 
         characterKey: "K_happy"
     },
     { 
@@ -175,7 +175,7 @@ this.dialogues = [
         characterKey: "K_happy"
     },
     { 
-        text: "¡¡¡GACHAPON WEY!!! Pues venga a subir esa popularidad, que quiero ver eso, jeje, GOD ", 
+        text: "¡¡¡GACHAPÓN WEY!!! Pues venga a subir esa popularidad, que quiero ver eso, jeje, GOD ", 
         characterKey: "K_happy",
         waitFor: "LEVEL"
     },
